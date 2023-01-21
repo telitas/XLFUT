@@ -1,0 +1,7 @@
+*       text=auto eol=lf
+*.md    text
+*.txt   text
+*.csv   text
+*.ps1   text
+*.csvs  text
+*.json  text

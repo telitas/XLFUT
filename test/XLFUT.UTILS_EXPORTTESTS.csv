@@ -1,0 +1,17 @@
+﻿description,assert,message
+The assert is passed,"=LET(
+    actual, 2,
+    XLFUT.ASSERT_EQUAL(actual, 2)
+)",
+The assert is failed,"=LET(
+    actual, 1,
+    XLFUT.ASSERT_EQUAL(actual, 2)
+)",
+The assert is passed (2),"=LET(
+    actual, 2,
+    XLFUT.ASSERT_EQUAL(actual, 2)
+)",
+The assert formula is not logical,"={1,""""}",
+The message is not logical,"={TRUE,1}",
+The assert formula raises error,"={#NULL!,""""}",
+The message raises error,"={TRUE,#NULL!}",

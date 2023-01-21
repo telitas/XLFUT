@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema#",
+  "$id": "https://telitas.dev/xlfut/tap_yamlblock/schema#",
+  "type": "object",
+  "items": {
+    "type": "object"
+  },
+  "additionalProperties": false,
+  "properties": {
+    "message": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "message"
+  ]
+}

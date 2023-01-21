@@ -1,0 +1,91 @@
+/**
+Convert tests to export format.
+*/
+UTILS_EXPORTTESTS = LAMBDA(tests_range,
+    LET(
+        header, HSTACK("description", "assert", "message"),
+        header_with_sequence, VSTACK(header, SEQUENCE(1, COLUMNS(header), 1, 1)),
+        index_of_description_column, HLOOKUP("description", header_with_sequence, 2, FALSE),
+        index_of_assert_column, HLOOKUP("assert", header_with_sequence, 2, FALSE),
+        index_of_message_column, HLOOKUP("message", header_with_sequence, 2, FALSE),
+        current_header, INDEX(tests_range, 1,),
+        current_header_with_sequence, VSTACK(current_header, SEQUENCE(1, COLUMNS(current_header), 1, 1)),
+        current_index_of_description_column, INDEX(HLOOKUP(Index(header,, index_of_description_column), current_header_with_sequence, 2, FALSE), 1, 1),
+        current_index_of_assert_column, INDEX(HLOOKUP(Index(header,, index_of_assert_column), current_header_with_sequence, 2, FALSE), 1, 1),
+        current_index_of_message_column, INDEX(HLOOKUP(Index(header,, index_of_message_column), current_header_with_sequence, 2, FALSE), 1, 1),
+        description_column, INDEX(tests_range,, current_index_of_description_column),
+        assert_column, INDEX(tests_range,, current_index_of_assert_column),
+        message_column, INDEX(tests_range,, current_index_of_message_column),
+        converted_range, HSTACK(
+            VSTACK(index_of_description_column, IFS(ISBLANK(description_column), "", TRUE, description_column)),
+            VSTACK(index_of_assert_column, IFS(ISBLANK(assert_column), "", ISFORMULA(assert_column), FORMULATEXT(assert_column), TRUE, assert_column)),
+            VSTACK(index_of_message_column, INDEX(header, 1, index_of_message_column), MAKEARRAY(ROWS(tests_range) - 1, 1, LAMBDA(row_index, column_index, "")))
+        ),
+        converted_tests, DROP(TRANSPOSE(SORT(TRANSPOSE(FILTER(converted_range, INDEX(converted_range,, 1) <> "")), 1)), 2),
+        VSTACK(
+            header,
+            converted_tests
+        )
+    )
+);
+
+/**
+Output test results in TAP format.
+*/
+UTILS_OUTPUTINTAP = LAMBDA(tests_range,
+    LET(
+        LF, CHAR(10),
+        tap_yamlblock, LAMBDA(message,
+            LET(
+                indent, LAMBDA(text,
+                    LET(
+                        indent_chars, "  ",
+                        indent_chars & SUBSTITUTE(text, LF, LF & indent_chars)
+                    )
+                ),
+                yaml, "message: |" & LF & indent(message),
+                indent(yaml)
+            )
+        ),
+        header, HSTACK("test_number", "description", "assert", "message"),
+        header_with_sequence, VSTACK(header, SEQUENCE(1, COLUMNS(header), 1, 1)),
+        index_of_test_number_column, HLOOKUP("test_number", header_with_sequence, 2, FALSE),
+        index_of_description_column, HLOOKUP("description", header_with_sequence, 2, FALSE),
+        index_of_assert_column, HLOOKUP("assert", header_with_sequence, 2, FALSE),
+        index_of_message_column, HLOOKUP("message", header_with_sequence, 2, FALSE),
+        current_header, INDEX(tests_range, 1,),
+        current_header_with_sequence, VSTACK(current_header, SEQUENCE(1, COLUMNS(current_header), 1, 1)),
+        current_index_of_description_column, INDEX(HLOOKUP(Index(header,, index_of_description_column), current_header_with_sequence, 2, FALSE), 1, 1),
+        current_index_of_assert_column, INDEX(HLOOKUP(Index(header,, index_of_assert_column), current_header_with_sequence, 2, FALSE), 1, 1),
+        current_index_of_message_column, INDEX(HLOOKUP(Index(header,, index_of_message_column), current_header_with_sequence, 2, FALSE), 1, 1),
+        description_column, INDEX(tests_range,, current_index_of_description_column),
+        assert_column, INDEX(tests_range,, current_index_of_assert_column),
+        message_column, INDEX(tests_range,, current_index_of_message_column),
+        tests, FILTER(tests_range, INDEX(tests_range,, 1) <> ""),
+        tests_count, ROWS(tests) - 1,
+        tests_with_number, LET(
+            tests_with_sequence, HSTACK(SEQUENCE(tests_count + 1, 1, 0), tests),
+            FILTER(tests_with_sequence, INDEX(tests_with_sequence,, 1) > 0)
+        ),
+        tap_version, "TAP version 14" & LF,
+        tap_plan,  "1.." & MAX(INDEX(tests_with_number,, 1)) & LF,
+        tap_body, TEXTJOIN("", FALSE, BYROW(tests_with_number, LAMBDA(row, LET(
+            test_number, INDEX(row,, index_of_test_number_column),
+            description, INDEX(row,, index_of_description_column),
+            raw_assert_value, INDEX(row,, index_of_assert_column),
+            assert, AND(ISLOGICAL(raw_assert_value), IFERROR(raw_assert_value, FALSE)),
+            message, LET(
+                raw_message_value, INDEX(row,, index_of_message_column),
+                IFS(
+                    NOT(ISLOGICAL(raw_assert_value)), "error: The assert must be LOGICAL.",
+                    NOT(ISTEXT(raw_message_value)), "warning: The message should be TEXT.",
+                    TRUE, raw_message_value
+                )
+            ),
+            IF(assert, "", "not ") &  "ok" & " " & test_number & " -" & " " & description & LF &
+            IF(message = "", "", "  ---" & LF & tap_yamlblock(message) & LF & "  ..." & LF)
+        )))),
+        tap_tapdocument, tap_version & tap_plan & tap_body,
+        tap_tapdocument
+    )
+);

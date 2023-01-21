@@ -1,0 +1,38 @@
+/**
+Convert tests to export format.
+*/
+EXPORTTESTS = LAMBDA(tests_range,
+    LET(
+        header, HSTACK("description", "cell_for_ref", "formula", "message", "assert"),
+        header_with_sequence, VSTACK(header, SEQUENCE(1, COLUMNS(header), 1, 1)),
+        index_of_description_column, INDEX(HLOOKUP("description", header_with_sequence, 2, FALSE), 1, 1),
+        index_of_cell_for_ref_column, INDEX(HLOOKUP("cell_for_ref", header_with_sequence, 2, FALSE), 1, 1),
+        index_of_formula_column, INDEX(HLOOKUP("formula", header_with_sequence, 2, FALSE), 1, 1),
+        index_of_message_column, INDEX(HLOOKUP("message", header_with_sequence, 2, FALSE), 1, 1),
+        index_of_assert_column, INDEX(HLOOKUP("assert", header_with_sequence, 2, FALSE), 1, 1),
+        current_header, INDEX(tests_range, 1,),
+        current_header_with_sequence, VSTACK(current_header, SEQUENCE(1, COLUMNS(current_header), 1, 1)),
+        current_index_of_description_column, INDEX(HLOOKUP(Index(header,, index_of_description_column), current_header_with_sequence, 2, FALSE), 1, 1),
+        current_index_of_cell_for_ref_column, INDEX(HLOOKUP(Index(header,, index_of_cell_for_ref_column), current_header_with_sequence, 2, FALSE), 1, 1),
+        current_index_of_formula_column, INDEX(HLOOKUP(Index(header,, index_of_formula_column), current_header_with_sequence, 2, FALSE), 1, 1),
+        current_index_of_message_column, INDEX(HLOOKUP(Index(header,, index_of_message_column), current_header_with_sequence, 2, FALSE), 1, 1),
+        current_index_of_assert_column, INDEX(HLOOKUP(Index(header,, index_of_assert_column), current_header_with_sequence, 2, FALSE), 1, 1),
+        description_column, INDEX(tests_range,, current_index_of_description_column),
+        cell_for_ref_column, INDEX(tests_range,, current_index_of_cell_for_ref_column),
+        formula_column, INDEX(tests_range,, current_index_of_formula_column),
+        message_column, INDEX(tests_range,, current_index_of_message_column),
+        assert_column, INDEX(tests_range,, current_index_of_assert_column),
+        converted_range, HSTACK(
+            VSTACK(index_of_description_column, IFS(ISBLANK(description_column), "", TRUE, description_column)),
+            VSTACK(index_of_cell_for_ref_column, IFS(ISBLANK(cell_for_ref_column), "", TRUE, cell_for_ref_column)),
+            VSTACK(index_of_formula_column, IFS(ISBLANK(formula_column), "", ISFORMULA(formula_column), FORMULATEXT(formula_column), TRUE, formula_column)),
+            VSTACK(index_of_message_column, INDEX(header, 1, index_of_message_column), MAKEARRAY(ROWS(tests_range) - 1, 1, LAMBDA(row_index, column_index, ""))),
+            VSTACK(index_of_assert_column, IFS(ISBLANK(assert_column), "", ISFORMULA(assert_column), FORMULATEXT(assert_column), TRUE, assert_column))
+        ),
+        converted_tests, DROP(TRANSPOSE(SORT(TRANSPOSE(FILTER(converted_range, INDEX(converted_range,, 1) <> "")), 1)), 2),
+        VSTACK(
+            header,
+            converted_tests
+        )
+    )
+);

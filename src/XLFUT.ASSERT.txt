@@ -1,0 +1,1759 @@
+/**
+Compares two data with = operator.
+*/
+ASSERT_EQUAL = LAMBDA(actual, expect,
+    LET(
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128, "compound data",
+                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            NOT(OR(ISOMITTED(actual), ISOMITTED(expect))),
+            IFERROR(actual = expect, FALSE)
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                ISOMITTED(actual), "actual is required parameter",
+                ISOMITTED(expect), "expect is required parameter",
+                OR(ISERROR(expect)), "The expect contains error: " & data_to_text(expect),
+                OR(ISERROR(actual)), "The actual contains error: " & data_to_text(actual),
+                TRUE, "It is expected to = " & data_to_text(expect) & ", but actual is " & data_to_text(actual) & "."
+            )
+        )
+    )
+);
+
+/**
+Compares two data with <> operator.
+*/
+ASSERT_NOTEQUAL = LAMBDA(actual, expect,
+    LET(
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128, "compound data",
+                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            NOT(OR(ISOMITTED(actual), ISOMITTED(expect))),
+            IFERROR(actual <> expect, FALSE)
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                ISOMITTED(actual), "actual is required parameter",
+                ISOMITTED(expect), "expect is required parameter",
+                OR(ISERROR(expect)), "The expect contains error: " & data_to_text(expect),
+                OR(ISERROR(actual)), "The actual contains error: " & data_to_text(actual),
+                TRUE, "It is expected to <> " & data_to_text(expect) & ", but actual is " & data_to_text(actual) & "."
+            )
+        )
+    )
+);
+
+/**
+Compares two data with EXACT function.
+*/
+ASSERT_EXACT = LAMBDA(actual, expect,
+    LET(
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128,
+                    "compound data",
+                    type_of_data = 64,
+                    ARRAYTOTEXT(data, 1),
+                    TRUE,
+                    VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            NOT(OR(ISOMITTED(actual), ISOMITTED(expect))),
+            IFERROR(EXACT(actual, expect), FALSE)
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                ISOMITTED(actual), "actual is required parameter",
+                ISOMITTED(expect), "expect is required parameter",
+                OR(ISERROR(expect)), "The expect contains error: " & data_to_text(expect),
+                OR(ISERROR(actual)), "The actual contains error: " & data_to_text(actual),
+                TRUE, "It is expected to EXACT " & data_to_text(expect) & ", but actual is " & data_to_text(actual) & "."
+            )
+        )
+    )
+);
+
+/**
+Compares two data with negation of EXACT function.
+*/
+ASSERT_NOTEXACT = LAMBDA(actual, expect,
+    LET(
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128,
+                    "compound data",
+                    type_of_data = 64,
+                    ARRAYTOTEXT(data, 1),
+                    TRUE,
+                    VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            NOT(OR(ISOMITTED(actual), ISOMITTED(expect))),
+            IFERROR(NOT(EXACT(actual, expect)), FALSE)
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                ISOMITTED(actual), "actual is required parameter",
+                ISOMITTED(expect), "expect is required parameter",
+                OR(ISERROR(expect)), "The expect contains error: " & data_to_text(expect),
+                OR(ISERROR(actual)), "The actual contains error: " & data_to_text(actual),
+                TRUE, "It is expected to not EXACT " & data_to_text(expect) & ", but actual is " & data_to_text(actual) & "."
+            )
+        )
+    )
+);
+
+/**
+Compares two data with > operator.
+*/
+ASSERT_GREATERTHAN = LAMBDA(actual, expect,
+    LET(
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128, "compound data",
+                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            NOT(OR(ISOMITTED(actual), ISOMITTED(expect))),
+            IFERROR(actual > expect, FALSE)
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                ISOMITTED(actual), "actual is required parameter",
+                ISOMITTED(expect), "expect is required parameter",
+                OR(ISERROR(expect)), "The expect contains error: " & data_to_text(expect),
+                OR(ISERROR(actual)), "The actual contains error: " & data_to_text(actual),
+                TRUE, "It is expected to > " & data_to_text(expect) & ", but actual is " & data_to_text(actual) & "."
+            )
+        )
+    )
+);
+
+/**
+Compares two data with >= operator.
+*/
+ASSERT_GREATEROREQUAL = LAMBDA(actual, expect,
+    LET(
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128, "compound data",
+                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            NOT(OR(ISOMITTED(actual), ISOMITTED(expect))),
+            IFERROR(actual >= expect, FALSE)
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                ISOMITTED(actual), "actual is required parameter",
+                ISOMITTED(expect), "expect is required parameter",
+                OR(ISERROR(expect)), "The expect contains error: " & data_to_text(expect),
+                OR(ISERROR(actual)), "The actual contains error: " & data_to_text(actual),
+                TRUE, "It is expected to >= " & data_to_text(expect) & ", but actual is " & data_to_text(actual) & "."
+            )
+        )
+    )
+);
+
+/**
+Compares two data with < operator.
+*/
+ASSERT_LESSTHAN = LAMBDA(actual, expect,
+    LET(
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128, "compound data",
+                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            NOT(OR(ISOMITTED(actual), ISOMITTED(expect))),
+            IFERROR(actual < expect, FALSE)
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                ISOMITTED(actual), "actual is required parameter",
+                ISOMITTED(expect), "expect is required parameter",
+                OR(ISERROR(expect)), "The expect contains error: " & data_to_text(expect),
+                OR(ISERROR(actual)), "The actual contains error: " & data_to_text(actual),
+                TRUE, "It is expected to < " & data_to_text(expect) & ", but actual is " & data_to_text(actual) & "."
+            )
+        )
+    )
+);
+
+/**
+Compares two data with <= operator.
+*/
+ASSERT_LESSOREQUAL = LAMBDA(actual, expect,
+    LET(
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128, "compound data",
+                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            NOT(OR(ISOMITTED(actual), ISOMITTED(expect))),
+            IFERROR(actual <= expect, FALSE)
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                ISOMITTED(actual), "actual is required parameter",
+                ISOMITTED(expect), "expect is required parameter",
+                OR(ISERROR(expect)), "The expect contains error: " & data_to_text(expect),
+                OR(ISERROR(actual)), "The actual contains error: " & data_to_text(actual),
+                TRUE, "It is expected to <= " & data_to_text(expect) & ", but actual is " & data_to_text(actual) & "."
+            )
+        )
+    )
+);
+
+/**
+Determines whether the two data have same type, same rows and columns and same elements.
+*/
+ASSERT_SAME = LAMBDA(actual, expect,
+    LET(
+        type_of_actual, TYPE(actual),
+        rows_of_actual, IF(type_of_actual = 16, 1, ROWS(actual)),
+        columns_of_actual, IF(type_of_actual = 16, 1, COLUMNS(actual)),
+        type_of_expect, TYPE(expect),
+        rows_of_expect, IF(type_of_expect = 16, 1, ROWS(expect)),
+        columns_of_expect, IF(type_of_expect = 16, 1, COLUMNS(expect)),
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128, "compound data",
+                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            NOT(OR(ISOMITTED(actual), ISOMITTED(expect))),
+            type_of_actual = type_of_expect,
+            IFERROR(AND(rows_of_actual = rows_of_expect, columns_of_actual = columns_of_expect), FALSE),
+            AND(IFERROR(actual = expect, IFERROR(ERROR.TYPE(actual) = ERROR.TYPE(expect), FALSE)))
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                ISOMITTED(actual), "actual is required parameter",
+                ISOMITTED(expect), "expect is required parameter",
+                TRUE, "It is expected to same " & data_to_text(expect) & ", but actual is " & data_to_text(actual) & "."
+            )
+        )
+    )
+);
+
+/**
+Indicates whether the value type is number.
+*/
+ASSERT_ISNUMBER = LAMBDA(actual,
+    LET(
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128, "compound data",
+                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            NOT(ISOMITTED(actual)),
+            ISNUMBER(actual)
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                TRUE, "It is expected to be number type, but actual is " & data_to_text(actual)
+            )
+        )
+    )
+);
+
+/**
+Indicates whether the value type is not number.
+*/
+ASSERT_ISNOTNUMBER = LAMBDA(actual,
+    LET(
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128, "compound data",
+                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            NOT(ISOMITTED(actual)),
+            NOT(ISNUMBER(actual))
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                TRUE, "It is expected not to be number type, but actual is " & data_to_text(actual)
+            )
+        )
+    )
+);
+
+/**
+Indicates whether the value type is text.
+*/
+ASSERT_ISTEXT = LAMBDA(actual,
+    LET(
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128, "compound data",
+                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            NOT(ISOMITTED(actual)),
+            ISTEXT(actual)
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                TRUE, "It is expected to be text type, but actual is " & data_to_text(actual)
+            )
+        )
+    )
+);
+
+/**
+Indicates whether the value type is not text.
+*/
+ASSERT_ISNOTTEXT = LAMBDA(actual,
+    LET(
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128, "compound data",
+                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            NOT(ISOMITTED(actual)),
+            NOT(ISTEXT(actual))
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                TRUE, "It is expected not to be text type, but actual is " & data_to_text(actual)
+            )
+        )
+    )
+);
+
+/**
+Indicates whether the value type is logical.
+*/
+ASSERT_ISLOGICAL = LAMBDA(actual,
+    LET(
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128, "compound data",
+                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            NOT(ISOMITTED(actual)),
+            ISLOGICAL(actual)
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                TRUE, "It is expected to be logical type, but actual is " & data_to_text(actual)
+            )
+        )
+    )
+);
+
+/**
+Indicates whether the value type is not logical.
+*/
+ASSERT_ISNOTLOGICAL = LAMBDA(actual,
+    LET(
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128, "compound data",
+                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            NOT(ISOMITTED(actual)),
+            NOT(ISLOGICAL(actual))
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                TRUE, "It is expected not to be logical type, but actual is " & data_to_text(actual)
+            )
+        )
+    )
+);
+
+/**
+Indicates whether the value type is error.
+*/
+ASSERT_ISERROR = LAMBDA(actual,
+    LET(
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128, "compound data",
+                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            NOT(ISOMITTED(actual)),
+            ISERROR(actual)
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                TRUE, "It is expected to raise error, but actual is " & data_to_text(actual)
+            )
+        )
+    )
+);
+
+/**
+Indicates whether the value type is not error.
+*/
+ASSERT_ISNOTERROR = LAMBDA(actual,
+    LET(
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128, "compound data",
+                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            NOT(ISOMITTED(actual)),
+            NOT(ISERROR(actual))
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                TRUE, "It is expected not to raise error, but actual is " & data_to_text(actual)
+            )
+        )
+    )
+);
+
+/**
+Indicates whether the data type is array.
+*/
+ASSERT_ISARRAY = LAMBDA(actual,
+    LET(
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128, "compound data",
+                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            NOT(ISOMITTED(actual)),
+            TYPE(actual) = 64
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                TRUE, "It is expected to be array type, but actual is " & data_to_text(actual)
+            )
+        )
+    )
+);
+
+/**
+Indicates whether the data type is not array.
+*/
+ASSERT_ISNOTARRAY = LAMBDA(actual,
+    LET(
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128, "compound data",
+                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            NOT(ISOMITTED(actual)),
+            NOT(TYPE(actual) = 64)
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                TRUE, "It is expected not to be array type, but actual is " & data_to_text(actual)
+            )
+        )
+    )
+);
+
+/**
+Indicates whether the data type is compound data.
+*/
+ASSERT_ISCOMPOUNDDATA = LAMBDA(actual,
+    LET(
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128, "compound data",
+                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            NOT(ISOMITTED(actual)),
+            TYPE(actual) = 128
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                TRUE, "It is expected to be COMPOUN DDATA type, but actual is " & data_to_text(actual)
+            )
+        )
+    )
+);
+
+/**
+Indicates whether the data type is not compound data.
+*/
+ASSERT_ISNOTCOMPOUNDDATA = LAMBDA(actual,
+    LET(
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128, "compound data",
+                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            NOT(ISOMITTED(actual)),
+            NOT(TYPE(actual) = 128)
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                TRUE, "It is expected not to be compound data type, but actual is " & data_to_text(actual)
+            )
+        )
+    )
+);
+
+/**
+Indicates whether the value is #NULL! error.
+*/
+ASSERT_ISNULL = LAMBDA(actual,
+    LET(
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128, "compound data",
+                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            NOT(ISOMITTED(actual)),
+            IF(ISERROR(actual), ERROR.TYPE(actual) = 1, FALSE)
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                TRUE, "It is expected to raise #NULL! error, but actual is " & data_to_text(actual)
+            )
+        )
+    )
+);
+
+/**
+Indicates whether the value is not #NULL! error.
+*/
+ASSERT_ISNOTNULL = LAMBDA(actual,
+    LET(
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128, "compound data",
+                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            NOT(ISOMITTED(actual)),
+            NOT(IF(ISERROR(actual), ERROR.TYPE(actual) = 1, FALSE))
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                TRUE, "It is expected not to raise #NULL! error, but actual is " & data_to_text(actual)
+            )
+        )
+    )
+);
+
+/**
+Indicates whether the value is #DIV/0! error.
+*/
+ASSERT_ISDIV0 = LAMBDA(actual,
+    LET(
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128, "compound data",
+                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            NOT(ISOMITTED(actual)),
+            IF(ISERROR(actual), ERROR.TYPE(actual) = 2, FALSE)
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                TRUE, "It is expected to raise #DIV/0! error, but actual is " & data_to_text(actual)
+            )
+        )
+    )
+);
+
+/**
+Indicates whether the value is not #DIV/0! error.
+*/
+ASSERT_ISNOTDIV0 = LAMBDA(actual,
+    LET(
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128, "compound data",
+                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            NOT(ISOMITTED(actual)),
+            NOT(IF(ISERROR(actual), ERROR.TYPE(actual) = 2, FALSE))
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                TRUE, "It is expected not to raise #DIV/0! error, but actual is " & data_to_text(actual)
+            )
+        )
+    )
+);
+
+/**
+Indicates whether the value is #VALUE! error.
+*/
+ASSERT_ISVALUEERROR = LAMBDA(actual,
+    LET(
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128, "compound data",
+                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            NOT(ISOMITTED(actual)),
+            IF(ISERROR(actual), ERROR.TYPE(actual) = 3, FALSE)
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                TRUE, "It is expected to raise #VALUE! error, but actual is " & data_to_text(actual)
+            )
+        )
+    )
+);
+
+/**
+Indicates whether the value is not #VALUE! error.
+*/
+ASSERT_ISNOTVALUEERROR = LAMBDA(actual,
+    LET(
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128, "compound data",
+                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            NOT(ISOMITTED(actual)),
+            NOT(IF(ISERROR(actual), ERROR.TYPE(actual) = 3, FALSE))
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                TRUE, "It is expected not to raise #VALUE! error, but actual is " & data_to_text(actual)
+            )
+        )
+    )
+);
+
+/**
+Indicates whether the value is #REF! error.
+*/
+ASSERT_ISREFERROR = LAMBDA(actual,
+    LET(
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128, "compound data",
+                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            NOT(ISOMITTED(actual)),
+            IF(ISERROR(actual), ERROR.TYPE(actual) = 4, FALSE)
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                TRUE, "It is expected to raise #REF! error, but actual is " & data_to_text(actual)
+            )
+        )
+    )
+);
+
+/**
+Indicates whether the value is not #REF! error.
+*/
+ASSERT_ISNOTREFERROR = LAMBDA(actual,
+    LET(
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128, "compound data",
+                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            NOT(ISOMITTED(actual)),
+            NOT(IF(ISERROR(actual), ERROR.TYPE(actual) = 4, FALSE))
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                TRUE, "It is expected not to raise #REF! error, but actual is " & data_to_text(actual)
+            )
+        )
+    )
+);
+
+/**
+Indicates whether the value is #NAME? error.
+*/
+ASSERT_ISNAMEERROR = LAMBDA(actual,
+    LET(
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128, "compound data",
+                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            NOT(ISOMITTED(actual)),
+            IF(ISERROR(actual), ERROR.TYPE(actual) = 5, FALSE)
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                TRUE, "It is expected to raise #NAME? error, but actual is " & data_to_text(actual)
+            )
+        )
+    )
+);
+
+/**
+Indicates whether the value is not #NAME? error.
+*/
+ASSERT_ISNOTNAMEERROR = LAMBDA(actual,
+    LET(
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128, "compound data",
+                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            NOT(ISOMITTED(actual)),
+            NOT(IF(ISERROR(actual), ERROR.TYPE(actual) = 5, FALSE))
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                TRUE, "It is expected not to raise #NAME? error, but actual is " & data_to_text(actual)
+            )
+        )
+    )
+);
+
+/**
+Indicates whether the value is #NUM! error.
+*/
+ASSERT_ISNUMERROR = LAMBDA(actual,
+    LET(
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128, "compound data",
+                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            NOT(ISOMITTED(actual)),
+            IF(ISERROR(actual), ERROR.TYPE(actual) = 6, FALSE)
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                TRUE, "It is expected to raise #NUM! error, but actual is " & data_to_text(actual)
+            )
+        )
+    )
+);
+
+/**
+Indicates whether the value is not #NUM! error.
+*/
+ASSERT_ISNOTNUMERROR = LAMBDA(actual,
+    LET(
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128, "compound data",
+                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            NOT(ISOMITTED(actual)),
+            NOT(IF(ISERROR(actual), ERROR.TYPE(actual) = 6, FALSE))
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                TRUE, "It is expected not to raise #NUM! error, but actual is " & data_to_text(actual)
+            )
+        )
+    )
+);
+
+/**
+Indicates whether the value is #N/A error.
+*/
+ASSERT_ISNA = LAMBDA(actual,
+    LET(
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128, "compound data",
+                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            NOT(ISOMITTED(actual)),
+            ISNA(actual)
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                TRUE, "It is expected to raise #N/A error, but actual is " & data_to_text(actual)
+            )
+        )
+    )
+);
+
+/**
+Indicates whether the value is not #N/A error.
+*/
+ASSERT_ISNOTNA = LAMBDA(actual,
+    LET(
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128, "compound data",
+                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            NOT(ISOMITTED(actual)),
+            NOT(ISNA(actual))
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                TRUE, "It is expected not to raise #N/A error, but actual is " & data_to_text(actual)
+            )
+        )
+    )
+);
+
+/**
+Indicates whether the value is #GETTING_DATA error.
+*/
+ASSERT_ISGETTING_DATA = LAMBDA(actual,
+    LET(
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128, "compound data",
+                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            NOT(ISOMITTED(actual)),
+            IF(ISERROR(actual), ERROR.TYPE(actual) = 8, FALSE)
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                TRUE, "It is expected to raise #GETTING_DATA error, but actual is " & data_to_text(actual)
+            )
+        )
+    )
+);
+
+/**
+Indicates whether the value is not #GETTING_DATA error.
+*/
+ASSERT_ISNOTGETTING_DATA = LAMBDA(actual,
+    LET(
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128, "compound data",
+                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            NOT(ISOMITTED(actual)),
+            NOT(IF(ISERROR(actual), ERROR.TYPE(actual) = 8, FALSE))
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                TRUE, "It is expected not to raise #GETTING_DATA error, but actual is " & data_to_text(actual)
+            )
+        )
+    )
+);
+
+/**
+Indicates whether the value is #SPILL! error.
+*/
+ASSERT_ISSPILLERROR = LAMBDA(actual,
+    LET(
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128, "compound data",
+                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            NOT(ISOMITTED(actual)),
+            IF(ISERROR(actual), ERROR.TYPE(actual) = 9, FALSE)
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                TRUE, "It is expected to raise #SPILL! error, but actual is " & data_to_text(actual)
+            )
+        )
+    )
+);
+
+/**
+Indicates whether the value is not #SPILL! error.
+*/
+ASSERT_ISNOTSPILLERROR = LAMBDA(actual,
+    LET(
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128, "compound data",
+                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            NOT(ISOMITTED(actual)),
+            NOT(IF(ISERROR(actual), ERROR.TYPE(actual) = 9, FALSE))
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                TRUE, "It is expected not to raise #SPILL! error, but actual is " & data_to_text(actual)
+            )
+        )
+    )
+);
+
+/**
+Indicates whether the value is #CONNECT! error.
+*/
+ASSERT_ISCONNECTERROR = LAMBDA(actual,
+    LET(
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128, "compound data",
+                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            NOT(ISOMITTED(actual)),
+            IF(ISERROR(actual), ERROR.TYPE(actual) = 10, FALSE)
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                TRUE, "It is expected to raise #CONNECT! error, but actual is " & data_to_text(actual)
+            )
+        )
+    )
+);
+
+/**
+Indicates whether the value is not #CONNECT! error.
+*/
+ASSERT_ISNOTCONNECTERROR = LAMBDA(actual,
+    LET(
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128, "compound data",
+                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            NOT(ISOMITTED(actual)),
+            NOT(IF(ISERROR(actual), ERROR.TYPE(actual) = 10, FALSE))
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                TRUE, "It is expected not to raise #CONNECT! error, but actual is " & data_to_text(actual)
+            )
+        )
+    )
+);
+
+/**
+Indicates whether the value is #BLOCKED! error.
+*/
+ASSERT_ISBLOCKED = LAMBDA(actual,
+    LET(
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128, "compound data",
+                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            NOT(ISOMITTED(actual)),
+            IF(ISERROR(actual), ERROR.TYPE(actual) = 11, FALSE)
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                TRUE, "It is expected to raise #BLOCKED! error, but actual is " & data_to_text(actual)
+            )
+        )
+    )
+);
+
+/**
+Indicates whether the value is not #BLOCKED! error.
+*/
+ASSERT_ISNOTBLOCKED = LAMBDA(actual,
+    LET(
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128, "compound data",
+                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            NOT(ISOMITTED(actual)),
+            NOT(IF(ISERROR(actual), ERROR.TYPE(actual) = 11, FALSE))
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                TRUE, "It is expected not to raise #BLOCKED! error, but actual is " & data_to_text(actual)
+            )
+        )
+    )
+);
+
+/**
+Indicates whether the value is #UNKNOWN! error.
+*/
+ASSERT_ISUNKNOWN = LAMBDA(actual,
+    LET(
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128, "compound data",
+                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            NOT(ISOMITTED(actual)),
+            IF(ISERROR(actual), ERROR.TYPE(actual) = 12, FALSE)
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                TRUE, "It is expected to raise #UNKNOWN! error, but actual is " & data_to_text(actual)
+            )
+        )
+    )
+);
+
+/**
+Indicates whether the value is not #UNKNOWN! error.
+*/
+ASSERT_ISNOTUNKNOWN = LAMBDA(actual,
+    LET(
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128, "compound data",
+                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            NOT(ISOMITTED(actual)),
+            NOT(IF(ISERROR(actual), ERROR.TYPE(actual) = 12, FALSE))
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                TRUE, "It is expected not to raise #UNKNOWN! error, but actual is " & data_to_text(actual)
+            )
+        )
+    )
+);
+
+/**
+Indicates whether the value is #FIELD! error.
+*/
+ASSERT_ISFIELDERROR = LAMBDA(actual,
+    LET(
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128, "compound data",
+                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            NOT(ISOMITTED(actual)),
+            IF(ISERROR(actual), ERROR.TYPE(actual) = 13, FALSE)
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                TRUE, "It is expected to raise #FIELD! error, but actual is " & data_to_text(actual)
+            )
+        )
+    )
+);
+
+/**
+Indicates whether the value is not #FIELD! error.
+*/
+ASSERT_ISNOTFIELDERROR = LAMBDA(actual,
+    LET(
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128, "compound data",
+                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            NOT(ISOMITTED(actual)),
+            NOT(IF(ISERROR(actual), ERROR.TYPE(actual) = 13, FALSE))
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                TRUE, "It is expected not to raise #FIELD! error, but actual is " & data_to_text(actual)
+            )
+        )
+    )
+);
+
+/**
+Indicates whether the value is #CALC! error.
+*/
+ASSERT_ISCALCERROR = LAMBDA(actual,
+    LET(
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128, "compound data",
+                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            NOT(ISOMITTED(actual)),
+            IF(ISERROR(actual), ERROR.TYPE(actual) = 14, FALSE)
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                TRUE, "It is expected to raise #CALC! error, but actual is " & data_to_text(actual)
+            )
+        )
+    )
+);
+
+/**
+Indicates whether the value is not #CALC! error.
+*/
+ASSERT_ISNOTCALCERROR = LAMBDA(actual,
+    LET(
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128, "compound data",
+                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            NOT(ISOMITTED(actual)),
+            NOT(IF(ISERROR(actual), ERROR.TYPE(actual) = 14, FALSE))
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                TRUE, "It is expected not to raise #CALC! error, but actual is " & data_to_text(actual)
+            )
+        )
+    )
+);
+
+/**
+Indicates whether the value is blank cell.
+*/
+ASSERT_ISBLANK = LAMBDA(actual,
+    LET(
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128, "compound data",
+                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            NOT(ISOMITTED(actual)),
+            ISBLANK(actual)
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                TRUE, "It is expected to raise #N/A error, but actual is " & data_to_text(actual)
+            )
+        )
+    )
+);
+
+/**
+Indicates whether the value is not blank cell.
+*/
+ASSERT_ISNOTBLANK = LAMBDA(actual,
+    LET(
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128, "compound data",
+                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            NOT(ISOMITTED(actual)),
+            NOT(ISBLANK(actual))
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                TRUE, "It is expected not to raise #N/A error, but actual is " & data_to_text(actual)
+            )
+        )
+    )
+);
+
+/**
+Indicates whether the value is valid reference.
+*/
+ASSERT_ISREF = LAMBDA(actual,
+    LET(
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128, "compound data",
+                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            NOT(ISOMITTED(actual)),
+            ISREF(actual)
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                TRUE, "It is expected to raise #N/A error, but actual is " & data_to_text(actual)
+            )
+        )
+    )
+);
+
+/**
+Indicates whether the value is valid reference.
+*/
+ASSERT_ISNOTREF = LAMBDA(actual,
+    LET(
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128, "compound data",
+                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            NOT(ISOMITTED(actual)),
+            NOT(ISREF(actual))
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                TRUE, "It is expected not to raise #N/A error, but actual is " & data_to_text(actual)
+            )
+        )
+    )
+);
+
+/**
+Determines whether the all asserts are passed.
+*/
+ASSERT_AND = LAMBDA(results,
+    LET(
+        indent, LAMBDA(text,
+            LET(
+                LF, CHAR(10),
+                indent_chars, "  ",
+                indent_chars & SUBSTITUTE(text, LF, LF & indent_chars)
+            )
+        ),
+        passed_each, INDEX(results,, 1),
+        passed_all, AND(passed_each),
+        failed_results, FILTER(results, passed_each = FALSE, HSTACK(TRUE, "")),
+        HSTACK(passed_all, IF(passed_all, "", TEXTJOIN(CHAR(10), TRUE, "AND(", INDEX(indent(failed_results),, 2), ")")))
+    )
+);
+
+/**
+Determines whether the any asserts are passed.
+*/
+ASSERT_OR = LAMBDA(results,
+    LET(
+        indent, LAMBDA(text,
+            LET(
+                LF, CHAR(10),
+                indent_chars, "  ",
+                indent_chars & SUBSTITUTE(text, LF, LF & indent_chars)
+            )
+        ),
+        passed_each, INDEX(results,, 1),
+        passed_any, OR(passed_each),
+        failed_results, FILTER(results, passed_each = FALSE, HSTACK(TRUE, "")),
+        HSTACK(passed_any, IF(passed_any, "", TEXTJOIN(CHAR(10), TRUE, "OR(", INDEX(indent(failed_results),, 2), ")")))
+    )
+);
+
+/**
+Determines whether the data matches any values in the expected set.
+*/
+ASSERT_IN = LAMBDA(actual, expect,
+    LET(
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128, "compound data",
+                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            NOT(OR(ISOMITTED(actual), ISOMITTED(expect))),
+            AND(NOT(ISERROR(expect))),
+            IFERROR(AND(MAP(actual, LAMBDA(element, OR(IFERROR(expect = element, FALSE))))), FALSE)
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                ISOMITTED(actual), "actual is required parameter",
+                ISOMITTED(expect), "expect is required parameter",
+                OR(ISERROR(expect)), "The expect contains error: " & data_to_text(expect),
+                OR(ISERROR(actual)), "The actual contains error: " & data_to_text(actual),
+                TRUE, "It is expected to be in " & data_to_text(expect) & ", but actual is " & data_to_text(actual) & "."
+            )
+        )
+    )
+);
+
+/**
+Determines whether the data does not match all values in the expected set.
+*/
+ASSERT_NOTIN = LAMBDA(actual, expect,
+    LET(
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128, "compound data",
+                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            NOT(OR(ISOMITTED(actual), ISOMITTED(expect))),
+            AND(NOT(ISERROR(expect))),
+            IFERROR(AND(NOT(MAP(actual, LAMBDA(element, OR(IFERROR(expect = element, FALSE)))))), FALSE)
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                ISOMITTED(actual), "actual is required parameter",
+                ISOMITTED(expect), "expect is required parameter",
+                OR(ISERROR(expect)), "The expect contains error: " & data_to_text(expect),
+                OR(ISERROR(actual)), "The actual contains error: " & data_to_text(actual),
+                TRUE, "It is expected to be not in " & data_to_text(expect) & ", but actual is " & data_to_text(actual) & "."
+            )
+        )
+    )
+);
+
+/**
+Determines whether the data has expected rows and columns.
+*/
+ASSERT_SIZE = LAMBDA(data, rows, columns,
+    LET(
+        type_of_data, TYPE(data),
+        rows_is_omitted, ISOMITTED(rows),
+        columns_is_omitted, ISOMITTED(columns),
+        rows_of_data, IF(type_of_data = 16, 1, ROWS(data)),
+        columns_of_data, IF(type_of_data = 16, 1, COLUMNS(data)),
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128, "compound data",
+                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            NOT(ISOMITTED(data)),
+            OR(rows_is_omitted, IFERROR(ROWS(data) = rows, FALSE)),
+            OR(columns_is_omitted, IFERROR(COLUMNS(data) = columns, FALSE))
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                ISOMITTED(data), "data is required parameter",
+                TRUE, "It is expected to be " & IF(rows_is_omitted, "m", rows) & "x" & IF(columns_is_omitted, "n", columns) & ", but actual is " & rows_of_data & "x" & columns_of_data & " (" & data_to_text(data) & ")."
+            )
+        )
+    )
+);
+
+/**
+Evaluate any logical formula and display customized error message.
+*/
+ASSERT_EVALUATE = LAMBDA(logical_formula, message,
+    LET(
+        logical_formula_is_logical, TYPE(logical_formula) = 4,
+        data_to_text, LAMBDA(data,
+            LET(
+                type_of_data, TYPE(data),
+                IFS(
+                    type_of_data = 128, "compound data",
+                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
+                )
+            )
+        ),
+        passed, AND(
+            logical_formula_is_logical,
+            IFERROR(logical_formula = TRUE, FALSE)
+        ),
+        HSTACK(
+            passed,
+            IFS(
+                passed, "",
+                ISOMITTED(logical_formula), "logical_formula is required parameter",
+                ISOMITTED(message), "logical_formula is FALSE",
+                NOT(logical_formula_is_logical), "logical_formula must be logical type, but actual is " & data_to_text(logical_formula),
+                TRUE, message
+            )
+        )
+    )
+);
