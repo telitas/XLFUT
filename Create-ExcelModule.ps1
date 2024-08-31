@@ -4,11 +4,7 @@ if($PSVersionTable.PSVersion.Major -lt 7)
 }
 Set-Variable -Name ModulePath -Value (Join-Path -Path $PSScriptRoot -ChildPath 'XLFUT.txt') -Option ReadOnly
 Set-Variable -Name PartsDirectory -Value (Join-Path -Path $PSScriptRoot -ChildPath 'src') -Option ReadOnly
-Set-Variable -Name PartList -Value @(
-    'XLFUT.txt'
-    'XLFUT.UTILS.txt'
-    'XLFUT.ASSERT.txt'
-)
+
 if((git tag --list --contains HEAD) -match '^v(?<version>[0-9]+\.[0-9]+\.[0-9])')
 {
     $version = $Matches['version']
@@ -24,18 +20,17 @@ if(Test-Path -Path $ModulePath){
 }
 New-Item -ItemType File -Path $ModulePath > $null
 
-$PartList | ForEach-Object -Process {
-    $filePath = Join-Path -Path $PartsDirectory -ChildPath $_
-    Get-Content -Raw -Path $filePath | ForEach-Object -Process {
-        $content = $_
-        switch(Split-Path -Path $filePath -Leaf)
-        {
-            'XLFUT.txt' {
-                $content.Replace('${version}', $version)
-            }
-            default {
-                $content
-            }
+(
+    (
+        Get-ChildItem　-Path (Join-Path -Path $PartsDirectory -ChildPath "*.txt") | ForEach-Object -Process {
+            $_ | Add-Member -MemberType NoteProperty -Name NameWithoutExtension -Value ([IO.Path]::GetFileNameWithoutExtension($_)) -PassThru
+        } | Sort-Object -Property NameWithoutExtension | ForEach-Object -Process {
+            $filePath = $_.FullName
+            @(
+                "/***** $($_.NameWithoutExtension) *****/",
+                ""
+                (Get-Content -Raw -Path $filePath)
+            ) -join "`n"
         }
-    } | Out-File -FilePath $ModulePath -Append -Encoding utf8NoBOM
-}
+    ) -join "`n"
+).Replace('${version}', $version) | Out-File -FilePath $ModulePath -Encoding utf8NoBOM -NoNewline
