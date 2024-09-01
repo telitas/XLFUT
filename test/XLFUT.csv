@@ -1,6 +1,6 @@
 ﻿description,cell_for_ref,formula,message,assert
-LICENSE show,,=@XLFUT.LICENSE(),,"=ISTEXT(INDIRECT(ADDRESS(ROW(),COLUMN()-2)))"
-VERSION show,,=@XLFUT.VERSION(),,"=ISTEXT(INDIRECT(ADDRESS(ROW(),COLUMN()-2)))"
+LICENSE show,,=XLFUT.LICENSE,,"=ISTEXT(INDIRECT(ADDRESS(ROW(),COLUMN()-2)))"
+VERSION show,,=XLFUT.VERSION,,"=ISTEXT(INDIRECT(ADDRESS(ROW(),COLUMN()-2)))"
 ASSERT_EQUAL nonerror value compare to equal is passed,,"=LET(
     actual, 1,
     expect, 1,
