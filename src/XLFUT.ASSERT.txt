@@ -5,10 +5,10 @@ ASSERT_EQUAL = LAMBDA(actual, expect,
     LET(
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128, "compound data",
-                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
                     TRUE, VALUETOTEXT(data, 1)
                 )
             )
@@ -38,10 +38,10 @@ ASSERT_NOTEQUAL = LAMBDA(actual, expect,
     LET(
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128, "compound data",
-                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
                     TRUE, VALUETOTEXT(data, 1)
                 )
             )
@@ -71,11 +71,11 @@ ASSERT_EXACT = LAMBDA(actual, expect,
     LET(
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128,
+                    typeOfData = 128,
                     "compound data",
-                    type_of_data = 64,
+                    typeOfData = 64,
                     ARRAYTOTEXT(data, 1),
                     TRUE,
                     VALUETOTEXT(data, 1)
@@ -107,11 +107,11 @@ ASSERT_NOTEXACT = LAMBDA(actual, expect,
     LET(
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128,
+                    typeOfData = 128,
                     "compound data",
-                    type_of_data = 64,
+                    typeOfData = 64,
                     ARRAYTOTEXT(data, 1),
                     TRUE,
                     VALUETOTEXT(data, 1)
@@ -143,10 +143,10 @@ ASSERT_GREATERTHAN = LAMBDA(actual, expect,
     LET(
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128, "compound data",
-                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
                     TRUE, VALUETOTEXT(data, 1)
                 )
             )
@@ -176,10 +176,10 @@ ASSERT_GREATEROREQUAL = LAMBDA(actual, expect,
     LET(
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128, "compound data",
-                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
                     TRUE, VALUETOTEXT(data, 1)
                 )
             )
@@ -209,10 +209,10 @@ ASSERT_LESSTHAN = LAMBDA(actual, expect,
     LET(
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128, "compound data",
-                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
                     TRUE, VALUETOTEXT(data, 1)
                 )
             )
@@ -242,10 +242,10 @@ ASSERT_LESSOREQUAL = LAMBDA(actual, expect,
     LET(
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128, "compound data",
-                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
                     TRUE, VALUETOTEXT(data, 1)
                 )
             )
@@ -273,26 +273,26 @@ Determines whether the two data have same type, same rows and columns and same e
 */
 ASSERT_SAME = LAMBDA(actual, expect,
     LET(
-        type_of_actual, TYPE(actual),
-        rows_of_actual, IF(type_of_actual = 16, 1, ROWS(actual)),
-        columns_of_actual, IF(type_of_actual = 16, 1, COLUMNS(actual)),
-        type_of_expect, TYPE(expect),
-        rows_of_expect, IF(type_of_expect = 16, 1, ROWS(expect)),
-        columns_of_expect, IF(type_of_expect = 16, 1, COLUMNS(expect)),
+        typeOfActual, TYPE(actual),
+        rowsOfActual, IF(typeOfActual = 16, 1, ROWS(actual)),
+        columnsOfActual, IF(typeOfActual = 16, 1, COLUMNS(actual)),
+        typeOfExpect, TYPE(expect),
+        rowsOfExpect, IF(typeOfExpect = 16, 1, ROWS(expect)),
+        columnsOfExpect, IF(typeOfExpect = 16, 1, COLUMNS(expect)),
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128, "compound data",
-                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
                     TRUE, VALUETOTEXT(data, 1)
                 )
             )
         ),
         passed, AND(
             NOT(OR(ISOMITTED(actual), ISOMITTED(expect))),
-            type_of_actual = type_of_expect,
-            IFERROR(AND(rows_of_actual = rows_of_expect, columns_of_actual = columns_of_expect), FALSE),
+            typeOfActual = typeOfExpect,
+            IFERROR(AND(rowsOfActual = rowsOfExpect, columnsOfActual = columnsOfExpect), FALSE),
             AND(IFERROR(actual = expect, IFERROR(ERROR.TYPE(actual) = ERROR.TYPE(expect), FALSE)))
         ),
         HSTACK(
@@ -314,10 +314,10 @@ ASSERT_ISNUMBER = LAMBDA(actual,
     LET(
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128, "compound data",
-                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
                     TRUE, VALUETOTEXT(data, 1)
                 )
             )
@@ -343,10 +343,10 @@ ASSERT_ISNOTNUMBER = LAMBDA(actual,
     LET(
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128, "compound data",
-                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
                     TRUE, VALUETOTEXT(data, 1)
                 )
             )
@@ -372,10 +372,10 @@ ASSERT_ISTEXT = LAMBDA(actual,
     LET(
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128, "compound data",
-                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
                     TRUE, VALUETOTEXT(data, 1)
                 )
             )
@@ -401,10 +401,10 @@ ASSERT_ISNOTTEXT = LAMBDA(actual,
     LET(
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128, "compound data",
-                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
                     TRUE, VALUETOTEXT(data, 1)
                 )
             )
@@ -430,10 +430,10 @@ ASSERT_ISLOGICAL = LAMBDA(actual,
     LET(
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128, "compound data",
-                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
                     TRUE, VALUETOTEXT(data, 1)
                 )
             )
@@ -459,10 +459,10 @@ ASSERT_ISNOTLOGICAL = LAMBDA(actual,
     LET(
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128, "compound data",
-                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
                     TRUE, VALUETOTEXT(data, 1)
                 )
             )
@@ -488,10 +488,10 @@ ASSERT_ISERROR = LAMBDA(actual,
     LET(
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128, "compound data",
-                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
                     TRUE, VALUETOTEXT(data, 1)
                 )
             )
@@ -517,10 +517,10 @@ ASSERT_ISNOTERROR = LAMBDA(actual,
     LET(
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128, "compound data",
-                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
                     TRUE, VALUETOTEXT(data, 1)
                 )
             )
@@ -546,10 +546,10 @@ ASSERT_ISARRAY = LAMBDA(actual,
     LET(
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128, "compound data",
-                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
                     TRUE, VALUETOTEXT(data, 1)
                 )
             )
@@ -575,10 +575,10 @@ ASSERT_ISNOTARRAY = LAMBDA(actual,
     LET(
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128, "compound data",
-                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
                     TRUE, VALUETOTEXT(data, 1)
                 )
             )
@@ -604,10 +604,10 @@ ASSERT_ISCOMPOUNDDATA = LAMBDA(actual,
     LET(
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128, "compound data",
-                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
                     TRUE, VALUETOTEXT(data, 1)
                 )
             )
@@ -633,10 +633,10 @@ ASSERT_ISNOTCOMPOUNDDATA = LAMBDA(actual,
     LET(
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128, "compound data",
-                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
                     TRUE, VALUETOTEXT(data, 1)
                 )
             )
@@ -662,10 +662,10 @@ ASSERT_ISNULL = LAMBDA(actual,
     LET(
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128, "compound data",
-                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
                     TRUE, VALUETOTEXT(data, 1)
                 )
             )
@@ -691,10 +691,10 @@ ASSERT_ISNOTNULL = LAMBDA(actual,
     LET(
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128, "compound data",
-                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
                     TRUE, VALUETOTEXT(data, 1)
                 )
             )
@@ -720,10 +720,10 @@ ASSERT_ISDIV0 = LAMBDA(actual,
     LET(
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128, "compound data",
-                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
                     TRUE, VALUETOTEXT(data, 1)
                 )
             )
@@ -749,10 +749,10 @@ ASSERT_ISNOTDIV0 = LAMBDA(actual,
     LET(
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128, "compound data",
-                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
                     TRUE, VALUETOTEXT(data, 1)
                 )
             )
@@ -778,10 +778,10 @@ ASSERT_ISVALUEERROR = LAMBDA(actual,
     LET(
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128, "compound data",
-                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
                     TRUE, VALUETOTEXT(data, 1)
                 )
             )
@@ -807,10 +807,10 @@ ASSERT_ISNOTVALUEERROR = LAMBDA(actual,
     LET(
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128, "compound data",
-                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
                     TRUE, VALUETOTEXT(data, 1)
                 )
             )
@@ -836,10 +836,10 @@ ASSERT_ISREFERROR = LAMBDA(actual,
     LET(
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128, "compound data",
-                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
                     TRUE, VALUETOTEXT(data, 1)
                 )
             )
@@ -865,10 +865,10 @@ ASSERT_ISNOTREFERROR = LAMBDA(actual,
     LET(
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128, "compound data",
-                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
                     TRUE, VALUETOTEXT(data, 1)
                 )
             )
@@ -894,10 +894,10 @@ ASSERT_ISNAMEERROR = LAMBDA(actual,
     LET(
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128, "compound data",
-                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
                     TRUE, VALUETOTEXT(data, 1)
                 )
             )
@@ -923,10 +923,10 @@ ASSERT_ISNOTNAMEERROR = LAMBDA(actual,
     LET(
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128, "compound data",
-                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
                     TRUE, VALUETOTEXT(data, 1)
                 )
             )
@@ -952,10 +952,10 @@ ASSERT_ISNUMERROR = LAMBDA(actual,
     LET(
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128, "compound data",
-                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
                     TRUE, VALUETOTEXT(data, 1)
                 )
             )
@@ -981,10 +981,10 @@ ASSERT_ISNOTNUMERROR = LAMBDA(actual,
     LET(
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128, "compound data",
-                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
                     TRUE, VALUETOTEXT(data, 1)
                 )
             )
@@ -1010,10 +1010,10 @@ ASSERT_ISNA = LAMBDA(actual,
     LET(
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128, "compound data",
-                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
                     TRUE, VALUETOTEXT(data, 1)
                 )
             )
@@ -1039,10 +1039,10 @@ ASSERT_ISNOTNA = LAMBDA(actual,
     LET(
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128, "compound data",
-                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
                     TRUE, VALUETOTEXT(data, 1)
                 )
             )
@@ -1068,10 +1068,10 @@ ASSERT_ISGETTING_DATA = LAMBDA(actual,
     LET(
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128, "compound data",
-                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
                     TRUE, VALUETOTEXT(data, 1)
                 )
             )
@@ -1097,10 +1097,10 @@ ASSERT_ISNOTGETTING_DATA = LAMBDA(actual,
     LET(
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128, "compound data",
-                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
                     TRUE, VALUETOTEXT(data, 1)
                 )
             )
@@ -1126,10 +1126,10 @@ ASSERT_ISSPILLERROR = LAMBDA(actual,
     LET(
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128, "compound data",
-                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
                     TRUE, VALUETOTEXT(data, 1)
                 )
             )
@@ -1155,10 +1155,10 @@ ASSERT_ISNOTSPILLERROR = LAMBDA(actual,
     LET(
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128, "compound data",
-                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
                     TRUE, VALUETOTEXT(data, 1)
                 )
             )
@@ -1184,10 +1184,10 @@ ASSERT_ISCONNECTERROR = LAMBDA(actual,
     LET(
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128, "compound data",
-                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
                     TRUE, VALUETOTEXT(data, 1)
                 )
             )
@@ -1213,10 +1213,10 @@ ASSERT_ISNOTCONNECTERROR = LAMBDA(actual,
     LET(
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128, "compound data",
-                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
                     TRUE, VALUETOTEXT(data, 1)
                 )
             )
@@ -1242,10 +1242,10 @@ ASSERT_ISBLOCKED = LAMBDA(actual,
     LET(
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128, "compound data",
-                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
                     TRUE, VALUETOTEXT(data, 1)
                 )
             )
@@ -1271,10 +1271,10 @@ ASSERT_ISNOTBLOCKED = LAMBDA(actual,
     LET(
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128, "compound data",
-                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
                     TRUE, VALUETOTEXT(data, 1)
                 )
             )
@@ -1300,10 +1300,10 @@ ASSERT_ISUNKNOWN = LAMBDA(actual,
     LET(
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128, "compound data",
-                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
                     TRUE, VALUETOTEXT(data, 1)
                 )
             )
@@ -1329,10 +1329,10 @@ ASSERT_ISNOTUNKNOWN = LAMBDA(actual,
     LET(
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128, "compound data",
-                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
                     TRUE, VALUETOTEXT(data, 1)
                 )
             )
@@ -1358,10 +1358,10 @@ ASSERT_ISFIELDERROR = LAMBDA(actual,
     LET(
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128, "compound data",
-                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
                     TRUE, VALUETOTEXT(data, 1)
                 )
             )
@@ -1387,10 +1387,10 @@ ASSERT_ISNOTFIELDERROR = LAMBDA(actual,
     LET(
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128, "compound data",
-                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
                     TRUE, VALUETOTEXT(data, 1)
                 )
             )
@@ -1416,10 +1416,10 @@ ASSERT_ISCALCERROR = LAMBDA(actual,
     LET(
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128, "compound data",
-                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
                     TRUE, VALUETOTEXT(data, 1)
                 )
             )
@@ -1445,10 +1445,10 @@ ASSERT_ISNOTCALCERROR = LAMBDA(actual,
     LET(
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128, "compound data",
-                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
                     TRUE, VALUETOTEXT(data, 1)
                 )
             )
@@ -1474,10 +1474,10 @@ ASSERT_ISBLANK = LAMBDA(actual,
     LET(
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128, "compound data",
-                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
                     TRUE, VALUETOTEXT(data, 1)
                 )
             )
@@ -1503,10 +1503,10 @@ ASSERT_ISNOTBLANK = LAMBDA(actual,
     LET(
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128, "compound data",
-                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
                     TRUE, VALUETOTEXT(data, 1)
                 )
             )
@@ -1532,10 +1532,10 @@ ASSERT_ISREF = LAMBDA(actual,
     LET(
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128, "compound data",
-                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
                     TRUE, VALUETOTEXT(data, 1)
                 )
             )
@@ -1561,10 +1561,10 @@ ASSERT_ISNOTREF = LAMBDA(actual,
     LET(
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128, "compound data",
-                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
                     TRUE, VALUETOTEXT(data, 1)
                 )
             )
@@ -1588,17 +1588,17 @@ Determines whether the all asserts are passed.
 */
 ASSERT_AND = LAMBDA(results,
     LET(
-        indent, LAMBDA(text,
+        indent_, LAMBDA(text,
             LET(
                 LF, CHAR(10),
-                indent_chars, "  ",
-                indent_chars & SUBSTITUTE(text, LF, LF & indent_chars)
+                indentChars, "  ",
+                indentChars & SUBSTITUTE(text, LF, LF & indentChars)
             )
         ),
-        passed_each, INDEX(results,, 1),
-        passed_all, AND(passed_each),
-        failed_results, FILTER(results, passed_each = FALSE, HSTACK(TRUE, "")),
-        HSTACK(passed_all, IF(passed_all, "", TEXTJOIN(CHAR(10), TRUE, "AND(", INDEX(indent(failed_results),, 2), ")")))
+        passedEach, INDEX(results,, 1),
+        passedAll, AND(passedEach),
+        failedResults, FILTER(results, passedEach = FALSE, HSTACK(TRUE, "")),
+        HSTACK(passedAll, IF(passedAll, "", TEXTJOIN(CHAR(10), TRUE, "AND(", INDEX(indent_(failedResults),, 2), ")")))
     )
 );
 
@@ -1607,17 +1607,17 @@ Determines whether the any asserts are passed.
 */
 ASSERT_OR = LAMBDA(results,
     LET(
-        indent, LAMBDA(text,
+        indent_, LAMBDA(text,
             LET(
                 LF, CHAR(10),
-                indent_chars, "  ",
-                indent_chars & SUBSTITUTE(text, LF, LF & indent_chars)
+                indentChars, "  ",
+                indentChars & SUBSTITUTE(text, LF, LF & indentChars)
             )
         ),
-        passed_each, INDEX(results,, 1),
-        passed_any, OR(passed_each),
-        failed_results, FILTER(results, passed_each = FALSE, HSTACK(TRUE, "")),
-        HSTACK(passed_any, IF(passed_any, "", TEXTJOIN(CHAR(10), TRUE, "OR(", INDEX(indent(failed_results),, 2), ")")))
+        passedEach, INDEX(results,, 1),
+        passedAny, OR(passedEach),
+        failedResults, FILTER(results, passedEach = FALSE, HSTACK(TRUE, "")),
+        HSTACK(passedAny, IF(passedAny, "", TEXTJOIN(CHAR(10), TRUE, "OR(", INDEX(indent_(failedResults),, 2), ")")))
     )
 );
 
@@ -1628,10 +1628,10 @@ ASSERT_IN = LAMBDA(actual, expect,
     LET(
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128, "compound data",
-                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
                     TRUE, VALUETOTEXT(data, 1)
                 )
             )
@@ -1662,10 +1662,10 @@ ASSERT_NOTIN = LAMBDA(actual, expect,
     LET(
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128, "compound data",
-                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
                     TRUE, VALUETOTEXT(data, 1)
                 )
             )
@@ -1694,32 +1694,32 @@ Determines whether the data has expected rows and columns.
 */
 ASSERT_SIZE = LAMBDA(data, rows, columns,
     LET(
-        type_of_data, TYPE(data),
-        rows_is_omitted, ISOMITTED(rows),
-        columns_is_omitted, ISOMITTED(columns),
-        rows_of_data, IF(type_of_data = 16, 1, ROWS(data)),
-        columns_of_data, IF(type_of_data = 16, 1, COLUMNS(data)),
+        typeOfData, TYPE(data),
+        rowsIsOmitted, ISOMITTED(rows),
+        columnsIsOmitted, ISOMITTED(columns),
+        rowsOfData, IF(typeOfData = 16, 1, ROWS(data)),
+        columnsOfData, IF(typeOfData = 16, 1, COLUMNS(data)),
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128, "compound data",
-                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
                     TRUE, VALUETOTEXT(data, 1)
                 )
             )
         ),
         passed, AND(
             NOT(ISOMITTED(data)),
-            OR(rows_is_omitted, IFERROR(ROWS(data) = rows, FALSE)),
-            OR(columns_is_omitted, IFERROR(COLUMNS(data) = columns, FALSE))
+            OR(rowsIsOmitted, IFERROR(ROWS(data) = rows, FALSE)),
+            OR(columnsIsOmitted, IFERROR(COLUMNS(data) = columns, FALSE))
         ),
         HSTACK(
             passed,
             IFS(
                 passed, "",
                 ISOMITTED(data), "data is required parameter",
-                TRUE, "It is expected to be " & IF(rows_is_omitted, "m", rows) & "x" & IF(columns_is_omitted, "n", columns) & ", but actual is " & rows_of_data & "x" & columns_of_data & " (" & data_to_text(data) & ")."
+                TRUE, "It is expected to be " & IF(rowsIsOmitted, "m", rows) & "x" & IF(columnsIsOmitted, "n", columns) & ", but actual is " & rowsOfData & "x" & columnsOfData & " (" & data_to_text(data) & ")."
             )
         )
     )
@@ -1728,30 +1728,30 @@ ASSERT_SIZE = LAMBDA(data, rows, columns,
 /**
 Evaluate any logical formula and display customized error message.
 */
-ASSERT_EVALUATE = LAMBDA(logical_formula, message,
+ASSERT_EVALUATE = LAMBDA(logicalFormula, message,
     LET(
-        logical_formula_is_logical, TYPE(logical_formula) = 4,
+        logicalFormulaIsLogical, TYPE(logicalFormula) = 4,
         data_to_text, LAMBDA(data,
             LET(
-                type_of_data, TYPE(data),
+                typeOfData, TYPE(data),
                 IFS(
-                    type_of_data = 128, "compound data",
-                    type_of_data = 64, ARRAYTOTEXT(data, 1),
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
                     TRUE, VALUETOTEXT(data, 1)
                 )
             )
         ),
         passed, AND(
-            logical_formula_is_logical,
-            IFERROR(logical_formula = TRUE, FALSE)
+            logicalFormulaIsLogical,
+            IFERROR(logicalFormula = TRUE, FALSE)
         ),
         HSTACK(
             passed,
             IFS(
                 passed, "",
-                ISOMITTED(logical_formula), "logical_formula is required parameter",
-                ISOMITTED(message), "logical_formula is FALSE",
-                NOT(logical_formula_is_logical), "logical_formula must be logical type, but actual is " & data_to_text(logical_formula),
+                ISOMITTED(logicalFormula), "logicalFormula is required parameter",
+                ISOMITTED(message), "logicalFormula is FALSE",
+                NOT(logicalFormulaIsLogical), "logicalFormula must be logical type, but actual is " & data_to_text(logicalFormula),
                 TRUE, message
             )
         )
