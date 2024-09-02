@@ -130,7 +130,7 @@ ASSERT_NOTEXACT = LAMBDA(actual, expect,
                 ISOMITTED(expect), "expect is required parameter",
                 OR(ISERROR(expect)), "The expect contains error: " & data_to_text(expect),
                 OR(ISERROR(actual)), "The actual contains error: " & data_to_text(actual),
-                TRUE, "It is expected to not EXACT " & data_to_text(expect) & ", but actual is " & data_to_text(actual) & "."
+                TRUE, "It is expected not to EXACT " & data_to_text(expect) & ", but actual is " & data_to_text(actual) & "."
             )
         )
     )
@@ -620,7 +620,7 @@ ASSERT_ISCOMPOUNDDATA = LAMBDA(actual,
             passed,
             IFS(
                 passed, "",
-                TRUE, "It is expected to be COMPOUN DDATA type, but actual is " & data_to_text(actual)
+                TRUE, "It is expected to be compound data type, but actual is " & data_to_text(actual)
             )
         )
     )
@@ -1490,7 +1490,7 @@ ASSERT_ISBLANK = LAMBDA(actual,
             passed,
             IFS(
                 passed, "",
-                TRUE, "It is expected to raise #N/A error, but actual is " & data_to_text(actual)
+                TRUE, "It is expected to BLANK, but actual is " & data_to_text(actual)
             )
         )
     )
@@ -1519,7 +1519,7 @@ ASSERT_ISNOTBLANK = LAMBDA(actual,
             passed,
             IFS(
                 passed, "",
-                TRUE, "It is expected not to raise #N/A error, but actual is " & data_to_text(actual)
+                TRUE, "It is expected not to BLANK, but actual is " & data_to_text(actual)
             )
         )
     )
@@ -1548,7 +1548,7 @@ ASSERT_ISREF = LAMBDA(actual,
             passed,
             IFS(
                 passed, "",
-                TRUE, "It is expected to raise #N/A error, but actual is " & data_to_text(actual)
+                TRUE, "It is expected to REF, but actual is " & data_to_text(actual)
             )
         )
     )
@@ -1577,7 +1577,7 @@ ASSERT_ISNOTREF = LAMBDA(actual,
             passed,
             IFS(
                 passed, "",
-                TRUE, "It is expected not to raise #N/A error, but actual is " & data_to_text(actual)
+                TRUE, "It is expected not to REF, but actual is " & data_to_text(actual)
             )
         )
     )
