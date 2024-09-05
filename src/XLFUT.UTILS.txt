@@ -1,9 +1,14 @@
 /**
+Return the header for XLFUT test format.
+*/
+UTILS_TESTHEADER = {"description", "assert", "message"};
+
+/**
 Convert tests to export format.
 */
 UTILS_EXPORTTESTS = LAMBDA(testsRange,
     LET(
-        header, HSTACK("description", "assert", "message"),
+        header, UTILS_TESTHEADER,
         headerWithSequence, VSTACK(header, SEQUENCE(1, COLUMNS(header), 1, 1)),
         indexOfDescriptionColumn, HLOOKUP("description", headerWithSequence, 2, FALSE),
         indexOfAssertColumn, HLOOKUP("assert", headerWithSequence, 2, FALSE),
@@ -47,7 +52,7 @@ UTILS_OUTPUTINTAP = LAMBDA(testsRange,
                 indent_(yaml)
             )
         ),
-        header, HSTACK("testNumber", "description", "assert", "message"),
+        header, HSTACK("testNumber", UTILS_TESTHEADER),
         headerWithSequence, VSTACK(header, SEQUENCE(1, COLUMNS(header), 1, 1)),
         indexOfTestNumberColumn, HLOOKUP("testNumber", headerWithSequence, 2, FALSE),
         indexOfDescriptionColumn, HLOOKUP("description", headerWithSequence, 2, FALSE),
