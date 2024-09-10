@@ -8,28 +8,38 @@ Convert tests to export format.
 */
 UTILS_EXPORTTESTS = LAMBDA(testsRange,
     LET(
-        header, UTILS_TESTHEADER,
-        headerWithSequence, VSTACK(header, SEQUENCE(1, COLUMNS(header), 1, 1)),
-        indexOfDescriptionColumn, HLOOKUP("description", headerWithSequence, 2, FALSE),
-        indexOfAssertColumn, HLOOKUP("assert", headerWithSequence, 2, FALSE),
-        indexOfMessageColumn, HLOOKUP("message", headerWithSequence, 2, FALSE),
-        currentHeader, INDEX(testsRange, 1,),
-        currentHeaderWithSequence, VSTACK(currentHeader, SEQUENCE(1, COLUMNS(currentHeader), 1, 1)),
-        currentIndexOfDescriptionColumn, INDEX(HLOOKUP(Index(header,, indexOfDescriptionColumn), currentHeaderWithSequence, 2, FALSE), 1, 1),
-        currentIndexOfAssertColumn, INDEX(HLOOKUP(Index(header,, indexOfAssertColumn), currentHeaderWithSequence, 2, FALSE), 1, 1),
-        currentIndexOfMessageColumn, INDEX(HLOOKUP(Index(header,, indexOfMessageColumn), currentHeaderWithSequence, 2, FALSE), 1, 1),
-        descriptionColumn, INDEX(testsRange,, currentIndexOfDescriptionColumn),
-        assertColumn, INDEX(testsRange,, currentIndexOfAssertColumn),
-        messageColumn, INDEX(testsRange,, currentIndexOfMessageColumn),
-        convertedRange, HSTACK(
-            VSTACK(indexOfDescriptionColumn, IFS(ISBLANK(descriptionColumn), "", TRUE, descriptionColumn)),
-            VSTACK(indexOfAssertColumn, IFS(ISBLANK(assertColumn), "", ISFORMULA(assertColumn), FORMULATEXT(assertColumn), TRUE, assertColumn)),
-            VSTACK(indexOfMessageColumn, INDEX(header, 1, indexOfMessageColumn), MAKEARRAY(ROWS(testsRange) - 1, 1, LAMBDA(rowIndex, columnIndex, "")))
+        errorMessage, IFS(
+            COLUMNS(testsRange) <> 3, "columns length must be 3.",
+            NOT(AND(INDEX(testsRange, 1,) = UTILS_TESTHEADER)), "header must have " & ARRAYTOTEXT(XLFUT.UTILS_TESTHEADER, 1),
+            TRUE, ""
         ),
-        convertedTests, DROP(TRANSPOSE(SORT(TRANSPOSE(FILTER(convertedRange, INDEX(convertedRange,, 1) <> "")), 1)), 2),
-        VSTACK(
-            header,
-            convertedTests
+        IF(
+            errorMessage <> "", errorMessage,
+            LET(
+                header, UTILS_TESTHEADER,
+                headerWithSequence, VSTACK(header, SEQUENCE(1, COLUMNS(header), 1, 1)),
+                indexOfDescriptionColumn, HLOOKUP("description", headerWithSequence, 2, FALSE),
+                indexOfAssertColumn, HLOOKUP("assert", headerWithSequence, 2, FALSE),
+                indexOfMessageColumn, HLOOKUP("message", headerWithSequence, 2, FALSE),
+                currentHeader, INDEX(testsRange, 1,),
+                currentHeaderWithSequence, VSTACK(currentHeader, SEQUENCE(1, COLUMNS(currentHeader), 1, 1)),
+                currentIndexOfDescriptionColumn, INDEX(HLOOKUP(Index(header,, indexOfDescriptionColumn), currentHeaderWithSequence, 2, FALSE), 1, 1),
+                currentIndexOfAssertColumn, INDEX(HLOOKUP(Index(header,, indexOfAssertColumn), currentHeaderWithSequence, 2, FALSE), 1, 1),
+                currentIndexOfMessageColumn, INDEX(HLOOKUP(Index(header,, indexOfMessageColumn), currentHeaderWithSequence, 2, FALSE), 1, 1),
+                descriptionColumn, INDEX(testsRange,, currentIndexOfDescriptionColumn),
+                assertColumn, INDEX(testsRange,, currentIndexOfAssertColumn),
+                messageColumn, INDEX(testsRange,, currentIndexOfMessageColumn),
+                convertedRange, HSTACK(
+                    VSTACK(indexOfDescriptionColumn, IFS(ISBLANK(descriptionColumn), "", TRUE, descriptionColumn)),
+                    VSTACK(indexOfAssertColumn, IFS(ISBLANK(assertColumn), "", ISFORMULA(assertColumn), FORMULATEXT(assertColumn), TRUE, assertColumn)),
+                    VSTACK(indexOfMessageColumn, INDEX(header, 1, indexOfMessageColumn), MAKEARRAY(ROWS(testsRange) - 1, 1, LAMBDA(rowIndex, columnIndex, "")))
+                ),
+                convertedTests, DROP(TRANSPOSE(SORT(TRANSPOSE(FILTER(convertedRange, INDEX(convertedRange,, 1) <> "")), 1)), 2),
+                VSTACK(
+                    header,
+                    convertedTests
+                )
+            )
         )
     )
 );
@@ -39,58 +49,68 @@ Output test results in TAP format.
 */
 UTILS_OUTPUTINTAP = LAMBDA(testsRange,
     LET(
-        LF, CHAR(10),
-        tap_yaml_block, LAMBDA(message,
+        errorMessage, IFS(
+            COLUMNS(testsRange) <> 3, "columns length must be 3.",
+            NOT(AND(INDEX(testsRange, 1,) = UTILS_TESTHEADER)), "header must have " & ARRAYTOTEXT(XLFUT.UTILS_TESTHEADER, 1),
+            TRUE, ""
+        ),
+        IF(
+            errorMessage <> "", errorMessage,
             LET(
-                indent_, LAMBDA(text,
-                    LET(
-                        indentChars, "  ",
-                        indentChars & SUBSTITUTE(text, LF, LF & indentChars)
-                    )
+                header, HSTACK("testNumber", UTILS_TESTHEADER),
+                headerWithSequence, VSTACK(header, SEQUENCE(1, COLUMNS(header), 1, 1)),
+                indexOfTestNumberColumn, HLOOKUP("testNumber", headerWithSequence, 2, FALSE),
+                indexOfDescriptionColumn, HLOOKUP("description", headerWithSequence, 2, FALSE),
+                indexOfAssertColumn, HLOOKUP("assert", headerWithSequence, 2, FALSE),
+                indexOfMessageColumn, HLOOKUP("message", headerWithSequence, 2, FALSE),
+                currentHeader, INDEX(testsRange, 1,),
+                currentHeaderWithSequence, VSTACK(currentHeader, SEQUENCE(1, COLUMNS(currentHeader), 1, 1)),
+                currentIndexOfDescriptionColumn, INDEX(HLOOKUP(Index(header,, indexOfDescriptionColumn), currentHeaderWithSequence, 2, FALSE), 1, 1),
+                currentIndexOfAssertColumn, INDEX(HLOOKUP(Index(header,, indexOfAssertColumn), currentHeaderWithSequence, 2, FALSE), 1, 1),
+                currentIndexOfMessageColumn, INDEX(HLOOKUP(Index(header,, indexOfMessageColumn), currentHeaderWithSequence, 2, FALSE), 1, 1),
+                descriptionColumn, INDEX(testsRange,, currentIndexOfDescriptionColumn),
+                assertColumn, INDEX(testsRange,, currentIndexOfAssertColumn),
+                messageColumn, INDEX(testsRange,, currentIndexOfMessageColumn),
+                tests, FILTER(testsRange, INDEX(testsRange,, 1) <> ""),
+                testsCount, ROWS(tests) - 1,
+                testsWithNumber, LET(
+                    testsWithSequence, HSTACK(SEQUENCE(testsCount + 1, 1, 0), tests),
+                    FILTER(testsWithSequence, INDEX(testsWithSequence,, 1) > 0)
                 ),
-                yaml, "message: |" & LF & indent_(message),
-                indent_(yaml)
+                LF, CHAR(10),
+                tapVersion, "TAP version 14" & LF,
+                tapPlan,  "1.." & MAX(INDEX(testsWithNumber,, 1)) & LF,
+                tapBody, TEXTJOIN("", FALSE, BYROW(testsWithNumber, LAMBDA(row, LET(
+                    testNumber, INDEX(row,, indexOfTestNumberColumn),
+                    description, INDEX(row,, indexOfDescriptionColumn),
+                    rawAssertValue, INDEX(row,, indexOfAssertColumn),
+                    assert, AND(ISLOGICAL(rawAssertValue), IFERROR(rawAssertValue, FALSE)),
+                    message, LET(
+                        rawMessageValue, INDEX(row,, indexOfMessageColumn),
+                        IFS(
+                            NOT(ISLOGICAL(rawAssertValue)), "error: The assert must be LOGICAL.",
+                            NOT(ISTEXT(rawMessageValue)), "warning: The message should be TEXT.",
+                            TRUE, rawMessageValue
+                        )
+                    ),
+                    tap_yaml_block, LAMBDA(message,
+                        LET(
+                            indent_, LAMBDA(text,
+                                LET(
+                                    indentChars, "  ",
+                                    indentChars & SUBSTITUTE(text, LF, LF & indentChars)
+                                )
+                            ),
+                            yaml, "message: |" & LF & indent_(message),
+                            indent_(yaml)
+                        )
+                    ),
+                    IF(assert, "", "not ") &  "ok" & " " & testNumber & " -" & " " & description & LF &
+                        IF(message = "", "", "  ---" & LF & tap_yaml_block(message) & LF & "  ..." & LF)
+                )))),
+                tapTapdocument, tapVersion & tapPlan & tapBody,
+                tapTapdocument
             )
-        ),
-        header, HSTACK("testNumber", UTILS_TESTHEADER),
-        headerWithSequence, VSTACK(header, SEQUENCE(1, COLUMNS(header), 1, 1)),
-        indexOfTestNumberColumn, HLOOKUP("testNumber", headerWithSequence, 2, FALSE),
-        indexOfDescriptionColumn, HLOOKUP("description", headerWithSequence, 2, FALSE),
-        indexOfAssertColumn, HLOOKUP("assert", headerWithSequence, 2, FALSE),
-        indexOfMessageColumn, HLOOKUP("message", headerWithSequence, 2, FALSE),
-        currentHeader, INDEX(testsRange, 1,),
-        currentHeaderWithSequence, VSTACK(currentHeader, SEQUENCE(1, COLUMNS(currentHeader), 1, 1)),
-        currentIndexOfDescriptionColumn, INDEX(HLOOKUP(Index(header,, indexOfDescriptionColumn), currentHeaderWithSequence, 2, FALSE), 1, 1),
-        currentIndexOfAssertColumn, INDEX(HLOOKUP(Index(header,, indexOfAssertColumn), currentHeaderWithSequence, 2, FALSE), 1, 1),
-        currentIndexOfMessageColumn, INDEX(HLOOKUP(Index(header,, indexOfMessageColumn), currentHeaderWithSequence, 2, FALSE), 1, 1),
-        descriptionColumn, INDEX(testsRange,, currentIndexOfDescriptionColumn),
-        assertColumn, INDEX(testsRange,, currentIndexOfAssertColumn),
-        messageColumn, INDEX(testsRange,, currentIndexOfMessageColumn),
-        tests, FILTER(testsRange, INDEX(testsRange,, 1) <> ""),
-        testsCount, ROWS(tests) - 1,
-        testsWithNumber, LET(
-            testsWithSequence, HSTACK(SEQUENCE(testsCount + 1, 1, 0), tests),
-            FILTER(testsWithSequence, INDEX(testsWithSequence,, 1) > 0)
-        ),
-        tapVersion, "TAP version 14" & LF,
-        tapPlan,  "1.." & MAX(INDEX(testsWithNumber,, 1)) & LF,
-        tapBody, TEXTJOIN("", FALSE, BYROW(testsWithNumber, LAMBDA(row, LET(
-            testNumber, INDEX(row,, indexOfTestNumberColumn),
-            description, INDEX(row,, indexOfDescriptionColumn),
-            rawAssertValue, INDEX(row,, indexOfAssertColumn),
-            assert, AND(ISLOGICAL(rawAssertValue), IFERROR(rawAssertValue, FALSE)),
-            message, LET(
-                rawMessageValue, INDEX(row,, indexOfMessageColumn),
-                IFS(
-                    NOT(ISLOGICAL(rawAssertValue)), "error: The assert must be LOGICAL.",
-                    NOT(ISTEXT(rawMessageValue)), "warning: The message should be TEXT.",
-                    TRUE, rawMessageValue
-                )
-            ),
-            IF(assert, "", "not ") &  "ok" & " " & testNumber & " -" & " " & description & LF &
-            IF(message = "", "", "  ---" & LF & tap_yaml_block(message) & LF & "  ..." & LF)
-        )))),
-        tapTapdocument, tapVersion & tapPlan & tapBody,
-        tapTapdocument
+        )
     )
 );

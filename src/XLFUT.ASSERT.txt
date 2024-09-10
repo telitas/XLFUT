@@ -13,19 +13,23 @@ ASSERT_EQUAL = LAMBDA(actual, expect,
                 )
             )
         ),
-        passed, AND(
-            NOT(OR(ISOMITTED(actual), ISOMITTED(expect))),
-            IFERROR(actual = expect, FALSE)
+        errorMessage, IFS(
+            ISOMITTED(actual), "actual is required parameter",
+            OR(ISERROR(actual)), "The actual contains error: " & data_to_text(actual),
+            ISOMITTED(expect), "expect is required parameter",
+            OR(ISERROR(expect)), "The expect contains error: " & data_to_text(expect),
+            TRUE, ""
         ),
-        HSTACK(
-            passed,
-            IFS(
-                passed, "",
-                ISOMITTED(actual), "actual is required parameter",
-                ISOMITTED(expect), "expect is required parameter",
-                OR(ISERROR(expect)), "The expect contains error: " & data_to_text(expect),
-                OR(ISERROR(actual)), "The actual contains error: " & data_to_text(actual),
-                TRUE, "It is expected to = " & data_to_text(expect) & ", but actual is " & data_to_text(actual) & "."
+        IF(
+            errorMessage <> "", HSTACK(FALSE, errorMessage),
+            LET(
+                passed, AND(IFERROR(actual = expect, FALSE)),
+                HSTACK(
+                    passed,
+                    IFS(passed, "",
+                        TRUE, "It is expected to = " & data_to_text(expect) & ", but actual is " & data_to_text(actual) & "."
+                    )
+                )
             )
         )
     )
@@ -46,19 +50,23 @@ ASSERT_NOTEQUAL = LAMBDA(actual, expect,
                 )
             )
         ),
-        passed, AND(
-            NOT(OR(ISOMITTED(actual), ISOMITTED(expect))),
-            IFERROR(actual <> expect, FALSE)
+        errorMessage, IFS(
+            ISOMITTED(actual), "actual is required parameter",
+            OR(ISERROR(actual)), "The actual contains error: " & data_to_text(actual),
+            ISOMITTED(expect), "expect is required parameter",
+            OR(ISERROR(expect)), "The expect contains error: " & data_to_text(expect),
+            TRUE, ""
         ),
-        HSTACK(
-            passed,
-            IFS(
-                passed, "",
-                ISOMITTED(actual), "actual is required parameter",
-                ISOMITTED(expect), "expect is required parameter",
-                OR(ISERROR(expect)), "The expect contains error: " & data_to_text(expect),
-                OR(ISERROR(actual)), "The actual contains error: " & data_to_text(actual),
-                TRUE, "It is expected to <> " & data_to_text(expect) & ", but actual is " & data_to_text(actual) & "."
+        IF(
+            errorMessage <> "", HSTACK(FALSE, errorMessage),
+            LET(
+                passed, AND(IFERROR(actual <> expect, FALSE)),
+                HSTACK(
+                    passed,
+                    IFS(passed, "",
+                        TRUE, "It is expected to <> " & data_to_text(expect) & ", but actual is " & data_to_text(actual) & "."
+                    )
+                )
             )
         )
     )
@@ -73,28 +81,29 @@ ASSERT_EXACT = LAMBDA(actual, expect,
             LET(
                 typeOfData, TYPE(data),
                 IFS(
-                    typeOfData = 128,
-                    "compound data",
-                    typeOfData = 64,
-                    ARRAYTOTEXT(data, 1),
-                    TRUE,
-                    VALUETOTEXT(data, 1)
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
                 )
             )
         ),
-        passed, AND(
-            NOT(OR(ISOMITTED(actual), ISOMITTED(expect))),
-            IFERROR(EXACT(actual, expect), FALSE)
+        errorMessage, IFS(
+            ISOMITTED(actual), "actual is required parameter",
+            OR(ISERROR(actual)), "The actual contains error: " & data_to_text(actual),
+            ISOMITTED(expect), "expect is required parameter",
+            OR(ISERROR(expect)), "The expect contains error: " & data_to_text(expect),
+            TRUE, ""
         ),
-        HSTACK(
-            passed,
-            IFS(
-                passed, "",
-                ISOMITTED(actual), "actual is required parameter",
-                ISOMITTED(expect), "expect is required parameter",
-                OR(ISERROR(expect)), "The expect contains error: " & data_to_text(expect),
-                OR(ISERROR(actual)), "The actual contains error: " & data_to_text(actual),
-                TRUE, "It is expected to EXACT " & data_to_text(expect) & ", but actual is " & data_to_text(actual) & "."
+        IF(
+            errorMessage <> "", HSTACK(FALSE, errorMessage),
+            LET(
+                passed, AND(IFERROR(EXACT(actual, expect), FALSE)),
+                HSTACK(
+                    passed,
+                    IFS(passed, "",
+                        TRUE, "It is expected to EXACT " & data_to_text(expect) & ", but actual is " & data_to_text(actual) & "."
+                    )
+                )
             )
         )
     )
@@ -109,28 +118,29 @@ ASSERT_NOTEXACT = LAMBDA(actual, expect,
             LET(
                 typeOfData, TYPE(data),
                 IFS(
-                    typeOfData = 128,
-                    "compound data",
-                    typeOfData = 64,
-                    ARRAYTOTEXT(data, 1),
-                    TRUE,
-                    VALUETOTEXT(data, 1)
+                    typeOfData = 128, "compound data",
+                    typeOfData = 64, ARRAYTOTEXT(data, 1),
+                    TRUE, VALUETOTEXT(data, 1)
                 )
             )
         ),
-        passed, AND(
-            NOT(OR(ISOMITTED(actual), ISOMITTED(expect))),
-            IFERROR(NOT(EXACT(actual, expect)), FALSE)
+        errorMessage, IFS(
+            ISOMITTED(actual), "actual is required parameter",
+            OR(ISERROR(actual)), "The actual contains error: " & data_to_text(actual),
+            ISOMITTED(expect), "expect is required parameter",
+            OR(ISERROR(expect)), "The expect contains error: " & data_to_text(expect),
+            TRUE, ""
         ),
-        HSTACK(
-            passed,
-            IFS(
-                passed, "",
-                ISOMITTED(actual), "actual is required parameter",
-                ISOMITTED(expect), "expect is required parameter",
-                OR(ISERROR(expect)), "The expect contains error: " & data_to_text(expect),
-                OR(ISERROR(actual)), "The actual contains error: " & data_to_text(actual),
-                TRUE, "It is expected not to EXACT " & data_to_text(expect) & ", but actual is " & data_to_text(actual) & "."
+        IF(
+            errorMessage <> "", HSTACK(FALSE, errorMessage),
+            LET(
+                passed, AND(IFERROR(NOT(EXACT(actual, expect)), FALSE)),
+                HSTACK(
+                    passed,
+                    IFS(passed, "",
+                        TRUE, "It is expected not to EXACT " & data_to_text(expect) & ", but actual is " & data_to_text(actual) & "."
+                    )
+                )
             )
         )
     )
@@ -151,19 +161,23 @@ ASSERT_GREATERTHAN = LAMBDA(actual, expect,
                 )
             )
         ),
-        passed, AND(
-            NOT(OR(ISOMITTED(actual), ISOMITTED(expect))),
-            IFERROR(actual > expect, FALSE)
+        errorMessage, IFS(
+            ISOMITTED(actual), "actual is required parameter",
+            OR(ISERROR(actual)), "The actual contains error: " & data_to_text(actual),
+            ISOMITTED(expect), "expect is required parameter",
+            OR(ISERROR(expect)), "The expect contains error: " & data_to_text(expect),
+            TRUE, ""
         ),
-        HSTACK(
-            passed,
-            IFS(
-                passed, "",
-                ISOMITTED(actual), "actual is required parameter",
-                ISOMITTED(expect), "expect is required parameter",
-                OR(ISERROR(expect)), "The expect contains error: " & data_to_text(expect),
-                OR(ISERROR(actual)), "The actual contains error: " & data_to_text(actual),
-                TRUE, "It is expected to > " & data_to_text(expect) & ", but actual is " & data_to_text(actual) & "."
+        IF(
+            errorMessage <> "", HSTACK(FALSE, errorMessage),
+            LET(
+                passed, AND(IFERROR(actual > expect, FALSE)),
+                HSTACK(
+                    passed,
+                    IFS(passed, "",
+                        TRUE, "It is expected to > " & data_to_text(expect) & ", but actual is " & data_to_text(actual) & "."
+                    )
+                )
             )
         )
     )
@@ -184,19 +198,23 @@ ASSERT_GREATEROREQUAL = LAMBDA(actual, expect,
                 )
             )
         ),
-        passed, AND(
-            NOT(OR(ISOMITTED(actual), ISOMITTED(expect))),
-            IFERROR(actual >= expect, FALSE)
+        errorMessage, IFS(
+            ISOMITTED(actual), "actual is required parameter",
+            OR(ISERROR(actual)), "The actual contains error: " & data_to_text(actual),
+            ISOMITTED(expect), "expect is required parameter",
+            OR(ISERROR(expect)), "The expect contains error: " & data_to_text(expect),
+            TRUE, ""
         ),
-        HSTACK(
-            passed,
-            IFS(
-                passed, "",
-                ISOMITTED(actual), "actual is required parameter",
-                ISOMITTED(expect), "expect is required parameter",
-                OR(ISERROR(expect)), "The expect contains error: " & data_to_text(expect),
-                OR(ISERROR(actual)), "The actual contains error: " & data_to_text(actual),
-                TRUE, "It is expected to >= " & data_to_text(expect) & ", but actual is " & data_to_text(actual) & "."
+        IF(
+            errorMessage <> "", HSTACK(FALSE, errorMessage),
+            LET(
+                passed, AND(IFERROR(actual >= expect, FALSE)),
+                HSTACK(
+                    passed,
+                    IFS(passed, "",
+                        TRUE, "It is expected to >= " & data_to_text(expect) & ", but actual is " & data_to_text(actual) & "."
+                    )
+                )
             )
         )
     )
@@ -217,19 +235,23 @@ ASSERT_LESSTHAN = LAMBDA(actual, expect,
                 )
             )
         ),
-        passed, AND(
-            NOT(OR(ISOMITTED(actual), ISOMITTED(expect))),
-            IFERROR(actual < expect, FALSE)
+        errorMessage, IFS(
+            ISOMITTED(actual), "actual is required parameter",
+            OR(ISERROR(actual)), "The actual contains error: " & data_to_text(actual),
+            ISOMITTED(expect), "expect is required parameter",
+            OR(ISERROR(expect)), "The expect contains error: " & data_to_text(expect),
+            TRUE, ""
         ),
-        HSTACK(
-            passed,
-            IFS(
-                passed, "",
-                ISOMITTED(actual), "actual is required parameter",
-                ISOMITTED(expect), "expect is required parameter",
-                OR(ISERROR(expect)), "The expect contains error: " & data_to_text(expect),
-                OR(ISERROR(actual)), "The actual contains error: " & data_to_text(actual),
-                TRUE, "It is expected to < " & data_to_text(expect) & ", but actual is " & data_to_text(actual) & "."
+        IF(
+            errorMessage <> "", HSTACK(FALSE, errorMessage),
+            LET(
+                passed, AND(IFERROR(actual < expect, FALSE)),
+                HSTACK(
+                    passed,
+                    IFS(passed, "",
+                        TRUE, "It is expected to < " & data_to_text(expect) & ", but actual is " & data_to_text(actual) & "."
+                    )
+                )
             )
         )
     )
@@ -250,19 +272,23 @@ ASSERT_LESSOREQUAL = LAMBDA(actual, expect,
                 )
             )
         ),
-        passed, AND(
-            NOT(OR(ISOMITTED(actual), ISOMITTED(expect))),
-            IFERROR(actual <= expect, FALSE)
+        errorMessage, IFS(
+            ISOMITTED(actual), "actual is required parameter",
+            OR(ISERROR(actual)), "The actual contains error: " & data_to_text(actual),
+            ISOMITTED(expect), "expect is required parameter",
+            OR(ISERROR(expect)), "The expect contains error: " & data_to_text(expect),
+            TRUE, ""
         ),
-        HSTACK(
-            passed,
-            IFS(
-                passed, "",
-                ISOMITTED(actual), "actual is required parameter",
-                ISOMITTED(expect), "expect is required parameter",
-                OR(ISERROR(expect)), "The expect contains error: " & data_to_text(expect),
-                OR(ISERROR(actual)), "The actual contains error: " & data_to_text(actual),
-                TRUE, "It is expected to <= " & data_to_text(expect) & ", but actual is " & data_to_text(actual) & "."
+        IF(
+            errorMessage <> "", HSTACK(FALSE, errorMessage),
+            LET(
+                passed, AND(IFERROR(actual <= expect, FALSE)),
+                HSTACK(
+                    passed,
+                    IFS(passed, "",
+                        TRUE, "It is expected to <= " & data_to_text(expect) & ", but actual is " & data_to_text(actual) & "."
+                    )
+                )
             )
         )
     )
@@ -273,12 +299,6 @@ Determines whether the two data have same type, same rows and columns and same e
 */
 ASSERT_SAME = LAMBDA(actual, expect,
     LET(
-        typeOfActual, TYPE(actual),
-        rowsOfActual, IF(typeOfActual = 16, 1, ROWS(actual)),
-        columnsOfActual, IF(typeOfActual = 16, 1, COLUMNS(actual)),
-        typeOfExpect, TYPE(expect),
-        rowsOfExpect, IF(typeOfExpect = 16, 1, ROWS(expect)),
-        columnsOfExpect, IF(typeOfExpect = 16, 1, COLUMNS(expect)),
         data_to_text, LAMBDA(data,
             LET(
                 typeOfData, TYPE(data),
@@ -289,19 +309,32 @@ ASSERT_SAME = LAMBDA(actual, expect,
                 )
             )
         ),
-        passed, AND(
-            NOT(OR(ISOMITTED(actual), ISOMITTED(expect))),
-            typeOfActual = typeOfExpect,
-            IFERROR(AND(rowsOfActual = rowsOfExpect, columnsOfActual = columnsOfExpect), FALSE),
-            AND(IFERROR(actual = expect, IFERROR(ERROR.TYPE(actual) = ERROR.TYPE(expect), FALSE)))
+        errorMessage, IFS(
+            ISOMITTED(actual), "actual is required parameter",
+            ISOMITTED(expect), "expect is required parameter",
+            TRUE, ""
         ),
-        HSTACK(
-            passed,
-            IFS(
-                passed, "",
-                ISOMITTED(actual), "actual is required parameter",
-                ISOMITTED(expect), "expect is required parameter",
-                TRUE, "It is expected to same " & data_to_text(expect) & ", but actual is " & data_to_text(actual) & "."
+        IF(
+            errorMessage <> "", HSTACK(FALSE, errorMessage),
+            LET(
+                typeOfActual, TYPE(actual),
+                rowsOfActual, IF(typeOfActual = 16, 1, ROWS(actual)),
+                columnsOfActual, IF(typeOfActual = 16, 1, COLUMNS(actual)),
+                typeOfExpect, TYPE(expect),
+                rowsOfExpect, IF(typeOfExpect = 16, 1, ROWS(expect)),
+                columnsOfExpect, IF(typeOfExpect = 16, 1, COLUMNS(expect)),
+                passed, AND(
+                    typeOfActual = typeOfExpect,
+                    IFERROR(AND(rowsOfActual = rowsOfExpect, columnsOfActual = columnsOfExpect), FALSE),
+                    AND(IFERROR(actual = expect, IFERROR(ERROR.TYPE(actual) = ERROR.TYPE(expect), FALSE)))
+                ),
+                HSTACK(
+                    passed,
+                    IFS(
+                        passed, "",
+                        TRUE, "It is expected to same " & data_to_text(expect) & ", but actual is " & data_to_text(actual) & "."
+                    )
+                )
             )
         )
     )
@@ -322,10 +355,7 @@ ASSERT_ISNUMBER = LAMBDA(actual,
                 )
             )
         ),
-        passed, AND(
-            NOT(ISOMITTED(actual)),
-            ISNUMBER(actual)
-        ),
+        passed, AND(ISNUMBER(actual)),
         HSTACK(
             passed,
             IFS(
@@ -351,10 +381,7 @@ ASSERT_ISNOTNUMBER = LAMBDA(actual,
                 )
             )
         ),
-        passed, AND(
-            NOT(ISOMITTED(actual)),
-            NOT(ISNUMBER(actual))
-        ),
+        passed, AND(NOT(ISNUMBER(actual))),
         HSTACK(
             passed,
             IFS(
@@ -380,10 +407,7 @@ ASSERT_ISTEXT = LAMBDA(actual,
                 )
             )
         ),
-        passed, AND(
-            NOT(ISOMITTED(actual)),
-            ISTEXT(actual)
-        ),
+        passed, AND(ISTEXT(actual)),
         HSTACK(
             passed,
             IFS(
@@ -409,10 +433,7 @@ ASSERT_ISNOTTEXT = LAMBDA(actual,
                 )
             )
         ),
-        passed, AND(
-            NOT(ISOMITTED(actual)),
-            NOT(ISTEXT(actual))
-        ),
+        passed, AND(NOT(ISTEXT(actual))),
         HSTACK(
             passed,
             IFS(
@@ -438,10 +459,7 @@ ASSERT_ISLOGICAL = LAMBDA(actual,
                 )
             )
         ),
-        passed, AND(
-            NOT(ISOMITTED(actual)),
-            ISLOGICAL(actual)
-        ),
+        passed, AND(ISLOGICAL(actual)),
         HSTACK(
             passed,
             IFS(
@@ -467,10 +485,7 @@ ASSERT_ISNOTLOGICAL = LAMBDA(actual,
                 )
             )
         ),
-        passed, AND(
-            NOT(ISOMITTED(actual)),
-            NOT(ISLOGICAL(actual))
-        ),
+        passed, AND(NOT(ISLOGICAL(actual))),
         HSTACK(
             passed,
             IFS(
@@ -496,10 +511,7 @@ ASSERT_ISERROR = LAMBDA(actual,
                 )
             )
         ),
-        passed, AND(
-            NOT(ISOMITTED(actual)),
-            ISERROR(actual)
-        ),
+        passed, AND(ISERROR(actual)),
         HSTACK(
             passed,
             IFS(
@@ -525,10 +537,7 @@ ASSERT_ISNOTERROR = LAMBDA(actual,
                 )
             )
         ),
-        passed, AND(
-            NOT(ISOMITTED(actual)),
-            NOT(ISERROR(actual))
-        ),
+        passed, AND(NOT(ISERROR(actual))),
         HSTACK(
             passed,
             IFS(
@@ -554,10 +563,7 @@ ASSERT_ISARRAY = LAMBDA(actual,
                 )
             )
         ),
-        passed, AND(
-            NOT(ISOMITTED(actual)),
-            TYPE(actual) = 64
-        ),
+        passed, AND(TYPE(actual) = 64),
         HSTACK(
             passed,
             IFS(
@@ -583,10 +589,7 @@ ASSERT_ISNOTARRAY = LAMBDA(actual,
                 )
             )
         ),
-        passed, AND(
-            NOT(ISOMITTED(actual)),
-            NOT(TYPE(actual) = 64)
-        ),
+        passed, AND(NOT(TYPE(actual) = 64)),
         HSTACK(
             passed,
             IFS(
@@ -612,15 +615,12 @@ ASSERT_ISCOMPOUNDDATA = LAMBDA(actual,
                 )
             )
         ),
-        passed, AND(
-            NOT(ISOMITTED(actual)),
-            TYPE(actual) = 128
-        ),
+        passed, AND(TYPE(actual) = 128),
         HSTACK(
             passed,
             IFS(
                 passed, "",
-                TRUE, "It is expected to be compound data type, but actual is " & data_to_text(actual)
+                TRUE, "It is expected to be COMPOUN DDATA type, but actual is " & data_to_text(actual)
             )
         )
     )
@@ -641,10 +641,7 @@ ASSERT_ISNOTCOMPOUNDDATA = LAMBDA(actual,
                 )
             )
         ),
-        passed, AND(
-            NOT(ISOMITTED(actual)),
-            NOT(TYPE(actual) = 128)
-        ),
+        passed, AND(NOT(TYPE(actual) = 128)),
         HSTACK(
             passed,
             IFS(
@@ -670,10 +667,7 @@ ASSERT_ISNULL = LAMBDA(actual,
                 )
             )
         ),
-        passed, AND(
-            NOT(ISOMITTED(actual)),
-            IF(ISERROR(actual), ERROR.TYPE(actual) = 1, FALSE)
-        ),
+        passed, AND(IF(ISERROR(actual), ERROR.TYPE(actual) = 1, FALSE)),
         HSTACK(
             passed,
             IFS(
@@ -699,10 +693,7 @@ ASSERT_ISNOTNULL = LAMBDA(actual,
                 )
             )
         ),
-        passed, AND(
-            NOT(ISOMITTED(actual)),
-            NOT(IF(ISERROR(actual), ERROR.TYPE(actual) = 1, FALSE))
-        ),
+        passed, AND(NOT(IF(ISERROR(actual), ERROR.TYPE(actual) = 1, FALSE))),
         HSTACK(
             passed,
             IFS(
@@ -728,10 +719,7 @@ ASSERT_ISDIV0 = LAMBDA(actual,
                 )
             )
         ),
-        passed, AND(
-            NOT(ISOMITTED(actual)),
-            IF(ISERROR(actual), ERROR.TYPE(actual) = 2, FALSE)
-        ),
+        passed, AND(IF(ISERROR(actual), ERROR.TYPE(actual) = 2, FALSE)),
         HSTACK(
             passed,
             IFS(
@@ -757,10 +745,7 @@ ASSERT_ISNOTDIV0 = LAMBDA(actual,
                 )
             )
         ),
-        passed, AND(
-            NOT(ISOMITTED(actual)),
-            NOT(IF(ISERROR(actual), ERROR.TYPE(actual) = 2, FALSE))
-        ),
+        passed, AND(NOT(IF(ISERROR(actual), ERROR.TYPE(actual) = 2, FALSE))),
         HSTACK(
             passed,
             IFS(
@@ -786,10 +771,7 @@ ASSERT_ISVALUEERROR = LAMBDA(actual,
                 )
             )
         ),
-        passed, AND(
-            NOT(ISOMITTED(actual)),
-            IF(ISERROR(actual), ERROR.TYPE(actual) = 3, FALSE)
-        ),
+        passed, AND(IF(ISERROR(actual), ERROR.TYPE(actual) = 3, FALSE)),
         HSTACK(
             passed,
             IFS(
@@ -815,10 +797,7 @@ ASSERT_ISNOTVALUEERROR = LAMBDA(actual,
                 )
             )
         ),
-        passed, AND(
-            NOT(ISOMITTED(actual)),
-            NOT(IF(ISERROR(actual), ERROR.TYPE(actual) = 3, FALSE))
-        ),
+        passed, AND(NOT(IF(ISERROR(actual), ERROR.TYPE(actual) = 3, FALSE))),
         HSTACK(
             passed,
             IFS(
@@ -844,10 +823,7 @@ ASSERT_ISREFERROR = LAMBDA(actual,
                 )
             )
         ),
-        passed, AND(
-            NOT(ISOMITTED(actual)),
-            IF(ISERROR(actual), ERROR.TYPE(actual) = 4, FALSE)
-        ),
+        passed, AND(IF(ISERROR(actual), ERROR.TYPE(actual) = 4, FALSE)),
         HSTACK(
             passed,
             IFS(
@@ -873,10 +849,7 @@ ASSERT_ISNOTREFERROR = LAMBDA(actual,
                 )
             )
         ),
-        passed, AND(
-            NOT(ISOMITTED(actual)),
-            NOT(IF(ISERROR(actual), ERROR.TYPE(actual) = 4, FALSE))
-        ),
+        passed, AND(NOT(IF(ISERROR(actual), ERROR.TYPE(actual) = 4, FALSE))),
         HSTACK(
             passed,
             IFS(
@@ -902,10 +875,7 @@ ASSERT_ISNAMEERROR = LAMBDA(actual,
                 )
             )
         ),
-        passed, AND(
-            NOT(ISOMITTED(actual)),
-            IF(ISERROR(actual), ERROR.TYPE(actual) = 5, FALSE)
-        ),
+        passed, AND(IF(ISERROR(actual), ERROR.TYPE(actual) = 5, FALSE)),
         HSTACK(
             passed,
             IFS(
@@ -931,10 +901,7 @@ ASSERT_ISNOTNAMEERROR = LAMBDA(actual,
                 )
             )
         ),
-        passed, AND(
-            NOT(ISOMITTED(actual)),
-            NOT(IF(ISERROR(actual), ERROR.TYPE(actual) = 5, FALSE))
-        ),
+        passed, AND(NOT(IF(ISERROR(actual), ERROR.TYPE(actual) = 5, FALSE))),
         HSTACK(
             passed,
             IFS(
@@ -960,10 +927,7 @@ ASSERT_ISNUMERROR = LAMBDA(actual,
                 )
             )
         ),
-        passed, AND(
-            NOT(ISOMITTED(actual)),
-            IF(ISERROR(actual), ERROR.TYPE(actual) = 6, FALSE)
-        ),
+        passed, AND(IF(ISERROR(actual), ERROR.TYPE(actual) = 6, FALSE)),
         HSTACK(
             passed,
             IFS(
@@ -989,10 +953,7 @@ ASSERT_ISNOTNUMERROR = LAMBDA(actual,
                 )
             )
         ),
-        passed, AND(
-            NOT(ISOMITTED(actual)),
-            NOT(IF(ISERROR(actual), ERROR.TYPE(actual) = 6, FALSE))
-        ),
+        passed, AND(NOT(IF(ISERROR(actual), ERROR.TYPE(actual) = 6, FALSE))),
         HSTACK(
             passed,
             IFS(
@@ -1018,10 +979,7 @@ ASSERT_ISNA = LAMBDA(actual,
                 )
             )
         ),
-        passed, AND(
-            NOT(ISOMITTED(actual)),
-            ISNA(actual)
-        ),
+        passed, AND(ISNA(actual)),
         HSTACK(
             passed,
             IFS(
@@ -1047,10 +1005,7 @@ ASSERT_ISNOTNA = LAMBDA(actual,
                 )
             )
         ),
-        passed, AND(
-            NOT(ISOMITTED(actual)),
-            NOT(ISNA(actual))
-        ),
+        passed, AND(NOT(ISNA(actual))),
         HSTACK(
             passed,
             IFS(
@@ -1076,10 +1031,7 @@ ASSERT_ISGETTING_DATA = LAMBDA(actual,
                 )
             )
         ),
-        passed, AND(
-            NOT(ISOMITTED(actual)),
-            IF(ISERROR(actual), ERROR.TYPE(actual) = 8, FALSE)
-        ),
+        passed, AND(IF(ISERROR(actual), ERROR.TYPE(actual) = 8, FALSE)),
         HSTACK(
             passed,
             IFS(
@@ -1105,10 +1057,7 @@ ASSERT_ISNOTGETTING_DATA = LAMBDA(actual,
                 )
             )
         ),
-        passed, AND(
-            NOT(ISOMITTED(actual)),
-            NOT(IF(ISERROR(actual), ERROR.TYPE(actual) = 8, FALSE))
-        ),
+        passed, AND(NOT(IF(ISERROR(actual), ERROR.TYPE(actual) = 8, FALSE))),
         HSTACK(
             passed,
             IFS(
@@ -1134,10 +1083,7 @@ ASSERT_ISSPILLERROR = LAMBDA(actual,
                 )
             )
         ),
-        passed, AND(
-            NOT(ISOMITTED(actual)),
-            IF(ISERROR(actual), ERROR.TYPE(actual) = 9, FALSE)
-        ),
+        passed, AND(IF(ISERROR(actual), ERROR.TYPE(actual) = 9, FALSE)),
         HSTACK(
             passed,
             IFS(
@@ -1163,10 +1109,7 @@ ASSERT_ISNOTSPILLERROR = LAMBDA(actual,
                 )
             )
         ),
-        passed, AND(
-            NOT(ISOMITTED(actual)),
-            NOT(IF(ISERROR(actual), ERROR.TYPE(actual) = 9, FALSE))
-        ),
+        passed, AND(NOT(IF(ISERROR(actual), ERROR.TYPE(actual) = 9, FALSE))),
         HSTACK(
             passed,
             IFS(
@@ -1192,10 +1135,7 @@ ASSERT_ISCONNECTERROR = LAMBDA(actual,
                 )
             )
         ),
-        passed, AND(
-            NOT(ISOMITTED(actual)),
-            IF(ISERROR(actual), ERROR.TYPE(actual) = 10, FALSE)
-        ),
+        passed, AND(IF(ISERROR(actual), ERROR.TYPE(actual) = 10, FALSE)),
         HSTACK(
             passed,
             IFS(
@@ -1221,10 +1161,7 @@ ASSERT_ISNOTCONNECTERROR = LAMBDA(actual,
                 )
             )
         ),
-        passed, AND(
-            NOT(ISOMITTED(actual)),
-            NOT(IF(ISERROR(actual), ERROR.TYPE(actual) = 10, FALSE))
-        ),
+        passed, AND(NOT(IF(ISERROR(actual), ERROR.TYPE(actual) = 10, FALSE))),
         HSTACK(
             passed,
             IFS(
@@ -1250,10 +1187,7 @@ ASSERT_ISBLOCKED = LAMBDA(actual,
                 )
             )
         ),
-        passed, AND(
-            NOT(ISOMITTED(actual)),
-            IF(ISERROR(actual), ERROR.TYPE(actual) = 11, FALSE)
-        ),
+        passed, AND(IF(ISERROR(actual), ERROR.TYPE(actual) = 11, FALSE)),
         HSTACK(
             passed,
             IFS(
@@ -1279,10 +1213,7 @@ ASSERT_ISNOTBLOCKED = LAMBDA(actual,
                 )
             )
         ),
-        passed, AND(
-            NOT(ISOMITTED(actual)),
-            NOT(IF(ISERROR(actual), ERROR.TYPE(actual) = 11, FALSE))
-        ),
+        passed, AND(NOT(IF(ISERROR(actual), ERROR.TYPE(actual) = 11, FALSE))),
         HSTACK(
             passed,
             IFS(
@@ -1308,10 +1239,7 @@ ASSERT_ISUNKNOWN = LAMBDA(actual,
                 )
             )
         ),
-        passed, AND(
-            NOT(ISOMITTED(actual)),
-            IF(ISERROR(actual), ERROR.TYPE(actual) = 12, FALSE)
-        ),
+        passed, AND(IF(ISERROR(actual), ERROR.TYPE(actual) = 12, FALSE)),
         HSTACK(
             passed,
             IFS(
@@ -1337,10 +1265,7 @@ ASSERT_ISNOTUNKNOWN = LAMBDA(actual,
                 )
             )
         ),
-        passed, AND(
-            NOT(ISOMITTED(actual)),
-            NOT(IF(ISERROR(actual), ERROR.TYPE(actual) = 12, FALSE))
-        ),
+        passed, AND(NOT(IF(ISERROR(actual), ERROR.TYPE(actual) = 12, FALSE))),
         HSTACK(
             passed,
             IFS(
@@ -1366,10 +1291,7 @@ ASSERT_ISFIELDERROR = LAMBDA(actual,
                 )
             )
         ),
-        passed, AND(
-            NOT(ISOMITTED(actual)),
-            IF(ISERROR(actual), ERROR.TYPE(actual) = 13, FALSE)
-        ),
+        passed, AND(IF(ISERROR(actual), ERROR.TYPE(actual) = 13, FALSE)),
         HSTACK(
             passed,
             IFS(
@@ -1395,10 +1317,7 @@ ASSERT_ISNOTFIELDERROR = LAMBDA(actual,
                 )
             )
         ),
-        passed, AND(
-            NOT(ISOMITTED(actual)),
-            NOT(IF(ISERROR(actual), ERROR.TYPE(actual) = 13, FALSE))
-        ),
+        passed, AND(NOT(IF(ISERROR(actual), ERROR.TYPE(actual) = 13, FALSE))),
         HSTACK(
             passed,
             IFS(
@@ -1424,10 +1343,7 @@ ASSERT_ISCALCERROR = LAMBDA(actual,
                 )
             )
         ),
-        passed, AND(
-            NOT(ISOMITTED(actual)),
-            IF(ISERROR(actual), ERROR.TYPE(actual) = 14, FALSE)
-        ),
+        passed, AND(IF(ISERROR(actual), ERROR.TYPE(actual) = 14, FALSE)),
         HSTACK(
             passed,
             IFS(
@@ -1453,10 +1369,7 @@ ASSERT_ISNOTCALCERROR = LAMBDA(actual,
                 )
             )
         ),
-        passed, AND(
-            NOT(ISOMITTED(actual)),
-            NOT(IF(ISERROR(actual), ERROR.TYPE(actual) = 14, FALSE))
-        ),
+        passed, AND(NOT(IF(ISERROR(actual), ERROR.TYPE(actual) = 14, FALSE))),
         HSTACK(
             passed,
             IFS(
@@ -1482,15 +1395,12 @@ ASSERT_ISBLANK = LAMBDA(actual,
                 )
             )
         ),
-        passed, AND(
-            NOT(ISOMITTED(actual)),
-            ISBLANK(actual)
-        ),
+        passed, AND(ISBLANK(actual)),
         HSTACK(
             passed,
             IFS(
                 passed, "",
-                TRUE, "It is expected to BLANK, but actual is " & data_to_text(actual)
+                TRUE, "It is expected to be BLANK, but actual is " & data_to_text(actual)
             )
         )
     )
@@ -1511,15 +1421,12 @@ ASSERT_ISNOTBLANK = LAMBDA(actual,
                 )
             )
         ),
-        passed, AND(
-            NOT(ISOMITTED(actual)),
-            NOT(ISBLANK(actual))
-        ),
+        passed, AND(NOT(ISBLANK(actual))),
         HSTACK(
             passed,
             IFS(
                 passed, "",
-                TRUE, "It is expected not to BLANK, but actual is " & data_to_text(actual)
+                TRUE, "It is expected not to be BLANK, but actual is " & data_to_text(actual)
             )
         )
     )
@@ -1540,15 +1447,12 @@ ASSERT_ISREF = LAMBDA(actual,
                 )
             )
         ),
-        passed, AND(
-            NOT(ISOMITTED(actual)),
-            ISREF(actual)
-        ),
+        passed, AND(ISREF(actual)),
         HSTACK(
             passed,
             IFS(
                 passed, "",
-                TRUE, "It is expected to REF, but actual is " & data_to_text(actual)
+                TRUE, "It is expected to be REF, but actual is " & data_to_text(actual)
             )
         )
     )
@@ -1569,15 +1473,12 @@ ASSERT_ISNOTREF = LAMBDA(actual,
                 )
             )
         ),
-        passed, AND(
-            NOT(ISOMITTED(actual)),
-            NOT(ISREF(actual))
-        ),
+        passed, AND(NOT(ISREF(actual))),
         HSTACK(
             passed,
             IFS(
                 passed, "",
-                TRUE, "It is expected not to REF, but actual is " & data_to_text(actual)
+                TRUE, "It is expected not to be REF, but actual is " & data_to_text(actual)
             )
         )
     )
@@ -1591,7 +1492,7 @@ ASSERT_AND = LAMBDA(results,
         indent_, LAMBDA(text,
             LET(
                 LF, CHAR(10),
-                indentChars, "  ",
+                indentChars, "    ",
                 indentChars & SUBSTITUTE(text, LF, LF & indentChars)
             )
         ),
@@ -1610,7 +1511,7 @@ ASSERT_OR = LAMBDA(results,
         indent_, LAMBDA(text,
             LET(
                 LF, CHAR(10),
-                indentChars, "  ",
+                indentChars, "    ",
                 indentChars & SUBSTITUTE(text, LF, LF & indentChars)
             )
         ),
@@ -1636,20 +1537,24 @@ ASSERT_IN = LAMBDA(actual, expect,
                 )
             )
         ),
-        passed, AND(
-            NOT(OR(ISOMITTED(actual), ISOMITTED(expect))),
-            AND(NOT(ISERROR(expect))),
-            IFERROR(AND(MAP(actual, LAMBDA(element, OR(IFERROR(expect = element, FALSE))))), FALSE)
+        errorMessage, IFS(
+            ISOMITTED(actual), "actual is required parameter",
+            OR(ISERROR(actual)), "The actual contains error: " & data_to_text(actual),
+            ISOMITTED(expect), "expect is required parameter",
+            OR(ISERROR(expect)), "The expect contains error: " & data_to_text(expect),
+            TRUE, ""
         ),
-        HSTACK(
-            passed,
-            IFS(
-                passed, "",
-                ISOMITTED(actual), "actual is required parameter",
-                ISOMITTED(expect), "expect is required parameter",
-                OR(ISERROR(expect)), "The expect contains error: " & data_to_text(expect),
-                OR(ISERROR(actual)), "The actual contains error: " & data_to_text(actual),
-                TRUE, "It is expected to be in " & data_to_text(expect) & ", but actual is " & data_to_text(actual) & "."
+        IF(
+            errorMessage <> "", HSTACK(FALSE, errorMessage),
+            LET(
+                passed, AND(IFERROR(AND(MAP(actual, LAMBDA(element, OR(IFERROR(expect = element, FALSE))))), FALSE)),
+                HSTACK(
+                    passed,
+                    IFS(
+                        passed, "",
+                        TRUE, "It is expected to be in " & data_to_text(expect) & ", but actual is " & data_to_text(actual) & "."
+                    )
+                )
             )
         )
     )
@@ -1670,20 +1575,24 @@ ASSERT_NOTIN = LAMBDA(actual, expect,
                 )
             )
         ),
-        passed, AND(
-            NOT(OR(ISOMITTED(actual), ISOMITTED(expect))),
-            AND(NOT(ISERROR(expect))),
-            IFERROR(AND(NOT(MAP(actual, LAMBDA(element, OR(IFERROR(expect = element, FALSE)))))), FALSE)
+        errorMessage, IFS(
+            ISOMITTED(actual), "actual is required parameter",
+            OR(ISERROR(actual)), "The actual contains error: " & data_to_text(actual),
+            ISOMITTED(expect), "expect is required parameter",
+            OR(ISERROR(expect)), "The expect contains error: " & data_to_text(expect),
+            TRUE, ""
         ),
-        HSTACK(
-            passed,
-            IFS(
-                passed, "",
-                ISOMITTED(actual), "actual is required parameter",
-                ISOMITTED(expect), "expect is required parameter",
-                OR(ISERROR(expect)), "The expect contains error: " & data_to_text(expect),
-                OR(ISERROR(actual)), "The actual contains error: " & data_to_text(actual),
-                TRUE, "It is expected to be not in " & data_to_text(expect) & ", but actual is " & data_to_text(actual) & "."
+        IF(
+            errorMessage <> "", HSTACK(FALSE, errorMessage),
+            LET(
+                passed, AND(IFERROR(AND(NOT(MAP(actual, LAMBDA(element, OR(IFERROR(expect = element, FALSE)))))), FALSE)),
+                HSTACK(
+                    passed,
+                    IFS(
+                        passed, "",
+                        TRUE, "It is expected to be not in " & data_to_text(expect) & ", but actual is " & data_to_text(actual) & "."
+                    )
+                )
             )
         )
     )
@@ -1694,11 +1603,6 @@ Determines whether the data has expected rows and columns.
 */
 ASSERT_SIZE = LAMBDA(data, rows, columns,
     LET(
-        typeOfData, TYPE(data),
-        rowsIsOmitted, ISOMITTED(rows),
-        columnsIsOmitted, ISOMITTED(columns),
-        rowsOfData, IF(typeOfData = 16, 1, ROWS(data)),
-        columnsOfData, IF(typeOfData = 16, 1, COLUMNS(data)),
         data_to_text, LAMBDA(data,
             LET(
                 typeOfData, TYPE(data),
@@ -1709,17 +1613,29 @@ ASSERT_SIZE = LAMBDA(data, rows, columns,
                 )
             )
         ),
-        passed, AND(
-            NOT(ISOMITTED(data)),
-            OR(rowsIsOmitted, IFERROR(ROWS(data) = rows, FALSE)),
-            OR(columnsIsOmitted, IFERROR(COLUMNS(data) = columns, FALSE))
+        errorMessage, IFS(
+            ISOMITTED(data), "data is required parameter",
+            TRUE, ""
         ),
-        HSTACK(
-            passed,
-            IFS(
-                passed, "",
-                ISOMITTED(data), "data is required parameter",
-                TRUE, "It is expected to be " & IF(rowsIsOmitted, "m", rows) & "x" & IF(columnsIsOmitted, "n", columns) & ", but actual is " & rowsOfData & "x" & columnsOfData & " (" & data_to_text(data) & ")."
+        IF(
+            errorMessage <> "", HSTACK(FALSE, errorMessage),
+            LET(
+                typeOfData, TYPE(data),
+                rowsIsOmitted, ISOMITTED(rows),
+                columnsIsOmitted, ISOMITTED(columns),
+                rowsOfData, IF(typeOfData = 16, 1, ROWS(data)),
+                columnsOfData, IF(typeOfData = 16, 1, COLUMNS(data)),
+                passed, AND(
+                    OR(rowsIsOmitted, IFERROR(ROWS(data) = rows, FALSE)),
+                    OR(columnsIsOmitted, IFERROR(COLUMNS(data) = columns, FALSE))
+                ),
+                HSTACK(
+                    passed,
+                    IFS(
+                        passed, "",
+                        TRUE, "It is expected to be " & IF(rowsIsOmitted, "m", rows) & "x" & IF(columnsIsOmitted, "n", columns) & ", but actual is " & rowsOfData & "x" & columnsOfData & " (" & data_to_text(data) & ")."
+                    )
+                )
             )
         )
     )
@@ -1730,7 +1646,6 @@ Evaluate any logical formula and display customized error message.
 */
 ASSERT_EVALUATE = LAMBDA(logicalFormula, message,
     LET(
-        logicalFormulaIsLogical, TYPE(logicalFormula) = 4,
         data_to_text, LAMBDA(data,
             LET(
                 typeOfData, TYPE(data),
@@ -1741,18 +1656,33 @@ ASSERT_EVALUATE = LAMBDA(logicalFormula, message,
                 )
             )
         ),
-        passed, AND(
-            logicalFormulaIsLogical,
-            IFERROR(logicalFormula = TRUE, FALSE)
+        errorMessage, IFS(
+            ISOMITTED(logicalFormula), "logicalFormula is required parameter",
+            NOT(TYPE(logicalFormula) = 4), "logicalFormula must be logical type, but actual is " & data_to_text(logicalFormula),
+            TRUE, ""
         ),
-        HSTACK(
-            passed,
-            IFS(
-                passed, "",
-                ISOMITTED(logicalFormula), "logicalFormula is required parameter",
-                ISOMITTED(message), "logicalFormula is FALSE",
-                NOT(logicalFormulaIsLogical), "logicalFormula must be logical type, but actual is " & data_to_text(logicalFormula),
-                TRUE, message
+        IF(
+            errorMessage <> "", HSTACK(FALSE, errorMessage),
+            LET(
+                data_to_text, LAMBDA(data,
+                    LET(
+                        typeOfData, TYPE(data),
+                        IFS(
+                            typeOfData = 128, "compound data",
+                            typeOfData = 64, ARRAYTOTEXT(data, 1),
+                            TRUE, VALUETOTEXT(data, 1)
+                        )
+                    )
+                ),
+                passed, AND(IFERROR(logicalFormula = TRUE, FALSE)),
+                HSTACK(
+                    passed,
+                    IFS(
+                        passed, "",
+                        ISOMITTED(message), "logicalFormula is FALSE",
+                        TRUE, message
+                    )
+                )
             )
         )
     )
