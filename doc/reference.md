@@ -12,21 +12,21 @@ Back to [README](../README.md)
 XLFUT has nested namespace structure.
 
 ```txt
-XLFUT┬(functions)
-     ├ASSERT─(functions)
-     └UTILS─(functions)
+XLFUT┬(functions and formulas)
+     ├ASSERT─(functions and formulas)
+     └UTILS─(functions and formulas)
 ```
 
 Top level namespace is represented as front string separated by ".".
 Second or subsequent level namespace is represented as prefix separated by "_".
 
 ```txt
-XLFUT.<function name>
-XLFUT.ASSERT_<function name>
-XLFUT.UTILS_<function name>
+XLFUT.<function or formula name>
+XLFUT.ASSERT_<function or formula name>
+XLFUT.UTILS_<function or formula name>
 ```
 
-## Function refereneces
+## Functions and formulas refereneces
 
 ### XLFUT
 
@@ -34,23 +34,9 @@ XLFUT.UTILS_<function name>
 
 Return the version of XLFUT.
 
-<dl>
-  <dt>parameters</dt>
-  <dd>None</dd>
-  <dt>return</dt>
-  <dd>TEXT: version of XLFUT</dd>
-</dl>
-
 #### LICENSE
 
 Return the license term of XLFUT.
-
-<dl>
-  <dt>parameters</dt>
-  <dd>None</dd>
-  <dt>return</dt>
-  <dd>TEXT: license term of XLFUT</dd>
-</dl>
 
 ### XLFUT.ASSERT
 

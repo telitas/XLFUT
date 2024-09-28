@@ -12,21 +12,21 @@
 XLFUTは入れ子になった名前空間構造を持っています。
 
 ```txt
-XLFUT┬(関数群)
-     ├ASSERT─(関数群)
-     └UTILS─(関数群)
+XLFUT┬(関数・数式群)
+     ├ASSERT─(関数・数式群)
+     └UTILS─(関数・数式群)
 ```
 
 最上位の名前空間は、"."で区切られた前方の文字列で表現されます。
 次点またはそれ以降の名前空間は、"_"で区切られた接頭辞で表現されます。
 
 ```txt
-XLFUT.<function name>
-XLFUT.ASSERT_<function name>
-XLFUT.UTILS_<function name>
+XLFUT.<関数/数式名>
+XLFUT.ASSERT_<関数/数式名>
+XLFUT.UTILS_<関数/数式名>
 ```
 
-## 関数リファレンス
+## 関数・数式リファレンス
 
 ### XLFUT
 
@@ -34,23 +34,9 @@ XLFUT.UTILS_<function name>
 
 XLFUTのバージョンを返します。
 
-<dl>
-  <dt>引数</dt>
-  <dd>無し</dd>
-  <dt>戻り値</dt>
-  <dd>TEXT: XLFUTのバージョン</dd>
-</dl>
-
 #### LICENSE
 
 XLFUTのライセンス文を返します。
-
-<dl>
-  <dt>引数</dt>
-  <dd>無し</dd>
-  <dt>戻り値</dt>
-  <dd>TEXT: XLFUTのライセンス文</dd>
-</dl>
 
 ### XLFUT.ASSERT
 
