@@ -1,1922 +1,3256 @@
 ﻿description,cell_for_ref,formula,message,assert
-LICENSE show,,=XLFUT.LICENSE,,"=ISTEXT(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)))"
-VERSION show,,=XLFUT.VERSION,,"=ISTEXT(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)))"
+LICENSE show,,=XLFUT.LICENSE,,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TEXTJOIN(CHAR(10), FALSE,
+    ""MIT License"",
+    """",
+    ""Copyright (c) 2023 telitas"",
+    """",
+    ""Permission is hereby granted, free of charge, to any person obtaining a copy"",
+    ""of this software and associated documentation files (the """"Software""""), to deal"",
+    ""in the Software without restriction, including without limitation the rights"",
+    ""to use, copy, modify, merge, publish, distribute, sublicense, and/or sell"",
+    ""copies of the Software, and to permit persons to whom the Software is"",
+    ""furnished to do so, subject to the following conditions:"",
+    """",
+    ""The above copyright notice and this permission notice shall be included in all"",
+    ""copies or substantial portions of the Software."",
+    """",
+    ""THE SOFTWARE IS PROVIDED """"AS IS"""", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR"",
+    ""IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,"",
+    ""FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE"",
+    ""AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER"",
+    ""LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,"",
+    ""OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE"",
+    ""SOFTWARE.""
+)"
+VERSION show,,=XLFUT.VERSION,,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = ""0.0.1"""
 ASSERT_EQUAL nonerror value compare to equal is passed,,"=LET(
     actual, 1,
     expect, 1,
     XLFUT.ASSERT_EQUAL(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_EQUAL nonerror value compare to greater returns false,,"=LET(
     actual, 2,
     expect, 1,
     XLFUT.ASSERT_EQUAL(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to = 1, but actual is 2.""
+)"
 ASSERT_EQUAL nonerror value compare to lesser returns false,,"=LET(
     actual, 0,
     expect, 1,
     XLFUT.ASSERT_EQUAL(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to = 1, but actual is 0.""
+)"
 ASSERT_EQUAL array compare to same size array is passed,,"=LET(
     actual, {1,2,3,4;""a"",""b"",""c"",""d"";TRUE,TRUE,FALSE,FALSE},
     expect, {1,2,3,4;""a"",""b"",""c"",""d"";TRUE,TRUE,FALSE,FALSE},
     XLFUT.ASSERT_EQUAL(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_EQUAL lower case compare to lower case returns true,,"=LET(
     actual, ""a"",
     expect, ""a"",
     XLFUT.ASSERT_EQUAL(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_EQUAL lower case compare to upper case returns true,,"=LET(
     actual, ""A"",
     expect, ""a"",
     XLFUT.ASSERT_EQUAL(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_EQUAL number compare to text returns false,,"=LET(
     actual, ""1"",
     expect, 1,
     XLFUT.ASSERT_EQUAL(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to = 1, but actual is """"1"""".""
+)"
 ASSERT_EQUAL array compare to same size array is passed,,"=LET(
     actual, {1,2,3,4;""a"",""b"",""c"",""d"";TRUE,TRUE,FALSE,FALSE},
     expect, {1,2,3,4;""a"",""b"",""c"",""d"";TRUE,TRUE,FALSE,FALSE},
     XLFUT.ASSERT_EQUAL(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_EQUAL array compare to same elements array returns false,,"=LET(
     actual, {1,2,3,4,""a"",""b"",""c"",""d"",TRUE,TRUE,FALSE,FALSE},
     expect, {1,2,3,4;""a"",""b"",""c"",""d"";TRUE,TRUE,FALSE,FALSE},
     XLFUT.ASSERT_EQUAL(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to = {1,2,3,4;""""a"""",""""b"""",""""c"""",""""d"""";TRUE,TRUE,FALSE,FALSE}, but actual is {1,2,3,4,""""a"""",""""b"""",""""c"""",""""d"""",TRUE,TRUE,FALSE,FALSE}.""
+)"
 ASSERT_EQUAL array compare to value is passed,,"=LET(
     actual, {1,1,1;1,1,1},
     expect, 1,
     XLFUT.ASSERT_EQUAL(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_EQUAL error compare to nonerror returns false,,"=LET(
     actual, #NULL!,
     expect, 1,
     XLFUT.ASSERT_EQUAL(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""The actual contains error: #NULL!""
+)"
 ASSERT_EQUAL error compare to sameerror returns false,,"=LET(
     actual, #NULL!,
     expect, #NULL!,
     XLFUT.ASSERT_EQUAL(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""The actual contains error: #NULL!""
+)"
 ASSERT_EQUAL error compare to dirrerenterror returns false,,"=LET(
     actual, #NULL!,
     expect, #NULL!,
     XLFUT.ASSERT_EQUAL(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""The actual contains error: #NULL!""
+)"
 ASSERT_EQUAL array contains error returns false,,"=LET(
     actual, {2,#NULL!},
     expect, {2,#NULL!},
     XLFUT.ASSERT_EQUAL(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""The actual contains error: {2,#NULL!}""
+)"
 ASSERT_EQUAL no message on success,,"=LET(
     actual, 1,
     expect, 1,
     XLFUT.ASSERT_EQUAL(actual, expect)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_EQUAL display message on failure,,"=LET(
     actual, 2,
     expect, 1,
     XLFUT.ASSERT_EQUAL(actual, expect)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to = 1, but actual is 2.""
+)"
 ASSERT_EQUAL omit actual parameter returns false,,"=LET(
     actual, 1,
     expect, 1,
     XLFUT.ASSERT_EQUAL(, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""actual is required parameter""
+)"
 ASSERT_EQUAL omit expect parameter returns false,,"=LET(
     actual, 1,
     expect, 1,
     XLFUT.ASSERT_EQUAL(actual, )
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""expect is required parameter""
+)"
 ASSERT_EQUAL omit all parameters,,"=LET(
     actual, 1,
     expect, 1,
     XLFUT.ASSERT_EQUAL(, )
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""actual is required parameter""
+)"
 ASSERT_NOTEQUAL nonerror value compare to equal returns false,,"=LET(
     actual, 1,
     expect, 1,
     XLFUT.ASSERT_NOTEQUAL(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to <> 1, but actual is 1.""
+)"
 ASSERT_NOTEQUAL nonerror value compare to greater is passed,,"=LET(
     actual, 2,
     expect, 1,
     XLFUT.ASSERT_NOTEQUAL(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_NOTEQUAL nonerror value compare to lesser is passed,,"=LET(
     actual, 0,
     expect, 1,
     XLFUT.ASSERT_NOTEQUAL(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_NOTEQUAL lower case compare to lower case returns false,,"=LET(
     actual, ""a"",
     expect, ""a"",
     XLFUT.ASSERT_NOTEQUAL(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to <> """"a"""", but actual is """"a"""".""
+)"
 ASSERT_NOTEQUAL lower case compare to upper case returns false,,"=LET(
     actual, ""A"",
     expect, ""a"",
     XLFUT.ASSERT_NOTEQUAL(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to <> """"a"""", but actual is """"A"""".""
+)"
 ASSERT_NOTEQUAL number compare to text returns true,,"=LET(
     actual, ""1"",
     expect, 1,
     XLFUT.ASSERT_NOTEQUAL(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_NOTEQUAL array compare to same size array is passed,,"=LET(
     actual, {5,6,7,8;""e"",""f"",""g"",""h"";FALSE,FALSE,TRUE,TRUE},
     expect, {1,2,3,4;""a"",""b"",""c"",""d"";TRUE,TRUE,FALSE,FALSE},
     XLFUT.ASSERT_NOTEQUAL(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_NOTEQUAL array compare to same elements array returns false,,"=LET(
     actual, {5,6,7,8,""e"",""f"",""g"",""h"",FALSE,FALSE,TRUE,TRUE},
     expect, {1,2,3,4;""a"",""b"",""c"",""d"";TRUE,TRUE,FALSE,FALSE},
     XLFUT.ASSERT_NOTEQUAL(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to <> {1,2,3,4;""""a"""",""""b"""",""""c"""",""""d"""";TRUE,TRUE,FALSE,FALSE}, but actual is {5,6,7,8,""""e"""",""""f"""",""""g"""",""""h"""",FALSE,FALSE,TRUE,TRUE}.""
+)"
 ASSERT_NOTEQUAL array compare to value is passed,,"=LET(
     actual, {0,2,0;2,0,2},
     expect, 1,
     XLFUT.ASSERT_NOTEQUAL(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_NOTEQUAL error compare to nonerror returns false,,"=LET(
     actual, #NULL!,
     expect, 1,
     XLFUT.ASSERT_NOTEQUAL(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""The actual contains error: #NULL!""
+)"
 ASSERT_NOTEQUAL error compare to sameerror returns false,,"=LET(
     actual, #NULL!,
     expect, #NULL!,
     XLFUT.ASSERT_NOTEQUAL(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""The actual contains error: #NULL!""
+)"
 ASSERT_NOTEQUAL error compare to dirrerenterror returns false,,"=LET(
     actual, #NULL!,
     expect, #NULL!,
     XLFUT.ASSERT_NOTEQUAL(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""The actual contains error: #NULL!""
+)"
 ASSERT_NOTEQUAL array contains error returns false,,"=LET(
     actual, {1,#NULL!},
     expect, {2,#NULL!},
     XLFUT.ASSERT_NOTEQUAL(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""The actual contains error: {1,#NULL!}""
+)"
 ASSERT_NOTEQUAL no message on success,,"=LET(
     actual, 0,
     expect, 1,
     XLFUT.ASSERT_NOTEQUAL(actual, expect)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_NOTEQUAL display message on failure,,"=LET(
     actual, 1,
     expect, 1,
     XLFUT.ASSERT_NOTEQUAL(actual, expect)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to <> 1, but actual is 1.""
+)"
 ASSERT_NOTEQUAL omit actual parameter returns false,,"=LET(
     actual, 1,
     expect, 1,
     XLFUT.ASSERT_NOTEQUAL(, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""actual is required parameter""
+)"
 ASSERT_NOTEQUAL omit expect parameter returns false,,"=LET(
     actual, 1,
     expect, 1,
     XLFUT.ASSERT_NOTEQUAL(actual, )
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""expect is required parameter""
+)"
 ASSERT_NOTEQUAL omit all parameters,,"=LET(
     actual, 1,
     expect, 1,
     XLFUT.ASSERT_NOTEQUAL(, )
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""actual is required parameter""
+)"
 ASSERT_EXACT nonerror value compare to equal is passed,,"=LET(
     actual, 1,
     expect, 1,
     XLFUT.ASSERT_EXACT(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_EXACT nonerror value compare to greater returns false,,"=LET(
     actual, 2,
     expect, 1,
     XLFUT.ASSERT_EXACT(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to EXACT 1, but actual is 2.""
+)"
 ASSERT_EXACT nonerror value compare to lesser returns false,,"=LET(
     actual, 0,
     expect, 1,
     XLFUT.ASSERT_EXACT(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to EXACT 1, but actual is 0.""
+)"
 ASSERT_EXACT array compare to same size array is passed,,"=LET(
     actual, {1,2,3,4;""a"",""b"",""c"",""d"";TRUE,TRUE,FALSE,FALSE},
     expect, {1,2,3,4;""a"",""b"",""c"",""d"";TRUE,TRUE,FALSE,FALSE},
     XLFUT.ASSERT_EXACT(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_EXACT lower case compare to lower case returns true,,"=LET(
     actual, ""a"",
     expect, ""a"",
     XLFUT.ASSERT_EXACT(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_EXACT lower case compare to upper case returns false,,"=LET(
     actual, ""A"",
     expect, ""a"",
     XLFUT.ASSERT_EXACT(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to EXACT """"a"""", but actual is """"A"""".""
+)"
 ASSERT_EXACT number compare to text returns true,,"=LET(
     actual, ""1"",
     expect, 1,
     XLFUT.ASSERT_EXACT(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_EXACT array compare to same size array is passed,,"=LET(
     actual, {1,2,3,4;""a"",""b"",""c"",""d"";TRUE,TRUE,FALSE,FALSE},
     expect, {1,2,3,4;""a"",""b"",""c"",""d"";TRUE,TRUE,FALSE,FALSE},
     XLFUT.ASSERT_EXACT(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_EXACT array compare to same elements array returns false,,"=LET(
     actual, {1,2,3,4,""a"",""b"",""c"",""d"",TRUE,TRUE,FALSE,FALSE},
     expect, {1,2,3,4;""a"",""b"",""c"",""d"";TRUE,TRUE,FALSE,FALSE},
     XLFUT.ASSERT_EXACT(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to EXACT {1,2,3,4;""""a"""",""""b"""",""""c"""",""""d"""";TRUE,TRUE,FALSE,FALSE}, but actual is {1,2,3,4,""""a"""",""""b"""",""""c"""",""""d"""",TRUE,TRUE,FALSE,FALSE}.""
+)"
 ASSERT_EXACT array compare to value is passed,,"=LET(
     actual, {1,1,1;1,1,1},
     expect, 1,
     XLFUT.ASSERT_EXACT(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_EXACT error compare to nonerror returns false,,"=LET(
     actual, #NULL!,
     expect, 1,
     XLFUT.ASSERT_EXACT(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""The actual contains error: #NULL!""
+)"
 ASSERT_EXACT error compare to sameerror returns false,,"=LET(
     actual, #NULL!,
     expect, #NULL!,
     XLFUT.ASSERT_EXACT(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""The actual contains error: #NULL!""
+)"
 ASSERT_EXACT error compare to dirrerenterror returns false,,"=LET(
     actual, #NULL!,
     expect, #NULL!,
     XLFUT.ASSERT_EXACT(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""The actual contains error: #NULL!""
+)"
 ASSERT_EXACT array contains error returns false,,"=LET(
     actual, {2,#NULL!},
     expect, {2,#NULL!},
     XLFUT.ASSERT_EXACT(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""The actual contains error: {2,#NULL!}""
+)"
 ASSERT_EXACT no message on success,,"=LET(
     actual, 1,
     expect, 1,
     XLFUT.ASSERT_EXACT(actual, expect)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_EXACT display message on failure,,"=LET(
     actual, 2,
     expect, 1,
     XLFUT.ASSERT_EXACT(actual, expect)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to EXACT 1, but actual is 2.""
+)"
 ASSERT_EXACT omit actual parameter returns false,,"=LET(
     actual, 1,
     expect, 1,
     XLFUT.ASSERT_EXACT(, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""actual is required parameter""
+)"
 ASSERT_EXACT omit expect parameter returns false,,"=LET(
     actual, 1,
     expect, 1,
     XLFUT.ASSERT_EXACT(actual, )
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""expect is required parameter""
+)"
 ASSERT_EXACT omit all parameters,,"=LET(
     actual, 1,
     expect, 1,
     XLFUT.ASSERT_EXACT(, )
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""actual is required parameter""
+)"
 ASSERT_NOTEXACT nonerror value compare to equal returns false,,"=LET(
     actual, 1,
     expect, 1,
     XLFUT.ASSERT_NOTEXACT(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to EXACT 1, but actual is 1.""
+)"
 ASSERT_NOTEXACT nonerror value compare to greater is passed,,"=LET(
     actual, 2,
     expect, 1,
     XLFUT.ASSERT_NOTEXACT(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_NOTEXACT nonerror value compare to lesser is passed,,"=LET(
     actual, 0,
     expect, 1,
     XLFUT.ASSERT_NOTEXACT(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_NOTEXACT lower case compare to lower case returns false,,"=LET(
     actual, ""a"",
     expect, ""a"",
     XLFUT.ASSERT_NOTEXACT(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to EXACT """"a"""", but actual is """"a"""".""
+)"
 ASSERT_NOTEXACT lower case compare to upper case returns true,,"=LET(
     actual, ""A"",
     expect, ""a"",
     XLFUT.ASSERT_NOTEXACT(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_NOTEXACT number compare to text returns false,,"=LET(
     actual, ""1"",
     expect, 1,
     XLFUT.ASSERT_NOTEXACT(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to EXACT 1, but actual is """"1"""".""
+)"
 ASSERT_NOTEXACT array compare to same size array is passed,,"=LET(
     actual, {5,6,7,8;""e"",""f"",""g"",""h"";FALSE,FALSE,TRUE,TRUE},
     expect, {1,2,3,4;""a"",""b"",""c"",""d"";TRUE,TRUE,FALSE,FALSE},
     XLFUT.ASSERT_NOTEXACT(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_NOTEXACT array compare to same elements array returns false,,"=LET(
     actual, {5,6,7,8,""e"",""f"",""g"",""h"",FALSE,FALSE,TRUE,TRUE},
     expect, {1,2,3,4;""a"",""b"",""c"",""d"";TRUE,TRUE,FALSE,FALSE},
     XLFUT.ASSERT_NOTEXACT(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to EXACT {1,2,3,4;""""a"""",""""b"""",""""c"""",""""d"""";TRUE,TRUE,FALSE,FALSE}, but actual is {5,6,7,8,""""e"""",""""f"""",""""g"""",""""h"""",FALSE,FALSE,TRUE,TRUE}.""
+)"
 ASSERT_NOTEXACT array compare to value is passed,,"=LET(
     actual, {0,2,0;2,0,2},
     expect, 1,
     XLFUT.ASSERT_NOTEXACT(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_NOTEXACT error compare to nonerror returns false,,"=LET(
     actual, #NULL!,
     expect, 1,
     XLFUT.ASSERT_NOTEXACT(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""The actual contains error: #NULL!""
+)"
 ASSERT_NOTEXACT error compare to sameerror returns false,,"=LET(
     actual, #NULL!,
     expect, #NULL!,
     XLFUT.ASSERT_NOTEXACT(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""The actual contains error: #NULL!""
+)"
 ASSERT_NOTEXACT error compare to dirrerenterror returns false,,"=LET(
     actual, #NULL!,
     expect, #NULL!,
     XLFUT.ASSERT_NOTEXACT(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""The actual contains error: #NULL!""
+)"
 ASSERT_NOTEXACT array contains error returns false,,"=LET(
     actual, {1,#NULL!},
     expect, {2,#NULL!},
     XLFUT.ASSERT_NOTEXACT(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""The actual contains error: {1,#NULL!}""
+)"
 ASSERT_NOTEXACT no message on success,,"=LET(
     actual, 0,
     expect, 1,
     XLFUT.ASSERT_NOTEXACT(actual, expect)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_NOTEXACT display message on failure,,"=LET(
     actual, 1,
     expect, 1,
     XLFUT.ASSERT_NOTEXACT(actual, expect)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to EXACT 1, but actual is 1.""
+)"
 ASSERT_NOTEXACT omit actual parameter returns false,,"=LET(
     actual, 1,
     expect, 1,
     XLFUT.ASSERT_NOTEXACT(, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""actual is required parameter""
+)"
 ASSERT_NOTEXACT omit expect parameter returns false,,"=LET(
     actual, 1,
     expect, 1,
     XLFUT.ASSERT_NOTEXACT(actual, )
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""expect is required parameter""
+)"
 ASSERT_NOTEXACT omit all parameters,,"=LET(
     actual, 1,
     expect, 1,
     XLFUT.ASSERT_NOTEXACT(, )
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""actual is required parameter""
+)"
 ASSERT_GREATERTHAN nonerror value compare to equal returns false,,"=LET(
     actual, 1,
     expect, 1,
     XLFUT.ASSERT_GREATERTHAN(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to > 1, but actual is 1.""
+)"
 ASSERT_GREATERTHAN nonerror value compare to greater is passed,,"=LET(
     actual, 2,
     expect, 1,
     XLFUT.ASSERT_GREATERTHAN(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_GREATERTHAN nonerror value compare to lesser returns false,,"=LET(
     actual, 0,
     expect, 1,
     XLFUT.ASSERT_GREATERTHAN(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to > 1, but actual is 0.""
+)"
 ASSERT_GREATERTHAN array compare to same size array is passed,,"=LET(
     actual, {5,6,7,8;""e"",""f"",""g"",""h"";TRUE,TRUE,TRUE,TRUE},
     expect, {1,2,3,4;""a"",""b"",""c"",""d"";FALSE,FALSE,FALSE,FALSE},
     XLFUT.ASSERT_GREATERTHAN(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_GREATERTHAN array compare to same elements array returns false,,"=LET(
     actual, {5,6,7,8,""e"",""f"",""g"",""h"",TRUE,TRUE,TRUE,TRUE},
     expect, {1,2,3,4;""a"",""b"",""c"",""d"";FALSE,FALSE,FALSE,FALSE},
     XLFUT.ASSERT_GREATERTHAN(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to > {1,2,3,4;""""a"""",""""b"""",""""c"""",""""d"""";FALSE,FALSE,FALSE,FALSE}, but actual is {5,6,7,8,""""e"""",""""f"""",""""g"""",""""h"""",TRUE,TRUE,TRUE,TRUE}.""
+)"
 ASSERT_GREATERTHAN array compare to value is passed,,"=LET(
     actual, {3,3,3;3,3,3},
     expect, 1,
     XLFUT.ASSERT_GREATERTHAN(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_GREATERTHAN error compare to nonerror returns false,,"=LET(
     actual, #NULL!,
     expect, 1,
     XLFUT.ASSERT_GREATERTHAN(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""The actual contains error: #NULL!""
+)"
 ASSERT_GREATERTHAN error compare to sameerror returns false,,"=LET(
     actual, #NULL!,
     expect, #NULL!,
     XLFUT.ASSERT_GREATERTHAN(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""The actual contains error: #NULL!""
+)"
 ASSERT_GREATERTHAN error compare to dirrerenterror returns false,,"=LET(
     actual, #NULL!,
     expect, #NULL!,
     XLFUT.ASSERT_GREATERTHAN(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""The actual contains error: #NULL!""
+)"
 ASSERT_GREATERTHAN array contains error returns false,,"=LET(
     actual, {2,#NULL!},
     expect, {2,#NULL!},
     XLFUT.ASSERT_GREATERTHAN(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""The actual contains error: {2,#NULL!}""
+)"
 ASSERT_GREATERTHAN no message on success,,"=LET(
     actual, 2,
     expect, 1,
     XLFUT.ASSERT_GREATERTHAN(actual, expect)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_GREATERTHAN display message on failure,,"=LET(
     actual, 0,
     expect, 1,
     XLFUT.ASSERT_GREATERTHAN(actual, expect)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to > 1, but actual is 0.""
+)"
 ASSERT_GREATERTHAN omit actual parameter returns false,,"=LET(
     actual, 1,
     expect, 1,
     XLFUT.ASSERT_GREATERTHAN(, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""actual is required parameter""
+)"
 ASSERT_GREATERTHAN omit expect parameter returns false,,"=LET(
     actual, 1,
     expect, 1,
     XLFUT.ASSERT_GREATERTHAN(actual, )
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""expect is required parameter""
+)"
 ASSERT_GREATERTHAN omit all parameters,,"=LET(
     actual, 1,
     expect, 1,
     XLFUT.ASSERT_GREATERTHAN(, )
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""actual is required parameter""
+)"
 ASSERT_GREATEROREQUAL nonerror value compare to equal is passed,,"=LET(
     actual, 1,
     expect, 1,
     XLFUT.ASSERT_GREATEROREQUAL(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_GREATEROREQUAL nonerror value compare to greater is passed,,"=LET(
     actual, 2,
     expect, 1,
     XLFUT.ASSERT_GREATEROREQUAL(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_GREATEROREQUAL nonerror value compare to lesser returns false,,"=LET(
     actual, 0,
     expect, 1,
     XLFUT.ASSERT_GREATEROREQUAL(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to >= 1, but actual is 0.""
+)"
 ASSERT_GREATEROREQUAL array compare to same size array is passed,,"=LET(
     actual, {1,2,7,8;""a"",""b"",""g"",""h"";TRUE,TRUE,TRUE,TRUE},
     expect, {1,2,3,4;""a"",""b"",""c"",""d"";TRUE,TRUE,FALSE,FALSE},
     XLFUT.ASSERT_GREATEROREQUAL(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_GREATEROREQUAL array compare to same elements array returns false,,"=LET(
     actual, {1,2,7,8,""a"",""b"",""g"",""h"",TRUE,TRUE,TRUE,TRUE},
     expect, {1,2,3,4;""a"",""b"",""c"",""d"";TRUE,TRUE,FALSE,FALSE},
     XLFUT.ASSERT_GREATEROREQUAL(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to >= {1,2,3,4;""""a"""",""""b"""",""""c"""",""""d"""";TRUE,TRUE,FALSE,FALSE}, but actual is {1,2,7,8,""""a"""",""""b"""",""""g"""",""""h"""",TRUE,TRUE,TRUE,TRUE}.""
+)"
 ASSERT_GREATEROREQUAL array compare to value is passed,,"=LET(
     actual, {2,3,2;3,2,3},
     expect, 1,
     XLFUT.ASSERT_GREATEROREQUAL(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_GREATEROREQUAL error compare to nonerror returns false,,"=LET(
     actual, #NULL!,
     expect, 1,
     XLFUT.ASSERT_GREATEROREQUAL(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""The actual contains error: #NULL!""
+)"
 ASSERT_GREATEROREQUAL error compare to sameerror returns false,,"=LET(
     actual, #NULL!,
     expect, #NULL!,
     XLFUT.ASSERT_GREATEROREQUAL(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""The actual contains error: #NULL!""
+)"
 ASSERT_GREATEROREQUAL error compare to dirrerenterror returns false,,"=LET(
     actual, #NULL!,
     expect, #NULL!,
     XLFUT.ASSERT_GREATEROREQUAL(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""The actual contains error: #NULL!""
+)"
 ASSERT_GREATEROREQUAL array contains error returns false,,"=LET(
     actual, {2,#NULL!},
     expect, {2,#NULL!},
     XLFUT.ASSERT_GREATEROREQUAL(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""The actual contains error: {2,#NULL!}""
+)"
 ASSERT_GREATEROREQUAL no message on success,,"=LET(
     actual, 1,
     expect, 1,
     XLFUT.ASSERT_GREATEROREQUAL(actual, expect)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_GREATEROREQUAL display message on failure,,"=LET(
     actual, 0,
     expect, 1,
     XLFUT.ASSERT_GREATEROREQUAL(actual, expect)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to >= 1, but actual is 0.""
+)"
 ASSERT_GREATEROREQUAL omit actual parameter returns false,,"=LET(
     actual, 1,
     expect, 1,
     XLFUT.ASSERT_GREATEROREQUAL(, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""actual is required parameter""
+)"
 ASSERT_GREATEROREQUAL omit expect parameter returns false,,"=LET(
     actual, 1,
     expect, 1,
     XLFUT.ASSERT_GREATEROREQUAL(actual, )
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""expect is required parameter""
+)"
 ASSERT_GREATEROREQUAL omit all parameters,,"=LET(
     actual, 1,
     expect, 1,
     XLFUT.ASSERT_GREATEROREQUAL(, )
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""actual is required parameter""
+)"
 ASSERT_LESSTHAN nonerror value compare to equal returns false,,"=LET(
     actual, 1,
     expect, 1,
     XLFUT.ASSERT_LESSTHAN(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to < 1, but actual is 1.""
+)"
 ASSERT_LESSTHAN nonerror value compare to greater returns false,,"=LET(
     actual, 2,
     expect, 1,
     XLFUT.ASSERT_LESSTHAN(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to < 1, but actual is 2.""
+)"
 ASSERT_LESSTHAN nonerror value compare to lesser is passed,,"=LET(
     actual, 0,
     expect, 1,
     XLFUT.ASSERT_LESSTHAN(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_LESSTHAN array compare to same size array is passed,,"=LET(
     actual, {1,2,3,4;""a"",""b"",""c"",""d"";FALSE,FALSE,FALSE,FALSE},
     expect, {5,6,7,8;""e"",""f"",""g"",""h"";TRUE,TRUE,TRUE,TRUE},
     XLFUT.ASSERT_LESSTHAN(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_LESSTHAN array compare to same elements array returns false,,"=LET(
     actual, {1,2,3,4,""a"",""b"",""c"",""d"",FALSE,FALSE,FALSE,FALSE},
     expect, {5,6,7,8;""e"",""f"",""g"",""h"";TRUE,TRUE,TRUE,TRUE},
     XLFUT.ASSERT_LESSTHAN(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to < {5,6,7,8;""""e"""",""""f"""",""""g"""",""""h"""";TRUE,TRUE,TRUE,TRUE}, but actual is {1,2,3,4,""""a"""",""""b"""",""""c"""",""""d"""",FALSE,FALSE,FALSE,FALSE}.""
+)"
 ASSERT_LESSTHAN array compare to value is passed,,"=LET(
     actual, {0,0,0;0,0,0},
     expect, 1,
     XLFUT.ASSERT_LESSTHAN(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_LESSTHAN error compare to nonerror returns false,,"=LET(
     actual, #NULL!,
     expect, 1,
     XLFUT.ASSERT_LESSTHAN(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""The actual contains error: #NULL!""
+)"
 ASSERT_LESSTHAN error compare to sameerror returns false,,"=LET(
     actual, #NULL!,
     expect, #NULL!,
     XLFUT.ASSERT_LESSTHAN(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""The actual contains error: #NULL!""
+)"
 ASSERT_LESSTHAN error compare to dirrerenterror returns false,,"=LET(
     actual, #NULL!,
     expect, #NULL!,
     XLFUT.ASSERT_LESSTHAN(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""The actual contains error: #NULL!""
+)"
 ASSERT_LESSTHAN array contains error returns false,,"=LET(
     actual, {1,""a"",TRUE,#NULL!},
     expect, {1,""a"",TRUE,#NULL!},
     XLFUT.ASSERT_LESSTHAN(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""The actual contains error: {1,""""a"""",TRUE,#NULL!}""
+)"
 ASSERT_LESSTHAN no message on success,,"=LET(
     actual, 0,
     expect, 1,
     XLFUT.ASSERT_LESSTHAN(actual, expect)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_LESSTHAN display message on failure,,"=LET(
     actual, 2,
     expect, 1,
     XLFUT.ASSERT_LESSTHAN(actual, expect)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to < 1, but actual is 2.""
+)"
 ASSERT_LESSTHAN omit actual parameter returns false,,"=LET(
     actual, 1,
     expect, 1,
     XLFUT.ASSERT_LESSTHAN(, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""actual is required parameter""
+)"
 ASSERT_LESSTHAN omit expect parameter returns false,,"=LET(
     actual, 1,
     expect, 1,
     XLFUT.ASSERT_LESSTHAN(actual, )
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""expect is required parameter""
+)"
 ASSERT_LESSTHAN omit all parameters,,"=LET(
     actual, 1,
     expect, 1,
     XLFUT.ASSERT_LESSTHAN(, )
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""actual is required parameter""
+)"
 ASSERT_LESSOREQUAL nonerror value compare to equal is passed,,"=LET(
     actual, 1,
     expect, 1,
     XLFUT.ASSERT_LESSOREQUAL(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_LESSOREQUAL nonerror value compare to greater returns false,,"=LET(
     actual, 2,
     expect, 1,
     XLFUT.ASSERT_LESSOREQUAL(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to <= 1, but actual is 2.""
+)"
 ASSERT_LESSOREQUAL nonerror value compare to lesser is passed,,"=LET(
     actual, 0,
     expect, 1,
     XLFUT.ASSERT_LESSOREQUAL(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_LESSOREQUAL array compare to same size array is passed,,"=LET(
     actual, {1,2,3,4;""a"",""b"",""c"",""d"";FALSE,FALSE,FALSE,FALSE},
     expect, {5,6,3,4;""e"",""f"",""c"",""d"";TRUE,TRUE,FALSE,FALSE},
     XLFUT.ASSERT_LESSOREQUAL(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_LESSOREQUAL array compare to same elements array returns false,,"=LET(
     actual, {1,2,3,4,""a"",""b"",""c"",""d"",FALSE,FALSE,FALSE,FALSE},
     expect, {5,6,3,4;""e"",""f"",""c"",""d"";TRUE,TRUE,FALSE,FALSE},
     XLFUT.ASSERT_LESSOREQUAL(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to <= {5,6,3,4;""""e"""",""""f"""",""""c"""",""""d"""";TRUE,TRUE,FALSE,FALSE}, but actual is {1,2,3,4,""""a"""",""""b"""",""""c"""",""""d"""",FALSE,FALSE,FALSE,FALSE}.""
+)"
 ASSERT_LESSOREQUAL array compare to value is passed,,"=LET(
     actual, {0,1,0;1,0,1},
     expect, 1,
     XLFUT.ASSERT_LESSOREQUAL(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_LESSOREQUAL error compare to nonerror returns false,,"=LET(
     actual, #NULL!,
     expect, 1,
     XLFUT.ASSERT_LESSOREQUAL(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""The actual contains error: #NULL!""
+)"
 ASSERT_LESSOREQUAL error compare to sameerror returns false,,"=LET(
     actual, #NULL!,
     expect, #NULL!,
     XLFUT.ASSERT_LESSOREQUAL(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""The actual contains error: #NULL!""
+)"
 ASSERT_LESSOREQUAL error compare to dirrerenterror returns false,,"=LET(
     actual, #NULL!,
     expect, #NULL!,
     XLFUT.ASSERT_LESSOREQUAL(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""The actual contains error: #NULL!""
+)"
 ASSERT_LESSOREQUAL array contains error returns false,,"=LET(
     actual, {1,""a"",TRUE,#NULL!},
     expect, {1,""a"",TRUE,#NULL!},
     XLFUT.ASSERT_LESSOREQUAL(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""The actual contains error: {1,""""a"""",TRUE,#NULL!}""
+)"
 ASSERT_LESSOREQUAL no message on success,,"=LET(
     actual, 1,
     expect, 1,
     XLFUT.ASSERT_LESSOREQUAL(actual, expect)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_LESSOREQUAL display message on failure,,"=LET(
     actual, 2,
     expect, 1,
     XLFUT.ASSERT_LESSOREQUAL(actual, expect)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to <= 1, but actual is 2.""
+)"
 ASSERT_LESSOREQUAL omit actual parameter returns false,,"=LET(
     actual, 1,
     expect, 1,
     XLFUT.ASSERT_LESSOREQUAL(, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""actual is required parameter""
+)"
 ASSERT_LESSOREQUAL omit expect parameter returns false,,"=LET(
     actual, 1,
     expect, 1,
     XLFUT.ASSERT_LESSOREQUAL(actual, )
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""expect is required parameter""
+)"
 ASSERT_LESSOREQUAL omit all parameters,,"=LET(
     actual, 1,
     expect, 1,
     XLFUT.ASSERT_LESSOREQUAL(, )
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""actual is required parameter""
+)"
 ASSERT_SAME nonerror value compare to equal is passed,,"=LET(
     actual, 1,
     expect, 1,
     XLFUT.ASSERT_SAME(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_SAME nonerror value compare to greater returns false,,"=LET(
     actual, 2,
     expect, 1,
     XLFUT.ASSERT_SAME(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to same 1, but actual is 2.""
+)"
 ASSERT_SAME nonerror value compare to lesser returns false,,"=LET(
     actual, 0,
     expect, 1,
     XLFUT.ASSERT_SAME(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to same 1, but actual is 0.""
+)"
 ASSERT_SAME array compare to same size array is passed,,"=LET(
     actual, {1,2,3,4;""a"",""b"",""c"",""d"";TRUE,FALSE,#NULL!,#VALUE!},
     expect, {1,2,3,4;""a"",""b"",""c"",""d"";TRUE,FALSE,#NULL!,#VALUE!},
     XLFUT.ASSERT_SAME(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_SAME array compare to value and 1x1 array returns false,,"=LET(
     actual, 0,
     expect, {1},
     XLFUT.ASSERT_SAME(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to same {1}, but actual is 0.""
+)"
 ASSERT_SAME array compare to same elements array returns false,,"=LET(
     actual, {1,2,3;4,""a"",""a"";""b"",""d"",TRUE;FALSE,#NULL!,#VALUE!},
     expect, {1,2,3,4;""a"",""b"",""c"",""d"";TRUE,FALSE,#NULL!,#VALUE!},
     XLFUT.ASSERT_SAME(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to same {1,2,3,4;""""a"""",""""b"""",""""c"""",""""d"""";TRUE,FALSE,#NULL!,#VALUE!}, but actual is {1,2,3;4,""""a"""",""""a"""";""""b"""",""""d"""",TRUE;FALSE,#NULL!,#VALUE!}.""
+)"
 ASSERT_SAME array compare to value returns false,,"=LET(
     actual, {1,1,1;1,1,1},
     expect, 1,
     XLFUT.ASSERT_SAME(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to same 1, but actual is {1,1,1;1,1,1}.""
+)"
 ASSERT_SAME error compare to nonerror returns false,,"=LET(
     actual, 1,
     expect, #NULL!,
     XLFUT.ASSERT_SAME(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to same #NULL!, but actual is 1.""
+)"
 ASSERT_SAME error compare to sameerror is passed,,"=LET(
     actual, #NULL!,
     expect, #NULL!,
     XLFUT.ASSERT_SAME(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_SAME error compare to dirrerenterror returns false,,"=LET(
     actual, #VALUE!,
     expect, #NULL!,
     XLFUT.ASSERT_SAME(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to same #NULL!, but actual is #VALUE!.""
+)"
 ASSERT_SAME array contains error is passed,,"=LET(
     actual, {2,#NULL!},
     expect, {2,#NULL!},
     XLFUT.ASSERT_SAME(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_SAME no message on success,,"=LET(
     actual, 1,
     expect, 1,
     XLFUT.ASSERT_SAME(actual, expect)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_SAME display message on failure,,"=LET(
     actual, 2,
     expect, 1,
     XLFUT.ASSERT_SAME(actual, expect)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to same 1, but actual is 2.""
+)"
 ASSERT_SAME omit actual parameter returns false,,"=LET(
     actual, 1,
     expect, 1,
     XLFUT.ASSERT_SAME(, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""actual is required parameter""
+)"
 ASSERT_SAME omit expect parameter returns false,,"=LET(
     actual, 1,
     expect, 1,
     XLFUT.ASSERT_SAME(actual, )
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""expect is required parameter""
+)"
 ASSERT_SAME omit all parameters,,"=LET(
     actual, 1,
     expect, 1,
     XLFUT.ASSERT_SAME(, )
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""actual is required parameter""
+)"
 ASSERT_ISNUMBER test number is passed,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISNUMBER(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNUMBER test nonnumber returns false,,"=LET(
     actual, ""a"",
     XLFUT.ASSERT_ISNUMBER(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to be number type, but actual is """"a""""""
+)"
 ASSERT_ISNUMBER test error returns false,,"=LET(
     actual, #NULL!,
     XLFUT.ASSERT_ISNUMBER(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to be number type, but actual is #NULL!""
+)"
 ASSERT_ISNUMBER test array of number is passed,,"=LET(
     actual, {1,1,1},
     XLFUT.ASSERT_ISNUMBER(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNUMBER test array contains nonnumber returns false,,"=LET(
     actual, {1,1,""a""},
     XLFUT.ASSERT_ISNUMBER(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to be number type, but actual is {1,1,""""a""""}""
+)"
 ASSERT_ISNUMBER no message on success,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISNUMBER(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNUMBER display message on failure,,"=LET(
     actual, ""a"",
     XLFUT.ASSERT_ISNUMBER(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to be number type, but actual is """"a""""""
+)"
 ASSERT_ISNOTNUMBER test nonnumber is passed,,"=LET(
     actual, ""a"",
     XLFUT.ASSERT_ISNOTNUMBER(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTNUMBER test number returns false,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISNOTNUMBER(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to be number type, but actual is 1""
+)"
 ASSERT_ISNOTNUMBER test error is passed,,"=LET(
     actual, #NULL!,
     XLFUT.ASSERT_ISNOTNUMBER(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTNUMBER test array of nonnumber is passed,,"=LET(
     actual, {""a"",""a"",""a""},
     XLFUT.ASSERT_ISNOTNUMBER(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTNUMBER test arraycontainsnumber returns false,,"=LET(
     actual, {""a"",""a"",1},
     XLFUT.ASSERT_ISNOTNUMBER(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to be number type, but actual is {""""a"""",""""a"""",1}""
+)"
 ASSERT_ISNOTNUMBER no message on success,,"=LET(
     actual, ""a"",
     XLFUT.ASSERT_ISNOTNUMBER(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTNUMBER display message on failure,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISNOTNUMBER(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to be number type, but actual is 1""
+)"
 ASSERT_ISTEXT test text is passed,,"=LET(
     actual, ""a"",
     XLFUT.ASSERT_ISTEXT(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISTEXT test nontext returns false,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISTEXT(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to be text type, but actual is 1""
+)"
 ASSERT_ISTEXT test error returns false,,"=LET(
     actual, #NULL!,
     XLFUT.ASSERT_ISTEXT(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to be text type, but actual is #NULL!""
+)"
 ASSERT_ISTEXT test array of text is passed,,"=LET(
     actual, {""a"",""a"",""a""},
     XLFUT.ASSERT_ISTEXT(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISTEXT test array contains nontext returns false,,"=LET(
     actual, {""a"",""a"",1},
     XLFUT.ASSERT_ISTEXT(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to be text type, but actual is {""""a"""",""""a"""",1}""
+)"
 ASSERT_ISTEXT no message on success,,"=LET(
     actual, ""a"",
     XLFUT.ASSERT_ISTEXT(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISTEXT display message on failure,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISTEXT(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to be text type, but actual is 1""
+)"
 ASSERT_ISNOTTEXT test nontext is passed,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISNOTTEXT(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTTEXT test text returns false,,"=LET(
     actual, ""a"",
     XLFUT.ASSERT_ISNOTTEXT(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to be text type, but actual is """"a""""""
+)"
 ASSERT_ISNOTTEXT test error is passed,,"=LET(
     actual, #NULL!,
     XLFUT.ASSERT_ISNOTTEXT(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTTEXT test array of nontext is passed,,"=LET(
     actual, {1,1,1},
     XLFUT.ASSERT_ISNOTTEXT(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTTEXT test arraycontainstext returns false,,"=LET(
     actual, {1,1,""a""},
     XLFUT.ASSERT_ISNOTTEXT(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to be text type, but actual is {1,1,""""a""""}""
+)"
 ASSERT_ISNOTTEXT no message on success,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISNOTTEXT(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTTEXT display message on failure,,"=LET(
     actual, ""a"",
     XLFUT.ASSERT_ISNOTTEXT(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to be text type, but actual is """"a""""""
+)"
 ASSERT_ISLOGICAL test logical is passed,,"=LET(
     actual, FALSE,
     XLFUT.ASSERT_ISLOGICAL(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISLOGICAL test nonlogical returns false,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISLOGICAL(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to be logical type, but actual is 1""
+)"
 ASSERT_ISLOGICAL test error returns false,,"=LET(
     actual, #NULL!,
     XLFUT.ASSERT_ISLOGICAL(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to be logical type, but actual is #NULL!""
+)"
 ASSERT_ISLOGICAL test array of logical is passed,,"=LET(
     actual, {FALSE,FALSE,FALSE},
     XLFUT.ASSERT_ISLOGICAL(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISLOGICAL test array contains nonlogical returns false,,"=LET(
     actual, {FALSE,FALSE,2},
     XLFUT.ASSERT_ISLOGICAL(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to be logical type, but actual is {FALSE,FALSE,2}""
+)"
 ASSERT_ISLOGICAL no message on success,,"=LET(
     actual, FALSE,
     XLFUT.ASSERT_ISLOGICAL(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISLOGICAL display message on failure,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISLOGICAL(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to be logical type, but actual is 1""
+)"
 ASSERT_ISNOTLOGICAL test nonlogical is passed,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISNOTLOGICAL(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTLOGICAL test logical returns false,,"=LET(
     actual, FALSE,
     XLFUT.ASSERT_ISNOTLOGICAL(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to be logical type, but actual is FALSE""
+)"
 ASSERT_ISNOTLOGICAL test error is passed,,"=LET(
     actual, #NULL!,
     XLFUT.ASSERT_ISNOTLOGICAL(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTLOGICAL test array of nonlogical is passed,,"=LET(
     actual, {1,1,1},
     XLFUT.ASSERT_ISNOTLOGICAL(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTLOGICAL test arraycontainslogical returns false,,"=LET(
     actual, {1,1,FALSE},
     XLFUT.ASSERT_ISNOTLOGICAL(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to be logical type, but actual is {1,1,FALSE}""
+)"
 ASSERT_ISNOTLOGICAL no message on success,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISNOTLOGICAL(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTLOGICAL display message on failure,,"=LET(
     actual, FALSE,
     XLFUT.ASSERT_ISNOTLOGICAL(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to be logical type, but actual is FALSE""
+)"
 ASSERT_ISERROR test error is passed,,"=LET(
     actual, #NULL!,
     XLFUT.ASSERT_ISERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISERROR test nonerror returns false,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise error, but actual is 1""
+)"
 ASSERT_ISERROR test array of error is passed,,"=LET(
     actual, {#NULL!,#NULL!,#NULL!},
     XLFUT.ASSERT_ISERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISERROR test array contains nonerror returns false,,"=LET(
     actual, {#NULL!,#NULL!,1},
     XLFUT.ASSERT_ISERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise error, but actual is {#NULL!,#NULL!,1}""
+)"
 ASSERT_ISERROR no message on success,,"=LET(
     actual, #NULL!,
     XLFUT.ASSERT_ISERROR(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISERROR display message on failure,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISERROR(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise error, but actual is 1""
+)"
 ASSERT_ISNOTERROR test nonerror is passed,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISNOTERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTERROR test error returns false,,"=LET(
     actual, #NULL!,
     XLFUT.ASSERT_ISNOTERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to raise error, but actual is #NULL!""
+)"
 ASSERT_ISNOTERROR test array of nonerror is passed,,"=LET(
     actual, {1,1,1},
     XLFUT.ASSERT_ISNOTERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTERROR test arraycontainserror returns false,,"=LET(
     actual, {1,1,#NULL!},
     XLFUT.ASSERT_ISNOTERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to raise error, but actual is {1,1,#NULL!}""
+)"
 ASSERT_ISNOTERROR no message on success,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISNOTERROR(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTERROR display message on failure,,"=LET(
     actual, #NULL!,
     XLFUT.ASSERT_ISNOTERROR(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to raise error, but actual is #NULL!""
+)"
 ASSERT_ISARRAY test array is passed,,"=LET(
     actual, {1,2,3,4;""a"",""b"",""c"",""d"";TRUE,FALSE,#VALUE!,#NULL!},
     XLFUT.ASSERT_ISARRAY(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISARRAY test nonarray returns false,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISARRAY(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to be array type, but actual is 1""
+)"
 ASSERT_ISARRAY test error returns false,,"=LET(
     actual, #NULL!,
     XLFUT.ASSERT_ISARRAY(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to be array type, but actual is #NULL!""
+)"
 ASSERT_ISARRAY no message on success,,"=LET(
     actual, {1,2,3,4;""a"",""b"",""c"",""d"";TRUE,FALSE,#VALUE!,#NULL!},
     XLFUT.ASSERT_ISARRAY(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISARRAY display message on failure,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISARRAY(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to be array type, but actual is 1""
+)"
 ASSERT_ISNOTARRAY test nonarray is passed,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISNOTARRAY(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTARRAY test array returns false,,"=LET(
     actual, {1,2,3,4;""a"",""b"",""c"",""d"";TRUE,FALSE,#VALUE!,#NULL!},
     XLFUT.ASSERT_ISNOTARRAY(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to be array type, but actual is {1,2,3,4;""""a"""",""""b"""",""""c"""",""""d"""";TRUE,FALSE,#VALUE!,#NULL!}""
+)"
 ASSERT_ISNOTARRAY test error is passed,,"=LET(
     actual, #NULL!,
     XLFUT.ASSERT_ISNOTARRAY(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTARRAY no message on success,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISNOTARRAY(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTARRAY display message on failure,,"=LET(
     actual, {1,2,3,4;""a"",""b"",""c"",""d"";TRUE,FALSE,#VALUE!,#NULL!},
     XLFUT.ASSERT_ISNOTARRAY(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to be array type, but actual is {1,2,3,4;""""a"""",""""b"""",""""c"""",""""d"""";TRUE,FALSE,#VALUE!,#NULL!}""
+)"
 ASSERT_ISCOMPOUNDDATA test noncompounddata returns false,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISCOMPOUNDDATA(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to be COMPOUN DDATA type, but actual is 1""
+)"
 ASSERT_ISCOMPOUNDDATA test error returns false,,"=LET(
     actual, #NULL!,
     XLFUT.ASSERT_ISCOMPOUNDDATA(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to be COMPOUN DDATA type, but actual is #NULL!""
+)"
 ASSERT_ISCOMPOUNDDATA test array contains noncompounddata returns false,,"=LET(
     actual, {1,1,1},
     XLFUT.ASSERT_ISCOMPOUNDDATA(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to be COMPOUN DDATA type, but actual is {1,1,1}""
+)"
 ASSERT_ISCOMPOUNDDATA display message on failure,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISCOMPOUNDDATA(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to be COMPOUN DDATA type, but actual is 1""
+)"
 ASSERT_ISNOTCOMPOUNDDATA test noncompounddata is passed,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISNOTCOMPOUNDDATA(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTCOMPOUNDDATA test error is passed,,"=LET(
     actual, #NULL!,
     XLFUT.ASSERT_ISNOTCOMPOUNDDATA(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTCOMPOUNDDATA test array of noncompounddata is passed,,"=LET(
     actual, {1,1,1},
     XLFUT.ASSERT_ISNOTCOMPOUNDDATA(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTCOMPOUNDDATAPASSED no message,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISNOTCOMPOUNDDATA(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNULL test #NULL! is passed,,"=LET(
     actual, #NULL!,
     XLFUT.ASSERT_ISNULL(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNULL test non#NULL! returns false,,"=LET(
     actual, #VALUE!,
     XLFUT.ASSERT_ISNULL(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise #NULL! error, but actual is #VALUE!""
+)"
 ASSERT_ISNULL test nonerror returns false,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISNULL(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise #NULL! error, but actual is 1""
+)"
 ASSERT_ISNULL test array of #NULL! is passed,,"=LET(
     actual, {#NULL!,#NULL!,#NULL!},
     XLFUT.ASSERT_ISNULL(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNULL test array contains non#NULL! returns false,,"=LET(
     actual, {#NULL!,#NULL!,#NULL!,1},
     XLFUT.ASSERT_ISNULL(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise #NULL! error, but actual is {#NULL!,#NULL!,#NULL!,1}""
+)"
 ASSERT_ISNULL no message on success,,"=LET(
     actual, #NULL!,
     XLFUT.ASSERT_ISNULL(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNULL display message on failure,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISNULL(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise #NULL! error, but actual is 1""
+)"
 ASSERT_ISNOTNULL test non#NULL! returns false,,"=LET(
     actual, #NULL!,
     XLFUT.ASSERT_ISNOTNULL(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to raise #NULL! error, but actual is #NULL!""
+)"
 ASSERT_ISNOTNULL test #NULL! is passed,,"=LET(
     actual, #VALUE!,
     XLFUT.ASSERT_ISNOTNULL(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTNULL test nonerror is passed,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISNOTNULL(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTNULL test array of non#NULL! is passed,,"=LET(
     actual, {1,""a"",TRUE,#VALUE!},
     XLFUT.ASSERT_ISNOTNULL(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTNULL test array contains non#NULL! returns false,,"=LET(
     actual, {1,""a"",TRUE,#NULL!},
     XLFUT.ASSERT_ISNOTNULL(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to raise #NULL! error, but actual is {1,""""a"""",TRUE,#NULL!}""
+)"
 ASSERT_ISNOTNULL no message on success,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISNOTNULL(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTNULL display message on failure,,"=LET(
     actual, #NULL!,
     XLFUT.ASSERT_ISNOTNULL(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to raise #NULL! error, but actual is #NULL!""
+)"
 ASSERT_ISDIV0 test #DIV/0! is passed,,"=LET(
     actual, #DIV/0!,
     XLFUT.ASSERT_ISDIV0(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISDIV0 test non#DIV/0! returns false,,"=LET(
     actual, #NULL!,
     XLFUT.ASSERT_ISDIV0(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise #DIV/0! error, but actual is #NULL!""
+)"
 ASSERT_ISDIV0 test nonerror returns false,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISDIV0(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise #DIV/0! error, but actual is 1""
+)"
 ASSERT_ISDIV0 test test array of #DIV/0! is passed,,"=LET(
     actual, {#DIV/0!,#DIV/0!,#DIV/0!},
     XLFUT.ASSERT_ISDIV0(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISDIV0 test test array contains non#DIV/0! returns false,,"=LET(
     actual, {#DIV/0!,#DIV/0!,#DIV/0!,1},
     XLFUT.ASSERT_ISDIV0(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise #DIV/0! error, but actual is {#DIV/0!,#DIV/0!,#DIV/0!,1}""
+)"
 ASSERT_ISDIV0 no message on success,,"=LET(
     actual, #DIV/0!,
     XLFUT.ASSERT_ISDIV0(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISDIV0 display message on failure,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISDIV0(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise #DIV/0! error, but actual is 1""
+)"
 ASSERT_ISNOTDIV0 test non#DIV/0! returns false,,"=LET(
     actual, #DIV/0!,
     XLFUT.ASSERT_ISNOTDIV0(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to raise #DIV/0! error, but actual is #DIV/0!""
+)"
 ASSERT_ISNOTDIV0 test #DIV/0! is passed,,"=LET(
     actual, #NULL!,
     XLFUT.ASSERT_ISNOTDIV0(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTDIV0 test nonerror is passed,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISNOTDIV0(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTDIV0 test test array of non#DIV/0! is passed,,"=LET(
     actual, {1,""a"",TRUE,#NULL!},
     XLFUT.ASSERT_ISNOTDIV0(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTDIV0 test test array contains non#DIV/0! returns false,,"=LET(
     actual, {1,""a"",TRUE,#DIV/0!},
     XLFUT.ASSERT_ISNOTDIV0(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to raise #DIV/0! error, but actual is {1,""""a"""",TRUE,#DIV/0!}""
+)"
 ASSERT_ISNOTDIV0 no message on success,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISNOTDIV0(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTDIV0 display message on failure,,"=LET(
     actual, #DIV/0!,
     XLFUT.ASSERT_ISNOTDIV0(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to raise #DIV/0! error, but actual is #DIV/0!""
+)"
 ASSERT_ISVALUEERROR test #VALUE! is passed,,"=LET(
     actual, #VALUE!,
     XLFUT.ASSERT_ISVALUEERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISVALUEERROR test non#VALUE! returns false,,"=LET(
     actual, #NULL!,
     XLFUT.ASSERT_ISVALUEERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise #VALUE! error, but actual is #NULL!""
+)"
 ASSERT_ISVALUEERROR test nonerror returns false,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISVALUEERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise #VALUE! error, but actual is 1""
+)"
 ASSERT_ISVALUEERROR test array of #VALUE! is passed,,"=LET(
     actual, {#VALUE!,#VALUE!,#VALUE!},
     XLFUT.ASSERT_ISVALUEERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISVALUEERROR test array contains non#VALUE! returns false,,"=LET(
     actual, {#VALUE!,#VALUE!,#VALUE!,1},
     XLFUT.ASSERT_ISVALUEERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise #VALUE! error, but actual is {#VALUE!,#VALUE!,#VALUE!,1}""
+)"
 ASSERT_ISVALUEERROR no message on success,,"=LET(
     actual, #VALUE!,
     XLFUT.ASSERT_ISVALUEERROR(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISVALUEERROR display message on failure,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISVALUEERROR(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise #VALUE! error, but actual is 1""
+)"
 ASSERT_ISNOTVALUEERROR test non#VALUE! returns false,,"=LET(
     actual, #VALUE!,
     XLFUT.ASSERT_ISNOTVALUEERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to raise #VALUE! error, but actual is #VALUE!""
+)"
 ASSERT_ISNOTVALUEERROR test #VALUE! is passed,,"=LET(
     actual, #NULL!,
     XLFUT.ASSERT_ISNOTVALUEERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTVALUEERROR test nonerror is passed,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISNOTVALUEERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTVALUEERROR test array of non#VALUE! is passed,,"=LET(
     actual, {1,""a"",TRUE,#NULL!},
     XLFUT.ASSERT_ISNOTVALUEERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTVALUEERROR test array contains non#VALUE! returns false,,"=LET(
     actual, {1,""a"",TRUE,#VALUE!},
     XLFUT.ASSERT_ISNOTVALUEERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to raise #VALUE! error, but actual is {1,""""a"""",TRUE,#VALUE!}""
+)"
 ASSERT_ISNOTVALUEERROR no message on success,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISNOTVALUEERROR(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTVALUEERROR display message on failure,,"=LET(
     actual, #VALUE!,
     XLFUT.ASSERT_ISNOTVALUEERROR(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to raise #VALUE! error, but actual is #VALUE!""
+)"
 ASSERT_ISREFERROR test #REF! is passed,,"=LET(
-    actual,#REF!, 
+    actual,#REF!,
     XLFUT.ASSERT_ISREFERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISREFERROR test non#REF! returns false,,"=LET(
     actual, #NULL!,
     XLFUT.ASSERT_ISREFERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise #REF! error, but actual is #NULL!""
+)"
 ASSERT_ISREFERROR test nonerror returns false,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISREFERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise #REF! error, but actual is 1""
+)"
 ASSERT_ISREFERROR test array of #REF! is passed,,"=LET(
     actual, {#REF!,#REF!,#REF!},
     XLFUT.ASSERT_ISREFERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISREFERROR test array contains non#REF! returns false,,"=LET(
     actual, {#REF!,#REF!,#REF!,1},
     XLFUT.ASSERT_ISREFERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise #REF! error, but actual is {#REF!,#REF!,#REF!,1}""
+)"
 ASSERT_ISREFERROR no message on success,,"=LET(
-    actual,#REF!, 
+    actual,#REF!,
     XLFUT.ASSERT_ISREFERROR(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISREFERROR display message on failure,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISREFERROR(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise #REF! error, but actual is 1""
+)"
 ASSERT_ISNOTREFERROR test non#REF! returns false,,"=LET(
     actual,#REF!,
     XLFUT.ASSERT_ISNOTREFERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to raise #REF! error, but actual is #REF!""
+)"
 ASSERT_ISNOTREFERROR test #REF! is passed,,"=LET(
     actual, #NULL!,
     XLFUT.ASSERT_ISNOTREFERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTREFERROR test nonerror is passed,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISNOTREFERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTREFERROR test array of non#REF! is passed,,"=LET(
     actual, {1,""a"",TRUE,#NULL!},
     XLFUT.ASSERT_ISNOTREFERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTREFERROR test array contains non#REF! returns false,,"=LET(
     actual, {1,""a"",TRUE,#REF!},
     XLFUT.ASSERT_ISNOTREFERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to raise #REF! error, but actual is {1,""""a"""",TRUE,#REF!}""
+)"
 ASSERT_ISNOTREFERROR no message on success,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISNOTREFERROR(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTREFERROR display message on failure,,"=LET(
     actual,#REF!,
     XLFUT.ASSERT_ISNOTREFERROR(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to raise #REF! error, but actual is #REF!""
+)"
 ASSERT_ISNAMEERROR test #NAME? is passed,,"=LET(
     actual, #NAME?,
     XLFUT.ASSERT_ISNAMEERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNAMEERROR test non#NAME? returns false,,"=LET(
     actual, #NULL!,
     XLFUT.ASSERT_ISNAMEERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise #NAME? error, but actual is #NULL!""
+)"
 ASSERT_ISNAMEERROR test nonerror returns false,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISNAMEERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise #NAME? error, but actual is 1""
+)"
 ASSERT_ISNAMEERROR test array of #NAME? is passed,,"=LET(
     actual, {#NAME?,#NAME?,#NAME?},
     XLFUT.ASSERT_ISNAMEERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNAMEERROR test array contains non#NAME? returns false,,"=LET(
     actual, {#NAME?,#NAME?,#NAME?,1},
     XLFUT.ASSERT_ISNAMEERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise #NAME? error, but actual is {#NAME?,#NAME?,#NAME?,1}""
+)"
 ASSERT_ISNAMEERROR no message on success,,"=LET(
     actual, #NAME?,
     XLFUT.ASSERT_ISNAMEERROR(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNAMEERROR display message on failure,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISNAMEERROR(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise #NAME? error, but actual is 1""
+)"
 ASSERT_ISNOTNAMEERROR test non#NAME? returns false,,"=LET(
     actual, #NAME?,
     XLFUT.ASSERT_ISNOTNAMEERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to raise #NAME? error, but actual is #NAME?""
+)"
 ASSERT_ISNOTNAMEERROR test #NAME? is passed,,"=LET(
     actual, #NULL!,
     XLFUT.ASSERT_ISNOTNAMEERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTNAMEERROR test nonerror is passed,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISNOTNAMEERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTNAMEERROR test array of non#NAME? is passed,,"=LET(
     actual, {1,""a"",TRUE,#NULL!},
     XLFUT.ASSERT_ISNOTNAMEERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTNAMEERROR test array contains non#NAME? returns false,,"=LET(
     actual, {1,""a"",TRUE,#NAME?},
     XLFUT.ASSERT_ISNOTNAMEERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to raise #NAME? error, but actual is {1,""""a"""",TRUE,#NAME?}""
+)"
 ASSERT_ISNOTNAMEERROR no message on success,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISNOTNAMEERROR(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTNAMEERROR display message on failure,,"=LET(
     actual, #NAME?,
     XLFUT.ASSERT_ISNOTNAMEERROR(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to raise #NAME? error, but actual is #NAME?""
+)"
 ASSERT_ISNUMERROR test #NUM! is passed,,"=LET(
     actual, #NUM!,
     XLFUT.ASSERT_ISNUMERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNUMERROR test non#NUM! returns false,,"=LET(
     actual, #NULL!,
     XLFUT.ASSERT_ISNUMERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise #NUM! error, but actual is #NULL!""
+)"
 ASSERT_ISNUMERROR test nonerror returns false,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISNUMERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise #NUM! error, but actual is 1""
+)"
 ASSERT_ISNUMERROR test array of #NUM! is passed,,"=LET(
     actual, {#NUM!,#NUM!,#NUM!},
     XLFUT.ASSERT_ISNUMERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNUMERROR test array contains non#NUM! returns false,,"=LET(
     actual, {#NUM!,#NUM!,#NUM!,1},
     XLFUT.ASSERT_ISNUMERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise #NUM! error, but actual is {#NUM!,#NUM!,#NUM!,1}""
+)"
 ASSERT_ISNUMERROR no message on success,,"=LET(
     actual, #NUM!,
     XLFUT.ASSERT_ISNUMERROR(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNUMERROR display message on failure,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISNUMERROR(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise #NUM! error, but actual is 1""
+)"
 ASSERT_ISNOTNUMERROR test non#NUM! returns false,,"=LET(
     actual, #NUM!,
     XLFUT.ASSERT_ISNOTNUMERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to raise #NUM! error, but actual is #NUM!""
+)"
 ASSERT_ISNOTNUMERROR test #NUM! is passed,,"=LET(
     actual, #NULL!,
     XLFUT.ASSERT_ISNOTNUMERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTNUMERROR test nonerror is passed,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISNOTNUMERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTNUMERROR test array of non#NUM! is passed,,"=LET(
     actual, {1,""a"",TRUE,#NULL!},
     XLFUT.ASSERT_ISNOTNUMERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTNUMERROR test array contains non#NUM! returns false,,"=LET(
     actual, {1,""a"",TRUE,#NUM!},
     XLFUT.ASSERT_ISNOTNUMERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to raise #NUM! error, but actual is {1,""""a"""",TRUE,#NUM!}""
+)"
 ASSERT_ISNOTNUMERROR no message on success,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISNOTNUMERROR(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTNUMERROR display message on failure,,"=LET(
     actual, #NUM!,
     XLFUT.ASSERT_ISNOTNUMERROR(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to raise #NUM! error, but actual is #NUM!""
+)"
 ASSERT_ISNA test #N/A is passed,,"=LET(
     actual, #N/A,
     XLFUT.ASSERT_ISNA(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNA test non#N/A returns false,,"=LET(
     actual, #NULL!,
     XLFUT.ASSERT_ISNA(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise #N/A error, but actual is #NULL!""
+)"
 ASSERT_ISNA test nonerror returns false,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISNA(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise #N/A error, but actual is 1""
+)"
 ASSERT_ISNA test array of #N/A is passed,,"=LET(
     actual, {#N/A,#N/A,#N/A},
     XLFUT.ASSERT_ISNA(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNA test array contains non#N/A returns false,,"=LET(
     actual, {#N/A,#N/A,#N/A,1},
     XLFUT.ASSERT_ISNA(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise #N/A error, but actual is {#N/A,#N/A,#N/A,1}""
+)"
 ASSERT_ISNA no message on success,,"=LET(
     actual, #N/A,
     XLFUT.ASSERT_ISNA(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNA display message on failure,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISNA(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise #N/A error, but actual is 1""
+)"
 ASSERT_ISNOTNA test non#N/A returns false,,"=LET(
     actual, #N/A,
     XLFUT.ASSERT_ISNOTNA(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to raise #N/A error, but actual is #N/A""
+)"
 ASSERT_ISNOTNA test #N/A is passed,,"=LET(
     actual, #NULL!,
     XLFUT.ASSERT_ISNOTNA(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTNA test nonerror is passed,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISNOTNA(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTNA test array of non#N/A is passed,,"=LET(
     actual, {1,""a"",TRUE,#NULL!},
     XLFUT.ASSERT_ISNOTNA(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTNA test array contains non#N/A returns false,,"=LET(
     actual, {1,""a"",TRUE,#N/A},
     XLFUT.ASSERT_ISNOTNA(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to raise #N/A error, but actual is {1,""""a"""",TRUE,#N/A}""
+)"
 ASSERT_ISNOTNA no message on success,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISNOTNA(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTNA display message on failure,,"=LET(
     actual, #N/A,
     XLFUT.ASSERT_ISNOTNA(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to raise #N/A error, but actual is #N/A""
+)"
 ASSERT_ISGETTING_DATA test #GETTING_DATA is passed,,"=LET(
     actual, #GETTING_DATA,
     XLFUT.ASSERT_ISGETTING_DATA(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISGETTING_DATA test non#GETTING_DATA returns false,,"=LET(
     actual, #NULL!,
     XLFUT.ASSERT_ISGETTING_DATA(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise #GETTING_DATA error, but actual is #NULL!""
+)"
 ASSERT_ISGETTING_DATA test nonerror returns false,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISGETTING_DATA(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise #GETTING_DATA error, but actual is 1""
+)"
 ASSERT_ISGETTING_DATA test test array of #GETTING_DATA is passed,,"=LET(
     actual, {#GETTING_DATA,#GETTING_DATA,#GETTING_DATA},
     XLFUT.ASSERT_ISGETTING_DATA(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISGETTING_DATA test test array contains non#GETTING_DATA data returns false,,"=LET(
     actual, {#GETTING_DATA,#GETTING_DATA,#GETTING_DATA,1},
     XLFUT.ASSERT_ISGETTING_DATA(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise #GETTING_DATA error, but actual is {#GETTING_DATA,#GETTING_DATA,#GETTING_DATA,1}""
+)"
 ASSERT_ISGETTING_DATA no message on success,,"=LET(
     actual, #GETTING_DATA,
     XLFUT.ASSERT_ISGETTING_DATA(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISGETTING_DATA display message on failure,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISGETTING_DATA(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise #GETTING_DATA error, but actual is 1""
+)"
 ASSERT_ISNOTGETTING_DATA test non#GETTING_DATA returns false,,"=LET(
     actual, #GETTING_DATA,
     XLFUT.ASSERT_ISNOTGETTING_DATA(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to raise #GETTING_DATA error, but actual is #GETTING_DATA""
+)"
 ASSERT_ISNOTGETTING_DATA test #GETTING_DATA is passed,,"=LET(
     actual, #NULL!,
     XLFUT.ASSERT_ISNOTGETTING_DATA(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTGETTING_DATA test nonerror is passed,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISNOTGETTING_DATA(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTGETTING_DATA test test array of non#GETTING_DATA is passed,,"=LET(
     actual, {1,""a"",TRUE,#NULL!},
     XLFUT.ASSERT_ISNOTGETTING_DATA(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTGETTING_DATA test test array contains non#GETTING_DATA returns false,,"=LET(
     actual, {1,""a"",TRUE,#GETTING_DATA},
     XLFUT.ASSERT_ISNOTGETTING_DATA(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to raise #GETTING_DATA error, but actual is {1,""""a"""",TRUE,#GETTING_DATA}""
+)"
 ASSERT_ISNOTGETTING_DATA no message on success,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISNOTGETTING_DATA(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTGETTING_DATA display message on failure,,"=LET(
     actual, #GETTING_DATA,
     XLFUT.ASSERT_ISNOTGETTING_DATA(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to raise #GETTING_DATA error, but actual is #GETTING_DATA""
+)"
 ASSERT_ISSPILLERROR test #SPILL! is passed,#SPILL!,"=LET(
     actual, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)),
     XLFUT.ASSERT_ISSPILLERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISSPILLERROR test non#SPILL! returns false,,"=LET(
     actual, #NULL!,
     XLFUT.ASSERT_ISSPILLERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise #SPILL! error, but actual is #NULL!""
+)"
 ASSERT_ISSPILLERROR test nonerror returns false,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISSPILLERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise #SPILL! error, but actual is 1""
+)"
 ASSERT_ISSPILLERROR test array of #SPILL! is passed,#SPILL!,"=LET(
     error, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)),
     actual, HSTACK(error, error, error),
     XLFUT.ASSERT_ISSPILLERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISSPILLERROR test array contains non#SPILL! returns false,#SPILL!,"=LET(
     error, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)),
     actual, HSTACK(error, error, error, 1),
     XLFUT.ASSERT_ISSPILLERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise #SPILL! error, but actual is {""""#SPILL!"""",""""#SPILL!"""",""""#SPILL!"""",1}""
+)"
 ASSERT_ISSPILLERROR no message on success,#SPILL!,"=LET(
     actual, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)),
     XLFUT.ASSERT_ISSPILLERROR(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISSPILLERROR display message on failure,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISSPILLERROR(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise #SPILL! error, but actual is 1""
+)"
 ASSERT_ISNOTSPILLERROR test non#SPILL! returns false,#SPILL!,"=LET(
     actual, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)),
     XLFUT.ASSERT_ISNOTSPILLERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to raise #SPILL! error, but actual is """"#SPILL!""""""
+)"
 ASSERT_ISNOTSPILLERROR test #SPILL! is passed,,"=LET(
     actual, #NULL!,
     XLFUT.ASSERT_ISNOTSPILLERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTSPILLERROR test nonerror is passed,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISNOTSPILLERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTSPILLERROR test array of non#SPILL! is passed,,"=LET(
     actual, {1,""a"",TRUE,#NULL!},
     XLFUT.ASSERT_ISNOTSPILLERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTSPILLERROR test array contains non#SPILL! returns false,#SPILL!,"=LET(
     error, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)),
     actual, HSTACK(1, ""a"", TRUE, error),
     XLFUT.ASSERT_ISNOTSPILLERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to raise #SPILL! error, but actual is {1,""""a"""",TRUE,""""#SPILL!""""}""
+)"
 ASSERT_ISNOTSPILLERROR no message on success,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISNOTSPILLERROR(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTSPILLERROR display message on failure,#SPILL!,"=LET(
     actual, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)),
     XLFUT.ASSERT_ISNOTSPILLERROR(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to raise #SPILL! error, but actual is """"#SPILL!""""""
+)"
 ASSERT_ISCONNECTERROR test #CONNECT! is passed,#CONNECT!,"=LET(
     actual, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)),
     XLFUT.ASSERT_ISCONNECTERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISCONNECTERROR test non#CONNECT! returns false,,"=LET(
     actual, #NULL!,
     XLFUT.ASSERT_ISCONNECTERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise #CONNECT! error, but actual is #NULL!""
+)"
 ASSERT_ISCONNECTERROR test nonerror returns false,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISCONNECTERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise #CONNECT! error, but actual is 1""
+)"
 ASSERT_ISCONNECTERROR test array of #CONNECT! is passed,#CONNECT!,"=LET(
     error, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)),
     actual, HSTACK(error, error, error),
     XLFUT.ASSERT_ISCONNECTERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISCONNECTERROR test array contains non#CONNECT! returns false,#CONNECT!,"=LET(
     error, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)),
     actual, HSTACK(error, error, error, 1),
     XLFUT.ASSERT_ISCONNECTERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise #CONNECT! error, but actual is {""""#CONNECT!"""",""""#CONNECT!"""",""""#CONNECT!"""",1}""
+)"
 ASSERT_ISCONNECTERROR no message on success,#CONNECT!,"=LET(
     actual, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)),
     XLFUT.ASSERT_ISCONNECTERROR(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISCONNECTERROR display message on failure,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISCONNECTERROR(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise #CONNECT! error, but actual is 1""
+)"
 ASSERT_ISNOTCONNECTERROR test non#CONNECT! returns false,#CONNECT!,"=LET(
     actual, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)),
     XLFUT.ASSERT_ISNOTCONNECTERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to raise #CONNECT! error, but actual is """"#CONNECT!""""""
+)"
 ASSERT_ISNOTCONNECTERROR test #CONNECT! is passed,,"=LET(
     actual, #NULL!,
     XLFUT.ASSERT_ISNOTCONNECTERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTCONNECTERROR test nonerror is passed,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISNOTCONNECTERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTCONNECTERROR test array of non#CONNECT! is passed,,"=LET(
     actual, {1,""a"",TRUE,#NULL!},
     XLFUT.ASSERT_ISNOTCONNECTERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTCONNECTERROR test array contains non#CONNECT! returns false,#CONNECT!,"=LET(
     error, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)),
     actual, HSTACK(1, ""a"", TRUE, error),
     XLFUT.ASSERT_ISNOTCONNECTERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to raise #CONNECT! error, but actual is {1,""""a"""",TRUE,""""#CONNECT!""""}""
+)"
 ASSERT_ISNOTCONNECTERROR no message on success,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISNOTCONNECTERROR(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTCONNECTERROR display message on failure,#CONNECT!,"=LET(
     actual, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)),
     XLFUT.ASSERT_ISNOTCONNECTERROR(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to raise #CONNECT! error, but actual is """"#CONNECT!""""""
+)"
 ASSERT_ISBLOCKED test #BLOCKED! is passed,#BLOCKED!,"=LET(
     actual, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)),
     XLFUT.ASSERT_ISBLOCKED(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISBLOCKED test non#BLOCKED! returns false,,"=LET(
     actual, #NULL!,
     XLFUT.ASSERT_ISBLOCKED(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise #BLOCKED! error, but actual is #NULL!""
+)"
 ASSERT_ISBLOCKED test nonerror returns false,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISBLOCKED(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise #BLOCKED! error, but actual is 1""
+)"
 ASSERT_ISBLOCKED test array of #BLOCKED! is passed,#BLOCKED!,"=LET(
     error, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)),
     actual, HSTACK(error, error, error),
     XLFUT.ASSERT_ISBLOCKED(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISBLOCKED test array contains non#BLOCKED! returns false,#BLOCKED!,"=LET(
     error, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)),
     actual, HSTACK(error, error, error, 1),
     XLFUT.ASSERT_ISBLOCKED(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise #BLOCKED! error, but actual is {""""#BLOCKED!"""",""""#BLOCKED!"""",""""#BLOCKED!"""",1}""
+)"
 ASSERT_ISBLOCKED no message on success,#BLOCKED!,"=LET(
     actual, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)),
     XLFUT.ASSERT_ISBLOCKED(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISBLOCKED display message on failure,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISBLOCKED(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise #BLOCKED! error, but actual is 1""
+)"
 ASSERT_ISNOTBLOCKED test non#BLOCKED! returns false,#BLOCKED!,"=LET(
     actual, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)),
     XLFUT.ASSERT_ISNOTBLOCKED(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to raise #BLOCKED! error, but actual is """"#BLOCKED!""""""
+)"
 ASSERT_ISNOTBLOCKED test #BLOCKED! is passed,,"=LET(
     actual, #NULL!,
     XLFUT.ASSERT_ISNOTBLOCKED(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTBLOCKED test nonerror is passed,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISNOTBLOCKED(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTBLOCKED test array of non#BLOCKED! is passed,,"=LET(
     actual, {1,""a"",TRUE,#NULL!},
     XLFUT.ASSERT_ISNOTBLOCKED(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTBLOCKED test array contains non#BLOCKED! returns false,#BLOCKED!,"=LET(
     error, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)),
     actual, HSTACK(1, ""a"", TRUE, error),
     XLFUT.ASSERT_ISNOTBLOCKED(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to raise #BLOCKED! error, but actual is {1,""""a"""",TRUE,""""#BLOCKED!""""}""
+)"
 ASSERT_ISNOTBLOCKED no message on success,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISNOTBLOCKED(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTBLOCKED display message on failure,#BLOCKED!,"=LET(
     actual, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)),
     XLFUT.ASSERT_ISNOTBLOCKED(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to raise #BLOCKED! error, but actual is """"#BLOCKED!""""""
+)"
 ASSERT_ISUNKNOWN test #UNKNOWN! is passed,#UNKNOWN!,"=LET(
     actual, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)),
     XLFUT.ASSERT_ISUNKNOWN(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISUNKNOWN test non#UNKNOWN! returns false,,"=LET(
     actual, #NULL!,
     XLFUT.ASSERT_ISUNKNOWN(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise #UNKNOWN! error, but actual is #NULL!""
+)"
 ASSERT_ISUNKNOWN test nonerror returns false,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISUNKNOWN(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise #UNKNOWN! error, but actual is 1""
+)"
 ASSERT_ISUNKNOWN test array of #UNKNOWN! is passed,#UNKNOWN!,"=LET(
     error, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)),
     actual, HSTACK(error, error, error),
     XLFUT.ASSERT_ISUNKNOWN(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISUNKNOWN test array contains non#UNKNOWN! returns false,#UNKNOWN!,"=LET(
     error, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)),
     actual, HSTACK(error, error, error, 1),
     XLFUT.ASSERT_ISUNKNOWN(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise #UNKNOWN! error, but actual is {""""#UNKNOWN!"""",""""#UNKNOWN!"""",""""#UNKNOWN!"""",1}""
+)"
 ASSERT_ISUNKNOWN no message on success,#UNKNOWN!,"=LET(
     actual, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)),
     XLFUT.ASSERT_ISUNKNOWN(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISUNKNOWN display message on failure,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISUNKNOWN(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise #UNKNOWN! error, but actual is 1""
+)"
 ASSERT_ISNOTUNKNOWN test non#UNKNOWN! returns false,#UNKNOWN!,"=LET(
     actual, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)),
     XLFUT.ASSERT_ISNOTUNKNOWN(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to raise #UNKNOWN! error, but actual is """"#UNKNOWN!""""""
+)"
 ASSERT_ISNOTUNKNOWN test #UNKNOWN! is passed,,"=LET(
     actual, #NULL!,
     XLFUT.ASSERT_ISNOTUNKNOWN(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTUNKNOWN test nonerror is passed,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISNOTUNKNOWN(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTUNKNOWN test array of non#UNKNOWN! is passed,,"=LET(
     actual, {1,""a"",TRUE,#NULL!},
     XLFUT.ASSERT_ISNOTUNKNOWN(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTUNKNOWN test array contains non#UNKNOWN! returns false,#UNKNOWN!,"=LET(
     error, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)),
     actual, HSTACK(1, ""a"", TRUE, error),
     XLFUT.ASSERT_ISNOTUNKNOWN(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to raise #UNKNOWN! error, but actual is {1,""""a"""",TRUE,""""#UNKNOWN!""""}""
+)"
 ASSERT_ISNOTUNKNOWN no message on success,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISNOTUNKNOWN(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTUNKNOWN display message on failure,#UNKNOWN!,"=LET(
     actual, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)),
     XLFUT.ASSERT_ISNOTUNKNOWN(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to raise #UNKNOWN! error, but actual is """"#UNKNOWN!""""""
+)"
 ASSERT_ISFIELDERROR test #FIELD! is passed,#FIELD!,"=LET(
     actual, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)),
     XLFUT.ASSERT_ISFIELDERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISFIELDERROR test non#FIELD! returns false,,"=LET(
     actual, #NULL!,
     XLFUT.ASSERT_ISFIELDERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise #FIELD! error, but actual is #NULL!""
+)"
 ASSERT_ISFIELDERROR test nonerror returns false,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISFIELDERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise #FIELD! error, but actual is 1""
+)"
 ASSERT_ISFIELDERROR test array of #FIELD! is passed,#FIELD!,"=LET(
     error, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)),
     actual, HSTACK(error, error, error),
     XLFUT.ASSERT_ISFIELDERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISFIELDERROR test array contains non#FIELD! returns false,#FIELD!,"=LET(
     error, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)),
     actual, HSTACK(error, error, error, 1),
     XLFUT.ASSERT_ISFIELDERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise #FIELD! error, but actual is {""""#FIELD!"""",""""#FIELD!"""",""""#FIELD!"""",1}""
+)"
 ASSERT_ISFIELDERROR no message on success,#FIELD!,"=LET(
     actual, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)),
     XLFUT.ASSERT_ISFIELDERROR(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISFIELDERROR display message on failure,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISFIELDERROR(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise #FIELD! error, but actual is 1""
+)"
 ASSERT_ISNOTFIELDERROR test non#FIELD! returns false,#FIELD!,"=LET(
     actual, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)),
     XLFUT.ASSERT_ISNOTFIELDERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to raise #FIELD! error, but actual is """"#FIELD!""""""
+)"
 ASSERT_ISNOTFIELDERROR test #FIELD! is passed,,"=LET(
     actual, #NULL!,
     XLFUT.ASSERT_ISNOTFIELDERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTFIELDERROR test nonerror is passed,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISNOTFIELDERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTFIELDERROR test array of non#FIELD! is passed,,"=LET(
     actual, {1,""a"",TRUE,#NULL!},
     XLFUT.ASSERT_ISNOTFIELDERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTFIELDERROR test array contains non#FIELD! returns false,#FIELD!,"=LET(
     error, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)),
     actual, HSTACK(1, ""a"", TRUE, error),
     XLFUT.ASSERT_ISNOTFIELDERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to raise #FIELD! error, but actual is {1,""""a"""",TRUE,""""#FIELD!""""}""
+)"
 ASSERT_ISNOTFIELDERROR no message on success,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISNOTFIELDERROR(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTFIELDERROR display message on failure,#FIELD!,"=LET(
     actual, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)),
     XLFUT.ASSERT_ISNOTFIELDERROR(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to raise #FIELD! error, but actual is """"#FIELD!""""""
+)"
 ASSERT_ISCALCERROR test #CALC! is passed,#CALC!,"=LET(
     actual, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)),
     XLFUT.ASSERT_ISCALCERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISCALCERROR test non#CALC! returns false,,"=LET(
     actual, #NULL!,
     XLFUT.ASSERT_ISCALCERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise #CALC! error, but actual is #NULL!""
+)"
 ASSERT_ISCALCERROR test nonerror returns false,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISCALCERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise #CALC! error, but actual is 1""
+)"
 ASSERT_ISCALCERROR test array of #CALC! is passed,#CALC!,"=LET(
     error, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)),
     actual, HSTACK(error, error, error),
     XLFUT.ASSERT_ISCALCERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISCALCERROR test array contains non#CALC! returns false,#CALC!,"=LET(
     error, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)),
     actual, HSTACK(error, error, error, 1),
     XLFUT.ASSERT_ISCALCERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise #CALC! error, but actual is {""""#CALC!"""",""""#CALC!"""",""""#CALC!"""",1}""
+)"
 ASSERT_ISCALCERROR no message on success,#CALC!,"=LET(
     actual, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)),
     XLFUT.ASSERT_ISCALCERROR(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISCALCERROR display message on failure,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISCALCERROR(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to raise #CALC! error, but actual is 1""
+)"
 ASSERT_ISNOTCALCERROR test non#CALC! returns false,#CALC!,"=LET(
     actual, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)),
     XLFUT.ASSERT_ISNOTCALCERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to raise #CALC! error, but actual is """"#CALC!""""""
+)"
 ASSERT_ISNOTCALCERROR test #CALC! is passed,,"=LET(
     actual, #NULL!,
     XLFUT.ASSERT_ISNOTCALCERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTCALCERROR test nonerror is passed,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISNOTCALCERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTCALCERROR test array of non#CALC! is passed,,"=LET(
     actual, {1,""a"",TRUE,#NULL!},
     XLFUT.ASSERT_ISNOTCALCERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTCALCERROR test array contains non#CALC! returns false,#CALC!,"=LET(
     error, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)),
     actual, HSTACK(1, ""a"", TRUE, error),
     XLFUT.ASSERT_ISNOTCALCERROR(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to raise #CALC! error, but actual is {1,""""a"""",TRUE,""""#CALC!""""}""
+)"
 ASSERT_ISNOTCALCERROR no message on success,,"=LET(
     actual, 1,
     XLFUT.ASSERT_ISNOTCALCERROR(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTCALCERROR display message on failure,#CALC!,"=LET(
     actual, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)),
     XLFUT.ASSERT_ISNOTCALCERROR(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to raise #CALC! error, but actual is """"#CALC!""""""
+)"
 ASSERT_ISBLANK test blank is passed,,"=LET(
     actual, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)),
     XLFUT.ASSERT_ISBLANK(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISBLANK test nonblank returns false,1,"=LET(
     actual, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)),
     XLFUT.ASSERT_ISBLANK(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to be BLANK, but actual is 1""
+)"
 ASSERT_ISBLANK no message on success,,"=LET(
     actual, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)),
     XLFUT.ASSERT_ISBLANK(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISBLANK display message on failure,1,"=LET(
     actual, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)),
     XLFUT.ASSERT_ISBLANK(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to be BLANK, but actual is 1""
+)"
 ASSERT_ISNOTBLANK test nonblank is passed,1,"=LET(
     actual, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)),
     XLFUT.ASSERT_ISNOTBLANK(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTBLANK test blank returns false,,"=LET(
     actual, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)),
     XLFUT.ASSERT_ISNOTBLANK(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to be BLANK, but actual is ""
+)"
 ASSERT_ISNOTBLANK no message on success,1,"=LET(
     actual, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)),
     XLFUT.ASSERT_ISNOTBLANK(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTBLANK display message on failure,,"=LET(
     actual, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)),
     XLFUT.ASSERT_ISNOTBLANK(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to be BLANK, but actual is ""
+)"
 ASSERT_ISREF test ref is passed,,"=LET(
     actual, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)),
     XLFUT.ASSERT_ISREF(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISREF test nonref returns false,,"=LET(
     actual, 0,
     XLFUT.ASSERT_ISREF(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to be REF, but actual is 0""
+)"
 ASSERT_ISREF no message on success,,"=LET(
     actual, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)),
     XLFUT.ASSERT_ISREF(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISREF display message on failure,,"=LET(
     actual, 0,
     XLFUT.ASSERT_ISREF(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to be REF, but actual is 0""
+)"
 ASSERT_ISNOTREF test nonref is passed,,"=LET(
     actual, 0,
     XLFUT.ASSERT_ISNOTREF(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTREF test ref returns false,,"=LET(
     actual, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)),
     XLFUT.ASSERT_ISNOTREF(actual)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to be REF, but actual is ""
+)"
 ASSERT_ISNOTREF no message on success,,"=LET(
     actual, 0,
     XLFUT.ASSERT_ISNOTREF(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_ISNOTREF display message on failure,,"=LET(
     actual, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)),
     XLFUT.ASSERT_ISNOTREF(actual)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected not to be REF, but actual is ""
+)"
 ASSERT_AND single assertion passed,,"=LET(
     results, VSTACK(
         XLFUT.ASSERT_EQUAL(1, 1)
     ),
     XLFUT.ASSERT_AND(results)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_AND single assertion failed,,"=LET(
     results, VSTACK(
         XLFUT.ASSERT_EQUAL(0, 1)
     ),
     XLFUT.ASSERT_AND(results)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = TEXTJOIN(CHAR(10), FALSE,
+        ""AND("",
+        ""    It is expected to = 1, but actual is 0."",
+        "")""
+    )
+)"
 ASSERT_AND all assertion passed,,"=LET(
     results, VSTACK(
         XLFUT.ASSERT_EQUAL(1, 1),
@@ -1926,7 +3260,10 @@ ASSERT_AND all assertion passed,,"=LET(
         XLFUT.ASSERT_EQUAL(1, 1)
     ),
     XLFUT.ASSERT_AND(results)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_AND all assertion failed,,"=LET(
     results, VSTACK(
         XLFUT.ASSERT_EQUAL(0, 1),
@@ -1936,7 +3273,18 @@ ASSERT_AND all assertion failed,,"=LET(
         XLFUT.ASSERT_EQUAL(0, 1)
     ),
     XLFUT.ASSERT_AND(results)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = TEXTJOIN(CHAR(10), FALSE,
+        ""AND("",
+        ""    It is expected to = 1, but actual is 0."",
+        ""    It is expected to = 1, but actual is 0."",
+        ""    It is expected to = 1, but actual is 0."",
+        ""    It is expected to = 1, but actual is 0."",
+        ""    It is expected to = 1, but actual is 0."",
+        "")""
+    )
+)"
 ASSERT_AND some assertion passed,,"=LET(
     results, VSTACK(
         XLFUT.ASSERT_EQUAL(3, 1),
@@ -1946,19 +3294,39 @@ ASSERT_AND some assertion passed,,"=LET(
         XLFUT.ASSERT_EQUAL(3, 5)
     ),
     XLFUT.ASSERT_AND(results)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = TEXTJOIN(CHAR(10), FALSE,
+        ""AND("",
+        ""    It is expected to = 1, but actual is 3."",
+        ""    It is expected to = 2, but actual is 3."",
+        ""    It is expected to = 4, but actual is 3."",
+        ""    It is expected to = 5, but actual is 3."",
+        "")""
+    )
+)"
 ASSERT_OR single assertion passed,,"=LET(
     results, VSTACK(
         XLFUT.ASSERT_EQUAL(1, 1)
     ),
     XLFUT.ASSERT_OR(results)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_OR single assertion failed,,"=LET(
     results, VSTACK(
         XLFUT.ASSERT_EQUAL(0, 1)
     ),
     XLFUT.ASSERT_OR(results)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = TEXTJOIN(CHAR(10), FALSE,
+        ""OR("",
+        ""    It is expected to = 1, but actual is 0."",
+        "")""
+    )
+)"
 ASSERT_OR all assertion passed,,"=LET(
     results, VSTACK(
         XLFUT.ASSERT_EQUAL(1, 1),
@@ -1968,7 +3336,10 @@ ASSERT_OR all assertion passed,,"=LET(
         XLFUT.ASSERT_EQUAL(1, 1)
     ),
     XLFUT.ASSERT_OR(results)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_OR all assertion failed,,"=LET(
     results, VSTACK(
         XLFUT.ASSERT_EQUAL(0, 1),
@@ -1978,7 +3349,18 @@ ASSERT_OR all assertion failed,,"=LET(
         XLFUT.ASSERT_EQUAL(0, 1)
     ),
     XLFUT.ASSERT_OR(results)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = TEXTJOIN(CHAR(10), FALSE,
+        ""OR("",
+        ""    It is expected to = 1, but actual is 0."",
+        ""    It is expected to = 1, but actual is 0."",
+        ""    It is expected to = 1, but actual is 0."",
+        ""    It is expected to = 1, but actual is 0."",
+        ""    It is expected to = 1, but actual is 0."",
+        "")""
+    )
+)"
 ASSERT_OR some assertion passed,,"=LET(
     results, VSTACK(
         XLFUT.ASSERT_EQUAL(3, 1),
@@ -1988,7 +3370,10 @@ ASSERT_OR some assertion passed,,"=LET(
         XLFUT.ASSERT_EQUAL(3, 5)
     ),
     XLFUT.ASSERT_OR(results)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_AND and ASSERT_OR nesting,,"=LET(
     actual, #NULL!,
     XLFUT.ASSERT_AND(
@@ -2003,210 +3388,336 @@ ASSERT_AND and ASSERT_OR nesting,,"=LET(
         )
     )
 )
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = TEXTJOIN(CHAR(10), FALSE,
+        ""AND("",
+        ""    It is expected not to raise error, but actual is #NULL!"",
+        ""    OR("",
+        ""        It is expected to be number type, but actual is #NULL!"",
+        ""        It is expected to be text type, but actual is #NULL!"",
+        ""        It is expected to be logical type, but actual is #NULL!"",
+        ""    )"",
+        "")""
+    )
+)"
 ASSERT_IN nonerror value is contained is passed,,"=LET(
     actual, 2,
     expect, {2,3,5,7,""b"",""c"",""g"",FALSE},
     XLFUT.ASSERT_IN(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_IN nonerror value is not contained returns false,,"=LET(
     actual, 1,
     expect, {2,3,5,7,""b"",""c"",""g"",FALSE},
     XLFUT.ASSERT_IN(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to be in {2,3,5,7,""""b"""",""""c"""",""""g"""",FALSE}, but actual is 1.""
+)"
 ASSERT_IN error is not contained returns false,,"=LET(
     actual, #NULL!,
     expect, {2,3,5,7,""b"",""c"",""g"",FALSE},
     XLFUT.ASSERT_IN(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""The actual contains error: #NULL!""
+)"
 ASSERT_IN expect is 1x1 array and actual is contained is passed,,"=LET(
     actual, 1,
     expect, {1},
     XLFUT.ASSERT_IN(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_IN expect contains error returns false,,"=LET(
     actual, 2,
     expect, {2,3,5,7,""b"",""c"",""g"",FALSE,#NULL!},
     XLFUT.ASSERT_IN(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""The expect contains error: {2,3,5,7,""""b"""",""""c"""",""""g"""",FALSE,#NULL!}""
+)"
 ASSERT_IN expect is error returns false,,"=LET(
     actual, 2,
     expect, #NULL!,
     XLFUT.ASSERT_IN(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""The expect contains error: #NULL!""
+)"
 ASSERT_IN no message on success,,"=LET(
     actual, 2,
     expect, {2,3,5,7,""b"",""c"",""g"",FALSE},
     XLFUT.ASSERT_IN(actual, expect)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_IN display message on failure,,"=LET(
     actual, 1,
     expect, {2,3,5,7,""b"",""c"",""g"",FALSE},
     XLFUT.ASSERT_IN(actual, expect)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to be in {2,3,5,7,""""b"""",""""c"""",""""g"""",FALSE}, but actual is 1.""
+)"
 ASSERT_IN omit actual parameter returns false,,"=LET(
     actual, 1,
     expect, 1,
     XLFUT.ASSERT_IN(, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""actual is required parameter""
+)"
 ASSERT_IN omit expect parameter returns false,,"=LET(
     actual, 1,
     expect, 1,
     XLFUT.ASSERT_IN(actual, )
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""expect is required parameter""
+)"
 ASSERT_IN omit all parameters,,"=LET(
     actual, 1,
     expect, 1,
     XLFUT.ASSERT_IN(, )
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""actual is required parameter""
+)"
 ASSERT_NOTIN nonerror value is contained returns false,,"=LET(
     actual, 2,
     expect, {2,3,5,7,""b"",""c"",""g"",FALSE},
     XLFUT.ASSERT_NOTIN(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to be not in {2,3,5,7,""""b"""",""""c"""",""""g"""",FALSE}, but actual is 2.""
+)"
 ASSERT_NOTIN nonerror value is not contained is passed,,"=LET(
     actual, 1,
     expect, {2,3,5,7,""b"",""c"",""g"",FALSE},
     XLFUT.ASSERT_NOTIN(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_NOTIN error is not contained returns false,,"=LET(
     actual, #NULL!,
     expect, {2,3,5,7,""b"",""c"",""g"",FALSE},
     XLFUT.ASSERT_NOTIN(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""The actual contains error: #NULL!""
+)"
 ASSERT_NOTIN expect is 1x1 array and actual is contained is passed,,"=LET(
     actual, ""a"",
     expect, {3},
     XLFUT.ASSERT_NOTIN(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_NOTIN expect contains error returns false,,"=LET(
     actual, 2,
     expect, {2,3,5,7,""b"",""c"",""g"",FALSE,#NULL!},
     XLFUT.ASSERT_NOTIN(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""The expect contains error: {2,3,5,7,""""b"""",""""c"""",""""g"""",FALSE,#NULL!}""
+)"
 ASSERT_NOTIN expect is error returns false,,"=LET(
     actual, 2,
     expect, #NULL!,
     XLFUT.ASSERT_NOTIN(actual, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""The expect contains error: #NULL!""
+)"
 ASSERT_NOTIN no message on success,,"=LET(
     actual, 1,
     expect, {2,3,5,7,""b"",""c"",""g"",FALSE},
     XLFUT.ASSERT_NOTIN(actual, expect)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_NOTIN display message on failure,,"=LET(
     actual, 2,
     expect, {2,3,5,7,""b"",""c"",""g"",FALSE},
     XLFUT.ASSERT_NOTIN(actual, expect)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to be not in {2,3,5,7,""""b"""",""""c"""",""""g"""",FALSE}, but actual is 2.""
+)"
 ASSERT_NOTIN omit actual parameter returns false,,"=LET(
     actual, 1,
     expect, 1,
     XLFUT.ASSERT_NOTIN(, expect)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""actual is required parameter""
+)"
 ASSERT_NOTIN omit expect parameter returns false,,"=LET(
     actual, 1,
     expect, 1,
     XLFUT.ASSERT_NOTIN(actual, )
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""expect is required parameter""
+)"
 ASSERT_NOTIN omit all parameters,,"=LET(
     actual, 1,
     expect, 1,
     XLFUT.ASSERT_NOTIN(, )
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""actual is required parameter""
+)"
 ASSERT_SIZE is expected size,,"=LET(
     data, {1,2,3,4;""a"",""b"",""c"",""d"";TRUE,FALSE,#NULL!,#VALUE!},
     rows, 3,
     columns, 4,
     XLFUT.ASSERT_SIZE(data, rows, columns)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_SIZE is not expected columns,,"=LET(
     data, {1,2,3,4;""a"",""b"",""c"",""d"";TRUE,FALSE,#NULL!,#VALUE!},
     rows, 3,
     columns, 3,
     XLFUT.ASSERT_SIZE(data, rows, columns)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to be 3x3, but actual is 3x4 ({1,2,3,4;""""a"""",""""b"""",""""c"""",""""d"""";TRUE,FALSE,#NULL!,#VALUE!}).""
+)"
 ASSERT_SIZE is not expected rows,,"=LET(
     data, {1,2,3,4;""a"",""b"",""c"",""d"";TRUE,FALSE,#NULL!,#VALUE!},
     rows, 4,
     columns, 4,
     XLFUT.ASSERT_SIZE(data, rows, columns)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to be 4x4, but actual is 3x4 ({1,2,3,4;""""a"""",""""b"""",""""c"""",""""d"""";TRUE,FALSE,#NULL!,#VALUE!}).""
+)"
 ASSERT_SIZE is expected size omitted columns,,"=LET(
     data, {1,2,3,4;""a"",""b"",""c"",""d"";TRUE,FALSE,#NULL!,#VALUE!},
     rows, 3,
     columns, 4,
     XLFUT.ASSERT_SIZE(data, , columns)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_SIZE is expected size omitted rows,,"=LET(
     data, {1,2,3,4;""a"",""b"",""c"",""d"";TRUE,FALSE,#NULL!,#VALUE!},
     rows, 3,
     columns, 4,
     XLFUT.ASSERT_SIZE(data, rows, )
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_SIZE is not expected size omitted columns,,"=LET(
     data, {1,2,3,4;""a"",""b"",""c"",""d"";TRUE,FALSE,#NULL!,#VALUE!},
     rows, 3,
     columns, 3,
     XLFUT.ASSERT_SIZE(data, , columns)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to be mx3, but actual is 3x4 ({1,2,3,4;""""a"""",""""b"""",""""c"""",""""d"""";TRUE,FALSE,#NULL!,#VALUE!}).""
+)"
 ASSERT_SIZE is not expected size omitted rows,,"=LET(
     data, {1,2,3,4;""a"",""b"",""c"",""d"";TRUE,FALSE,#NULL!,#VALUE!},
     rows, 4,
     columns, 4,
     XLFUT.ASSERT_SIZE(data, rows, )
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to be 4xn, but actual is 3x4 ({1,2,3,4;""""a"""",""""b"""",""""c"""",""""d"""";TRUE,FALSE,#NULL!,#VALUE!}).""
+)"
 ASSERT_SIZE no message on success,,"=LET(
     data, {1,2,3,4;""a"",""b"",""c"",""d"";TRUE,FALSE,#NULL!,#VALUE!},
     rows, 3,
     columns, 4,
     XLFUT.ASSERT_SIZE(data, rows, columns)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_SIZE display message on failure,,"=LET(
     data, {1,2,3,4;""a"",""b"",""c"",""d"";TRUE,FALSE,#NULL!,#VALUE!},
     rows, 3,
     columns, 3,
     XLFUT.ASSERT_SIZE(data, rows, columns)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""It is expected to be 3x3, but actual is 3x4 ({1,2,3,4;""""a"""",""""b"""",""""c"""",""""d"""";TRUE,FALSE,#NULL!,#VALUE!}).""
+)"
 ASSERT_SIZE omit data parameter returns false,,"=LET(
     data, {1,2,3,4;""a"",""b"",""c"",""d"";TRUE,FALSE,#NULL!,#VALUE!},
     rows, 3,
     columns, 4,
     XLFUT.ASSERT_SIZE(, rows, columns)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""data is required parameter""
+)"
 ASSERT_EVALUATE passed,,"=LET(
     actual, ""abc"",
     logical_formula, LEN(actual) = 3,
     message, ""The LEN(actual) must be 3."",
     XLFUT.ASSERT_EVALUATE(logical_formula, message)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_EVALUATE nonerror failed,,"=LET(
     actual, ""ab"",
     logical_formula, LEN(actual) = 3,
     message, ""The LEN(actual) must be 3."",
     XLFUT.ASSERT_EVALUATE(logical_formula, message)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""The LEN(actual) must be 3.""
+)"
 ASSERT_EVALUATE error failed,,"=LET(
     actual, #NULL!,
     logical_formula, LEN(actual) = 3,
     message, ""The LEN(actual) must be 3."",
     XLFUT.ASSERT_EVALUATE(logical_formula, message)
-)",,"=AND(INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE, INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) <> """")"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""logicalFormula must be logical type, but actual is #NULL!""
+)"
 ASSERT_EVALUATE omit message parameter and passed returns true,,"=LET(
     actual, ""abc"",
     logical_formula, LEN(actual) = 3,
     message, ""The LEN(actual) must be 3."",
     XLFUT.ASSERT_EVALUATE(logical_formula, )
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = TRUE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = """"
+)"
 ASSERT_EVALUATE omit message parameter and failed shows default message,,"=LET(
     actual, ""ab"",
     logical_formula, LEN(actual) = 3,
     message, ""The LEN(actual) must be 3."",
     XLFUT.ASSERT_EVALUATE(logical_formula, )
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""logicalFormula is FALSE""
+)"
 ASSERT_EVALUATE omit logical_formula parameter returns false,,"=LET(
     actual, ""abc"",
     logical_formula, LEN(actual) = 3,
     message, ""The LEN(actual) must be 3."",
     XLFUT.ASSERT_EVALUATE(, message)
-)",,"=INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE"
+)",,"=AND(
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 2)) = FALSE,
+    INDIRECT(ADDRESS(ROW(), COLUMN() - 1)) = ""logicalFormula is required parameter""
+)"
